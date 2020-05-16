@@ -1,57 +1,56 @@
 USE pollweb;
 
-DROP TABLE IF EXISTS `Ruolo`;
 DROP TABLE IF EXISTS `Compilazione`;
 DROP TABLE IF EXISTS `Domande`;
 DROP TABLE IF EXISTS `Sondaggio`;
 DROP TABLE IF EXISTS `Utente`;
+DROP TABLE IF EXISTS `Ruolo`;
 
-
-
-
-
-CREATE TABLE Utente (
-email VARCHAR(63)NOT NULL PRIMARY KEY,
-nome VARCHAR(30) NOT NULL,
-cognome VARCHAR(30) NOT NULL,
-tipo VARCHAR(30) NOT NULL,
-password VARCHAR(30) NOT NULL
-);
 
 CREATE TABLE Ruolo(
-id INT(9) auto_increment PRIMARY KEY,
-RefEmail VARCHAR(63)NOT NULL,
-nome_ruolo VARCHAR(30) NOT NULL,
-FOREIGN KEY (RefEmail) REFERENCES Utente(email) on update cascade on delete cascade
+id INT auto_increment PRIMARY KEY,
+nome_ruolo VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE Utente (
+email VARCHAR(255)NOT NULL PRIMARY KEY,
+nome VARCHAR(255) NOT NULL,
+cognome VARCHAR(255) NOT NULL,
+tipo INT NOT NULL,
+ruolo_id INT NOT NULL,
+password VARCHAR(255) NOT NULL,
+FOREIGN KEY (ruolo_id) REFERENCES Ruolo(id) on update cascade on delete cascade
+
+);
+
+
 CREATE TABLE Sondaggio(
-id INT(90) auto_increment PRIMARY KEY,
-RefEmail VARCHAR(63)NOT NULL,
-titolo VARCHAR(40) NOT NULL,
-testoiniziale VARCHAR(255) NOT NULL,
-testofinale VARCHAR(255) NOT NULL,
+id BIGINT auto_increment PRIMARY KEY,
+utente_id VARCHAR(255)NOT NULL,
+titolo VARCHAR(255) NOT NULL,
+testoiniziale LONGTEXT NOT NULL,
+testofinale LONGTEXT NOT NULL,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (RefEmail) REFERENCES Utente(email) on update cascade on delete cascade
+FOREIGN KEY (utente_id) REFERENCES Utente(email) on update cascade on delete cascade
 );
 
 CREATE TABLE Domande(
-id INT(90) auto_increment PRIMARY KEY,
-idSondaggio INT(90) NOT NULL,
-testo VARCHAR(40) NOT NULL,
+id BIGINT auto_increment PRIMARY KEY,
+sondaggio_id BIGINT NOT NULL,
+testo VARCHAR(255) NOT NULL,
 nota VARCHAR(255),
 obbligo BOOLEAN,
-tipologia VARCHAR(50),
-vincoliCompilazione JSON NOT NULL ,
-FOREIGN KEY (idSondaggio) REFERENCES Sondaggio(id) on update cascade on delete cascade
+tipologia INT NOT NULL,
+vincoli JSON,
+FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade
 );
 
 CREATE TABLE Compilazione (
-id INT(90) auto_increment PRIMARY KEY,
-idSondaggio INT(90) NOT NULL,
-RefEmail VARCHAR(63)NOT NULL,
+id BIGINT auto_increment PRIMARY KEY,
+sondaggio_id BIGINT NOT NULL,
+utente_id VARCHAR(255)NOT NULL,
 risposte JSON NOT NULL ,
-FOREIGN KEY (RefEmail) REFERENCES Utente(email) on update cascade on delete cascade,
-FOREIGN KEY (idSondaggio) REFERENCES Sondaggio(id) on update cascade on delete cascade
+FOREIGN KEY (utente_id) REFERENCES Utente(email) on update cascade on delete cascade,
+FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade
 );
 
