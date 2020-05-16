@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 body {
-    min-height: 100vh;
+    min-height: 100%;
 }
 
 #login-left-side {
