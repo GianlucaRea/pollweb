@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Login - Pollweb</title>
@@ -22,15 +17,26 @@ and open the template in the editor.
             </div>
             <div class="col-md-4" id="login-right-side">
                 <div class="container">
+                    <#if error??>
+                        <div class="alert alert-danger" role="alert">
+                            Hai inserito delle credenziali errate. Riprova
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                         </div>
+                    </#if>
                     <h2 class="text-primary">Accedi al tuo account</h2>
-                    <form id="loginForm" onsubmit="return onSubmitLoginForm()">
+                    <form id="loginForm" method="post" onsubmit="return onSubmitLoginForm()">
                         <div class="form-group">
                             <label for="emailInput">Indirizzo e-mail*</label>
                             <input id="emailInput" type="email" name="email" class="form-control" placeholder="mario.rossi@email.it" required>
                         </div>
                         <div class="form-group">
                             <label for="passwordInput">Password*</label>
-                            <input id="passwordInput" type="password" name="email" class="form-control" placeholder="la tua password" required>
+                            <input id="passwordInput" type="password" name="password" class="form-control" placeholder="la tua password" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" id="showPassword"> <label for="showPassword">Mostra password</label>
                         </div>
                         <div class="float-right">
                             <input type="submit" value="Login" class="btn btn-primary" />
@@ -45,6 +51,13 @@ and open the template in the editor.
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
         
         <script>
+            $(function() {
+                $("#showPassword").click(function(){
+                    console.log("CIAO");
+                    $(this).is(":checked") ? $("#passwordInput").attr("type", "text") : $("#passwordInput").attr("type", "password");
+                });
+            });
+                
             function onSubmitLoginForm(){
                if($('#emailInput').val().length === 0 || $('#passwordInput').val().length === 0) {
                    alert('Devi riempire tutti i campi prima di effettuare il login');
