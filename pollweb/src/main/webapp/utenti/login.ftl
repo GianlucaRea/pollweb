@@ -19,7 +19,13 @@
                 <div class="container">
                     <#if error??>
                         <div class="alert alert-danger" role="alert">
-                            Hai inserito delle credenziali errate. Riprova
+                            <#if error=="Credenziali errate">
+                                Hai inserito delle credenziali errate. Riprova
+                            </#if>
+                            <#if error=="Campi mancanti">
+                                Devi compilare tutti i campi per accedere
+                            </#if>
+                                
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

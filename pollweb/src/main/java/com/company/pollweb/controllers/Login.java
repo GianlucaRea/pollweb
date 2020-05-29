@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.company.pollweb.utenti;
+package com.company.pollweb.controllers;
 
+import com.company.pollweb.utenti.dao.LoginDao;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import javax.servlet.annotation.WebServlet;  
 
 /**
  *
@@ -33,10 +31,20 @@ public class Login extends HttpServlet {
         String email = in.getParameter("email");
         String password = in.getParameter("password");
         
+        if(email.length() == 0 || password.length() == 0){
+            RequestDispatcher dispatcher = in.getRequestDispatcher("login.ftl");
+            in.setAttribute("error", "Campi mancanti");
+            dispatcher.forward(in, out);
+            return ;
+        }
+        
         out.setContentType("text/html;charset=UTF-8");
         PrintWriter writer = out.getWriter();  
         
         if(LoginDao.validate(email, password)) {
+            HttpSession session = in.getSession();  
+            session.setAttribute("email", email);
+            session.setAttribute("password", password);
             writer.print("LOGGATO");
         } else {
             RequestDispatcher dispatcher = in.getRequestDispatcher("login.ftl");
