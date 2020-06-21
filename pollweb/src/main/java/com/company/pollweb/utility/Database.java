@@ -15,7 +15,7 @@ import java.sql.*;
 public class Database {
     
     public static Connection getConnection() throws ClassNotFoundException, SQLException{
-        Class.forName("com.mysql.jdbc.Driver");  
+        Class.forName("com.mysql.cj.jdbc.Driver");  
         java.sql.Connection con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:8889/pollweb?serverTimezone=Europe/Berlin", "root", "toor");  
         return con;
     }

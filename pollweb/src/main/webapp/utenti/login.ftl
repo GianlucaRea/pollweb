@@ -1,3 +1,5 @@
+<#import "../templates/globalTemplate.ftl" as globalTemplate>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,18 +20,7 @@
             <div class="col-md-4" id="login-right-side">
                 <div class="container">
                     <#if error??>
-                        <div class="alert alert-danger" role="alert">
-                            <#if error=="Credenziali errate">
-                                Hai inserito delle credenziali errate. Riprova
-                            </#if>
-                            <#if error=="Campi mancanti">
-                                Devi compilare tutti i campi per accedere
-                            </#if>
-                                
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                         </div>
+                        <@globalTemplate.error error />
                     </#if>
                     <h2 class="text-primary">Accedi al tuo account</h2>
                     <form id="loginForm" method="post" onsubmit="return onSubmitLoginForm()">

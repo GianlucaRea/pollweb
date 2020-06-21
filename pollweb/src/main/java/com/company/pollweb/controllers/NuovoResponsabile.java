@@ -7,17 +7,13 @@ package com.company.pollweb.controllers;
 
 import com.company.pollweb.models.Utente;
 import com.company.pollweb.utenti.dao.UtenteDao;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 
 /**
  *
@@ -63,8 +59,10 @@ public class NuovoResponsabile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest in, HttpServletResponse out)
             throws ServletException, IOException {
+        
+        //TODO check se utente loggato è amministratore
         out.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher dispatcher = in.getRequestDispatcher("nuovoResponsabile.ftl");
+        RequestDispatcher dispatcher = in.getRequestDispatcher("/utenti/nuovoResponsabile.ftl");
         dispatcher.forward(in, out);
     }
 
@@ -85,18 +83,24 @@ public class NuovoResponsabile extends HttpServlet {
         String email = in.getParameter("email");
         
         //TODO controllo se l'utente loggato è amministratore
-        
+       
         //TODO validazione dei campi
         
+        int risInserimentoUtente;
         Utente u = new Utente(nome, cognome, email);
         
         try {
             //inserimento nuovo responsabile
-            if(UtenteDao.storeUtente(u)) {
-                //mostrare pagina nuovo responsabile con esito
+            risInserimentoUtente = UtenteDao.storeUtente(u);
+            if (risInserimentoUtente == 1) {
+                //TODO redirect a nuovo responsabile 
                 RequestDispatcher dispatcher = in.getRequestDispatcher("login.ftl");
                 in.setAttribute("error", "Credenziali errate");
                 dispatcher.forward(in, out);
+            } else {
+                if(risInserimentoUtente == -1) { //utente già esistente
+                    
+                }
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(NuovoResponsabile.class.getName()).log(Level.SEVERE, null, ex);
