@@ -1,3 +1,4 @@
+CREATE DATABASE pollweb;
 USE pollweb;
 
 DROP TABLE IF EXISTS `Compilazione`;
