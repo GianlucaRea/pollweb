@@ -25,7 +25,7 @@ public class Login extends HttpServlet {
         //TODO check se già loggato
         HttpSession session = in.getSession();
 
-        if (session.getAttribute("email") != null && session.getAttribute("email").equals("admin@pollweb.com")) {
+        if (session != null && session.getAttribute("email") != null) {
             RequestDispatcher dispatcher = in.getRequestDispatcher("/index.ftl");
             in.setAttribute("success", "Sei già loggato!");
             dispatcher.forward(in, out);
@@ -55,10 +55,12 @@ public class Login extends HttpServlet {
             HttpSession session = in.getSession();
             session.setAttribute("email", email);
             session.setAttribute("password", password);
+            
+            //TODO redirect in base, da decidere come procedere
             writer.print("LOGGATO");
         } else {
             RequestDispatcher dispatcher = in.getRequestDispatcher("login.ftl");
-            in.setAttribute("error", "Credenziali errate");
+            in.setAttribute("error", "Combinazione email/password errata");
             dispatcher.forward(in, out);
         }
         writer.close();

@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  * @author alessandrodorazio
  */
 public class FiltroAutenticazione {
-    public static void isLoggato(HttpServletRequest in, HttpServletResponse out) throws ServletException, IOException {
+    public static void soloLoggati(HttpServletRequest in, HttpServletResponse out) throws ServletException, IOException {
         //controllo se l'utente è loggato
         HttpSession session=in.getSession(false);  
         
@@ -36,7 +36,7 @@ public class FiltroAutenticazione {
         
     }
     
-    public static void isAdmin(HttpServletRequest in, HttpServletResponse out) throws ServletException, IOException{
+    public static void soloAdmin(HttpServletRequest in, HttpServletResponse out) throws ServletException, IOException{
         //controllo se l'utente loggato è amministratore
         HttpSession session=in.getSession(false); 
         String emailUtenteLoggato=(String)session.getAttribute("email");

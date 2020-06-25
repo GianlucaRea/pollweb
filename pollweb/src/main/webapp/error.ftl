@@ -3,9 +3,6 @@
 <#assign content>
 This is content
 </#assign>
-<#assign error>
-Messaggio di errore
-</#assign>
 
 <#import "/templates/globalTemplate.ftl" as globalTemplate>
 

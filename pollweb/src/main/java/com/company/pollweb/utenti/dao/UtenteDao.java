@@ -7,6 +7,7 @@ package com.company.pollweb.utenti.dao;
 
 import com.company.pollweb.models.Utente;
 import com.company.pollweb.utility.Database;
+import com.company.pollweb.utility.ValidazioneCampi;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,9 +22,14 @@ public class UtenteDao {
         
             Connection con = Database.getConnection();
             
+            //TODO validazione dei dati
+            if(ValidazioneCampi.emailPattern(u.getEmail()) == false || u.getNome().length() == 0 || u.getCognome().length() == 0) {
+                return -2;
+            }
+            
             //TODO check se l'utente con quelle credenziali già esiste
             
-            //TODO passare parametro password
+            //TODO generare password casuale
             
             //TODO passare parametro tipo
             
@@ -36,8 +42,18 @@ public class UtenteDao {
             return 1;
     }
     
-    public static boolean isAdmin(String email) {
-        return true;
+    public static boolean isAdmin(String email) throws ClassNotFoundException, SQLException {
+        Connection con = Database.getConnection();
+        PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS conteggio FROM pollweb.Utente WHERE email=?");
+        ps.setString(1, email);
+        ResultSet ris = ps.executeQuery();
+        while(ris.next()) {
+            if(ris.getInt("conteggio") == 1) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     public static boolean isResponsabile(String email) {

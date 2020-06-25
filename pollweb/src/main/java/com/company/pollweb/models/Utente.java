@@ -20,11 +20,11 @@ public class Utente {
         this.ruolo_id = 1;
     }
     
-    public Utente(String nome, String cognome, String email) {
+    public Utente(String nome, String cognome, String email, int ruolo_id) {
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
-        this.ruolo_id = 1;
+        this.ruolo_id = ruolo_id;
     }
     
     public String getNome() {
@@ -48,6 +48,8 @@ public class Utente {
     }
     
     public String getNomeRuolo() {
+        if(this.ruolo_id == 3) return "Amministratore";
+        if(this.ruolo_id == 2) return "Responsabile";
         return "Utente";
     }
 }

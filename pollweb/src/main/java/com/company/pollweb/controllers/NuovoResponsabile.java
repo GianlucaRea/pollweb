@@ -7,12 +7,16 @@ package com.company.pollweb.controllers;
 
 import com.company.pollweb.models.Utente;
 import com.company.pollweb.utenti.dao.UtenteDao;
+import com.company.pollweb.utility.FiltroAutenticazione;
+import com.company.pollweb.utility.ValidazioneCampi;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -60,7 +64,11 @@ public class NuovoResponsabile extends HttpServlet {
     protected void doGet(HttpServletRequest in, HttpServletResponse out)
             throws ServletException, IOException {
         
-        //TODO check se utente loggato è amministratore
+        //controllo se utente loggato
+        FiltroAutenticazione.soloLoggati(in, out);
+        //controllo se utente loggato è amministratore
+        FiltroAutenticazione.soloAdmin(in, out);
+        
         out.setContentType("text/html;charset=UTF-8");
         RequestDispatcher dispatcher = in.getRequestDispatcher("/utenti/nuovoResponsabile.ftl");
         dispatcher.forward(in, out);
@@ -81,27 +89,48 @@ public class NuovoResponsabile extends HttpServlet {
         String nome = in.getParameter("nome");
         String cognome = in.getParameter("cognome");
         String email = in.getParameter("email");
+        int risInserimentoUtente; //verifica se l'inserimento dell'utente è andato a buon fine
+        Utente u; //conterrà i dati dell'utente che creeremo, prima di salvarlo sul db
         
-        //TODO controllo se l'utente loggato è amministratore
+        //controllo se utente loggato
+        FiltroAutenticazione.soloLoggati(in, out);
+        //controllo se utente loggato è amministratore
+        FiltroAutenticazione.soloAdmin(in, out);
        
-        //TODO validazione dei campi
+        //validazione dei campi
+        if(nome.length() == 0 || cognome.length() == 0 || email.length() == 0) { //verifica se i campi sono stati compilati
+            RequestDispatcher dispatcher = in.getRequestDispatcher("/utenti/nuovoResponsabile.ftl");
+            in.setAttribute("error", "Tutti i campi devono essere compilati!");
+            dispatcher.forward(in, out);
+            return ;
+        }
         
-        int risInserimentoUtente;
-        Utente u = new Utente(nome, cognome, email);
+        if(ValidazioneCampi.emailPattern(email) == false) { //l'email inserita ha un pattern corretto?
+            RequestDispatcher dispatcher = in.getRequestDispatcher("/utenti/nuovoResponsabile.ftl");
+            in.setAttribute("error", "Inserire un indirizzo email valido!");
+            dispatcher.forward(in, out);
+            return ;
+        }
+        //fine validazione
+        
+        u = new Utente(nome, cognome, email, 2);
         
         try {
             //inserimento nuovo responsabile
             risInserimentoUtente = UtenteDao.storeUtente(u);
-            if (risInserimentoUtente == 1) {
-                //TODO redirect a nuovo responsabile 
-                RequestDispatcher dispatcher = in.getRequestDispatcher("login.ftl");
-                in.setAttribute("error", "Credenziali errate");
-                dispatcher.forward(in, out);
+            RequestDispatcher dispatcher = in.getRequestDispatcher("/utenti/nuovoResponsabile.ftl");
+            if (risInserimentoUtente == 1) { //inserimento avvenuto con successo
+                in.setAttribute("success", "Responsabile inserito nel sistema");
+                
             } else {
                 if(risInserimentoUtente == -1) { //utente già esistente
-                    
+                    in.setAttribute("error", "L'email inserita appartiene già ad un altro utente");
+                }
+                if(risInserimentoUtente == -2) { //dati non validi
+                    in.setAttribute("error", "I dati inseriti non sono corretti. Compila tutti i campi ed inserisci un'email valida");
                 }
             }
+            dispatcher.forward(in, out);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(NuovoResponsabile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

@@ -9,7 +9,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
-        <url-pattern>/utenti/Login</url-pattern>
+        <url-pattern>/utenti/login</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>NuovoResponsabile</servlet-name>
@@ -18,7 +18,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>NuovoResponsabile</servlet-name>
-        <url-pattern>/utenti/nuovoResponsabile</url-pattern>
+        <url-pattern>/utenti/nuovo_responsabile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

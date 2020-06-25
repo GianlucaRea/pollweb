@@ -19,28 +19,36 @@ This is content
         
         <div class="bg-light pt-5 pb-5">
             <div class="container">
+                <#if success??>
+                    <@globalTemplate.success success />
+                </#if>
+                <#if error??>
+                    <@globalTemplate.error error />
+                </#if>
                 <h1>Nuovo responsabile</h1>
-                <div class="pt-5">
-                    <form action="nuovoResponsabile" method="post" name="nuovoResponsabileForm">
+                <div class="pt-3">
+                    <form action="nuovo_responsabile" method="post" name="nuovoResponsabileForm">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="nomeInput">Nome</label>
+                                    <label for="nomeInput"><strong>Nome</strong>*</label>
                                     <input type="text" name="nome" id="nomeInput" placeholder="Es. Mario" class="form-control" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="cognomeInput">Cognome</label>
+                                    <label for="cognomeInput"><strong>Cognome</strong>*</label>
                                     <input type="text" name="cognome" id="cognomeInput" placeholder="Es. Rossi" class="form-control" />
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="emailInput">Email</label>
+                            <label for="emailInput"><strong>Email</strong>*</label>
                             <input type="email" name="email" id="emailInput" placeholder="Es. mario.rossi@email.it" class="form-control" />
                         </div>
+                        
+                        <p class="small">* attributo obbligatorio</p>
 
                         <div class="form-group text-right">
                             <input type="submit" id="salvaForm" value="Salva" class="btn btn-primary btn-lg" />
