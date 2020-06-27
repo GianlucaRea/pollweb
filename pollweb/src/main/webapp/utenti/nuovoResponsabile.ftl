@@ -1,8 +1,5 @@
 <#assign charset="UTF-8">
-<#assign title="Example">
-<#assign content>
-This is content
-</#assign>
+<#assign title="Nuovo responsabile">
 
 <#import "/templates/globalTemplate.ftl" as globalTemplate>
 

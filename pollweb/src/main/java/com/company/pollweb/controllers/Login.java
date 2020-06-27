@@ -6,6 +6,7 @@
 package com.company.pollweb.controllers;
 
 import com.company.pollweb.utenti.dao.LoginDao;
+import com.company.pollweb.utility.FiltroAutenticazione;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -22,10 +23,8 @@ public class Login extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest in, HttpServletResponse out) throws ServletException, IOException {
-        //TODO check se già loggato
-        HttpSession session = in.getSession();
-
-        if (session != null && session.getAttribute("email") != null) {
+        //check se l'utente risulta già loggato        
+        if(FiltroAutenticazione.checkLoggato(in) == false) {
             RequestDispatcher dispatcher = in.getRequestDispatcher("/index.ftl");
             in.setAttribute("success", "Sei già loggato!");
             dispatcher.forward(in, out);

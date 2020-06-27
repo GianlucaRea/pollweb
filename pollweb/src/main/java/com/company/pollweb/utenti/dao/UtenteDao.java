@@ -44,7 +44,7 @@ public class UtenteDao {
     
     public static boolean isAdmin(String email) throws ClassNotFoundException, SQLException {
         Connection con = Database.getConnection();
-        PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS conteggio FROM pollweb.Utente WHERE email=?");
+        PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS conteggio FROM pollweb.Utente WHERE email=? AND ruolo_id=3");
         ps.setString(1, email);
         ResultSet ris = ps.executeQuery();
         while(ris.next()) {
@@ -56,7 +56,17 @@ public class UtenteDao {
         return false;
     }
     
-    public static boolean isResponsabile(String email) {
-        return true;
+    public static boolean isResponsabile(String email) throws ClassNotFoundException, SQLException {
+        Connection con = Database.getConnection();
+        PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS conteggio FROM pollweb.Utente WHERE email=? AND (ruolo_id=3 OR ruolo_id=2)");
+        ps.setString(1, email);
+        ResultSet ris = ps.executeQuery();
+        while(ris.next()) {
+            if(ris.getInt("conteggio") == 1) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }

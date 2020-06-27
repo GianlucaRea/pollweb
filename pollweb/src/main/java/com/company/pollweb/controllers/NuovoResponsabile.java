@@ -124,7 +124,7 @@ public class NuovoResponsabile extends HttpServlet {
                 
             } else {
                 if(risInserimentoUtente == -1) { //utente già esistente
-                    in.setAttribute("error", "L'email inserita appartiene già ad un altro utente");
+                    in.setAttribute("error", "L'email inserita appartiene già ad un altro utente!");
                 }
                 if(risInserimentoUtente == -2) { //dati non validi
                     in.setAttribute("error", "I dati inseriti non sono corretti. Compila tutti i campi ed inserisci un'email valida");
