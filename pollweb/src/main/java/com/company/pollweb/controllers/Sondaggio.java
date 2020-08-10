@@ -12,7 +12,8 @@ import javax.servlet.http.*;
  *
  * @author gianlucarea
  */
-public class SondaggioServlet extends HttpServlet{
+public class Sondaggio extends HttpServlet{
+     @Override
      public void init(ServletConfig c) throws ServletException{
         super.init(c);
     }
@@ -20,7 +21,7 @@ public class SondaggioServlet extends HttpServlet{
     @Override
     public void doGet(HttpServletRequest in, HttpServletResponse out) throws ServletException, IOException {
         out.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher dispatcher = in.getRequestDispatcher("creazione.ftl");
+        RequestDispatcher dispatcher = in.getRequestDispatcher("creazione.ftl");        
         dispatcher.forward(in, out);
     }
     

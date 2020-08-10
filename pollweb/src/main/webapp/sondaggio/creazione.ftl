@@ -1,3 +1,5 @@
+<#import "../templates/globalTemplate.ftl" as globalTemplate>
+
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
