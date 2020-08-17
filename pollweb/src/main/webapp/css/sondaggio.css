@@ -15,7 +15,6 @@ body {
 #creation-side {
     color: blue;
     padding-left: 2vw;
-    padding-top: 0vh;
     margin-left: 15px;
     margin-top: 5px;
 }
@@ -37,10 +36,29 @@ body {
 }
 
 #creationForm{
-    text-align: center;
     margin-top: 20px;
 }
 
 input[type=text]{
     width:76.5%;
+}
+#creationQuestionForm {
+    margin-top: 15px;
+}
+#creationQuestionForm input{
+    margin-bottom: 15px;
+    width: 30%;
+}
+
+#creationQuestionForm select{
+    margin-bottom: 15px;
+}
+
+#creationQuestionForm textarea{
+    margin-bottom: 15px;
+}
+
+#creationQuestionForm label{
+    color: blue;
+    width: 10%;
 }

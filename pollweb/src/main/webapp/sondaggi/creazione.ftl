@@ -34,7 +34,30 @@ and open the template in the editor.
                     </div>
                 </form>
             </div>
+            <div class="container" id="creationQuestionForm">
+                <h4 class="text-primary">Nuova Domanda</h4>
+                <form id="creationQuestionForm" onsubmit="">
+                    <div class="form-row">
+                        <label for="titoloQInput">Titolo</label>
+                        <input id="titoloQInput" type="text" name="titolo" class="form-control" placeholder="Quale domanda vuoi porre?" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="tipologia-select">Scegli una tipologia:</label>
+                        <select name="tipologia" id="tipologia-select">
+                            <option value="">--Scegli un opzione--</option>
+                            <option value="testobreve">testo breve</option>
+                            <option value="testolungo">testo lungo</option>
+                            <option value="numero">numero</option>
+                            <option value="data">data</option>
+                            <option value="sceltasingola">scelta singola</option>
+                            <option value="sceltamultipla">scelta multipla</option>
+                        </select>
+                    </div>
+                    <label for="nota">Nota</label>
+                    <textarea id="nota" name="nota" placeholder="Aggiungi una nota personalizzata" required rows="3" cols="50"></textarea>
+                </form>
             </div>
+
     </body>
 </html>
 
