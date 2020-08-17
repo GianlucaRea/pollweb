@@ -21,7 +21,7 @@ public class Sondaggio extends HttpServlet{
     @Override
     public void doGet(HttpServletRequest in, HttpServletResponse out) throws ServletException, IOException {
         out.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher dispatcher = in.getRequestDispatcher("creazione.ftl");        
+        RequestDispatcher dispatcher = in.getRequestDispatcher("/sondaggi/creazione.ftl");
         dispatcher.forward(in, out);
     }
     
