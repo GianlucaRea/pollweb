@@ -1,3 +1,4 @@
+DROP DATABASE IF exists pollweb;
 CREATE DATABASE pollweb;
 USE pollweb;
 
@@ -40,6 +41,7 @@ sondaggio_id BIGINT NOT NULL,
 testo VARCHAR(255) NOT NULL,
 nota VARCHAR(255),
 obbligo BOOLEAN,
+ordine INT NOT NULL,
 tipologia INT NOT NULL,
 vincoli JSON,
 FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade
@@ -53,4 +55,10 @@ risposte JSON NOT NULL ,
 FOREIGN KEY (utente_id) REFERENCES Utente(email) on update cascade on delete cascade,
 FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade
 );
+
+INSERT INTO `pollweb`.`ruolo`(`id`,`nome_ruolo`)VALUES('1','amministratore');
+INSERT INTO `pollweb`.`ruolo`(`id`,`nome_ruolo`)VALUES('2','responsabile');
+INSERT INTO `pollweb`.`ruolo`(`id`,`nome_ruolo`)VALUES('3','utente');
+
+
 

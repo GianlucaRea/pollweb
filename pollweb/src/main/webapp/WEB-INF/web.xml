@@ -23,7 +23,7 @@
     <servlet>
         <servlet-name>Sondaggio</servlet-name>
         <description>Questa servlet implementa la funzione di creazione di un nuovo sondaggio </description>
-        <servlet-class>com.company.pollweb.controllers.Sondaggio</servlet-class>
+        <servlet-class>com.company.pollweb.controllers.SondaggioServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Sondaggio</servlet-name>

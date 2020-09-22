@@ -11,19 +11,19 @@ package com.company.pollweb.models;
  */
 public class Sondaggio {
     
-    protected String testofinale, testoiniziale, titolo , user_id;
+    protected String  titolo,testoiniziale , testofinale ;
+    protected  int user_id;
     
     public Sondaggio(){
-        this.testofinale = "";
-        this.testoiniziale = "";
         this.titolo = "";
-        this.user_id = "";
+        this.testoiniziale = "";
+        this.testofinale = "";
     }
     
-    public Sondaggio(String testofinale, String testoiniziale,String titolo,String user_id){
-        this.testofinale = testofinale;
-        this.testoiniziale = testoiniziale;
+    public Sondaggio(String titolo, String testoiniziale,String testofinale,int user_id){
         this.titolo = titolo;
+        this.testoiniziale = testoiniziale;
+        this.testofinale = testofinale;
         this.user_id = user_id;
     }
     
@@ -39,7 +39,7 @@ public class Sondaggio {
         return this.titolo;
     }
     
-    public String getUserID(){
+    public int getUserID(){
         return this.user_id;
     }
     
@@ -55,7 +55,7 @@ public class Sondaggio {
          this.titolo = Ntitolo;
     }
     
-    public void setUserID(String Nuser_id){
+    public void setUserID(int Nuser_id){
          this.user_id = Nuser_id;
     }
     

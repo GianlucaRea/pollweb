@@ -6,7 +6,7 @@
 package com.company.pollweb.controllers;
 
 import com.company.pollweb.models.Utente;
-import com.company.pollweb.utenti.dao.UtenteDao;
+import com.company.pollweb.dao.UtenteDao;
 import com.company.pollweb.utility.FiltroAutenticazione;
 import com.company.pollweb.utility.ValidazioneCampi;
 import java.io.*;
@@ -15,8 +15,6 @@ import javax.servlet.http.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /**

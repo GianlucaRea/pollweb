@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.company.pollweb.utenti.dao;
+package com.company.pollweb.dao;
 
 import com.company.pollweb.utility.Database;
 import java.sql.Connection;
