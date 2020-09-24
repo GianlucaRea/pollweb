@@ -5,7 +5,6 @@
  */
 package com.company.pollweb.controllers;
 import com.company.pollweb.dao.SondaggioDao;
-import com.company.pollweb.models.Sondaggio;
 
 import java.io.*;
 import javax.servlet.*;
@@ -16,7 +15,7 @@ import javax.servlet.http.*;
  * @author gianlucarea
  */
 @WebServlet("/sondaggio/nuovo_sondaggio")
-public class SondaggioServlet extends HttpServlet{
+public class Sondaggio extends HttpServlet{
 
     @Override
      public void init(ServletConfig c) throws ServletException{
@@ -26,23 +25,25 @@ public class SondaggioServlet extends HttpServlet{
     @Override
     public void doGet(HttpServletRequest in, HttpServletResponse out) throws ServletException, IOException {
         out.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher dispatcher = in.getRequestDispatcher(" ");
+        RequestDispatcher dispatcher = in.getRequestDispatcher("/sondaggi/creazione.ftl");
         dispatcher.forward(in, out);
     }
     
     public void doPost(HttpServletRequest in, HttpServletResponse out) throws IOException, ServletException {
+        String user_id = "utente@utente.it";
         String titolo = in.getParameter("titolo");
         String testoiniziale = in.getParameter("testoiniziale");
         String testofinale = in.getParameter("testofinale");
 
         if(testofinale.length() == 0 || testoiniziale.length() == 0 || titolo.length()== 0){
-            RequestDispatcher dispatcher = in.getRequestDispatcher("creazione.ftl");
+            RequestDispatcher dispatcher = in.getRequestDispatcher("/sondaggi/creazione.ftl");
             in.setAttribute("error", "Campi mancanti");
             dispatcher.forward(in, out);
             return ;
         }
 
-        Sondaggio sondaggio = new Sondaggio();
+        com.company.pollweb.models.Sondaggio sondaggio = new com.company.pollweb.models.Sondaggio();
+        sondaggio.setUserID(user_id);
         sondaggio.setTitolo(titolo);
         sondaggio.setTestoiniziale(testoiniziale);
         sondaggio.setTestofinale(testofinale);

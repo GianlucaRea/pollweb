@@ -12,12 +12,13 @@ public class SondaggioDao {
     public static boolean inserimentoSondaggio(Sondaggio s) throws ClassNotFoundException, SQLException {
 
         Connection con = Database.getConnection();
-        PreparedStatement ps = con.prepareStatement("INSERT INTO pollweb.Sondaggio (user_id, titolo, testoiniziale, testofinale) VALUES (1, ?, ?, ?)");
+        PreparedStatement ps = con.prepareStatement("INSERT INTO pollweb.Sondaggio (user_id, titolo, testoiniziale, testofinale) VALUES (?, ?, ?, ?)");
+        ps.setString(4, s.getUserID());
         ps.setString(3, s.getTitolo());
         ps.setString(2, s.getTestoiniziale());
         ps.setString(1, s.getTestofinale());
 
-        ps.execute();
+        ps.executeUpdate();
         return true;
     }
 }
