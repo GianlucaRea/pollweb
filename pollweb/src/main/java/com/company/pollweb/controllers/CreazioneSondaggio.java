@@ -42,7 +42,7 @@ public class CreazioneSondaggio extends PoolWebBaseController{
 
     private void action_poll(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws IOException, ServletException {
         try {
-            Utente currentuser = ((PoolwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
+            Utente currentuser = ((PoolwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((String) s.getAttribute("user_email"));
             if (currentuser.getNomeRuolo().equals("Utente")) {
                 request.setAttribute("message", "Non sei autorizzato ad accedere a questa area");
                 request.setAttribute("submessage", "Contatta gli admin per diventare collaboratore");
