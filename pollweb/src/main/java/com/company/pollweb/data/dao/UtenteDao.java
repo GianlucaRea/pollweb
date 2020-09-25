@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.company.pollweb.dao;
+package com.company.pollweb.data.dao;
 
-import com.company.pollweb.models.Utente;
+import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.utility.Database;
 import com.company.pollweb.utility.ValidazioneCampi;
 import java.sql.Connection;
@@ -17,7 +17,7 @@ import java.sql.SQLException;
  *
  * @author alessandrodorazio
  */
-public class UtenteDao {
+public interface UtenteDao {
     public static int storeUtente(Utente u) throws ClassNotFoundException, SQLException {
         
             Connection con = Database.getConnection();

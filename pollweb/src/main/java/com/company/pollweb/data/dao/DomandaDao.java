@@ -3,19 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.company.pollweb.dao;
+package com.company.pollweb.data.dao;
 
-import com.company.pollweb.models.Domanda;
+import com.company.pollweb.data.dao.models.Domanda;
 import com.company.pollweb.utility.Database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 /**
  *
  * @author gianlucarea
  */
-public class DomandaDao {
+public interface DomandaDao {
           public static boolean storeDomanda(Domanda d) throws ClassNotFoundException, SQLException {
         
             Connection con = Database.getConnection();

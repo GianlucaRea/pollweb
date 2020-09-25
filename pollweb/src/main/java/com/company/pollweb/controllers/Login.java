@@ -5,7 +5,7 @@
  */
 package com.company.pollweb.controllers;
 
-import com.company.pollweb.dao.LoginDao;
+import com.company.pollweb.data.dao.LoginDao;
 import com.company.pollweb.utility.FiltroAutenticazione;
 import java.io.*;
 import javax.servlet.*;

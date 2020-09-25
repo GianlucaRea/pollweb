@@ -6,7 +6,7 @@
 package com.company.pollweb.utility;
 
 import com.company.pollweb.controllers.NuovoResponsabile;
-import com.company.pollweb.dao.UtenteDao;
+import com.company.pollweb.data.dao.UtenteDao;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;

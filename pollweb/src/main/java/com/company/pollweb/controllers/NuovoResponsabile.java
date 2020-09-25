@@ -5,8 +5,8 @@
  */
 package com.company.pollweb.controllers;
 
-import com.company.pollweb.models.Utente;
-import com.company.pollweb.dao.UtenteDao;
+import com.company.pollweb.data.dao.models.Utente;
+import com.company.pollweb.data.dao.UtenteDao;
 import com.company.pollweb.utility.FiltroAutenticazione;
 import com.company.pollweb.utility.ValidazioneCampi;
 import java.io.*;

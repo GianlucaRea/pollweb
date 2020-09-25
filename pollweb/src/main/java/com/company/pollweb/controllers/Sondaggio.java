@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.company.pollweb.controllers;
-import com.company.pollweb.dao.SondaggioDao;
+import com.company.pollweb.data.dao.SondaggioDao;
 
 import java.io.*;
 import javax.servlet.*;
@@ -42,7 +42,7 @@ public class Sondaggio extends HttpServlet{
             return ;
         }
 
-        com.company.pollweb.models.Sondaggio sondaggio = new com.company.pollweb.models.Sondaggio();
+        com.company.pollweb.data.dao.models.Sondaggio sondaggio = new com.company.pollweb.data.dao.models.Sondaggio();
         sondaggio.setUserID(user_id);
         sondaggio.setTitolo(titolo);
         sondaggio.setTestoiniziale(testoiniziale);

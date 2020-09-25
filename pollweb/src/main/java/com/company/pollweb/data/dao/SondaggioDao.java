@@ -1,13 +1,13 @@
-package com.company.pollweb.dao;
+package com.company.pollweb.data.dao;
 
-import com.company.pollweb.models.Sondaggio;
+import com.company.pollweb.data.dao.models.Sondaggio;
 import com.company.pollweb.utility.Database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class SondaggioDao {
+public interface SondaggioDao {
 
     public static boolean inserimentoSondaggio(Sondaggio s) throws ClassNotFoundException, SQLException {
 
