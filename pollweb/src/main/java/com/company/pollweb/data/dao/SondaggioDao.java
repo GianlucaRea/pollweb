@@ -1,24 +1,16 @@
 package com.company.pollweb.data.dao;
 
-import com.company.pollweb.data.dao.models.Sondaggio;
-import com.company.pollweb.utility.Database;
+import com.company.pollweb.data.models.Sondaggio;
+import com.company.pollweb.data.impl.SondaggioImpl;
+import com.company.pollweb.framework.data.DataException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface SondaggioDao {
 
-    public static boolean inserimentoSondaggio(Sondaggio s) throws ClassNotFoundException, SQLException {
+    public Sondaggio creazioneSondaggio(ResultSet rs) throws DataException;
 
-        Connection con = Database.getConnection();
-        PreparedStatement ps = con.prepareStatement("INSERT INTO pollweb.Sondaggio (user_id, titolo, testoiniziale, testofinale) VALUES (?, ?, ?, ?)");
-        ps.setString(4, s.getUserID());
-        ps.setString(3, s.getTitolo());
-        ps.setString(2, s.getTestoiniziale());
-        ps.setString(1, s.getTestofinale());
+    public Sondaggio creazioneSondaggio();
 
-        ps.executeUpdate();
-        return true;
-    }
 }

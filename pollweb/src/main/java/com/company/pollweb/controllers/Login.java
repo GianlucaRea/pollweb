@@ -15,7 +15,7 @@ import javax.servlet.http.*;
  *
  * @author alessandrodorazio
  */
-public class Login extends HttpServlet {
+public class Login extends PoolWebBaseController {
 
     public void init(ServletConfig c) throws ServletException {
         super.init(c);
@@ -34,6 +34,11 @@ public class Login extends HttpServlet {
         out.setContentType("text/html;charset=UTF-8");
         RequestDispatcher dispatcher = in.getRequestDispatcher("/utenti/login.ftl");
         dispatcher.forward(in, out);
+    }
+
+    @Override
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 
     public void doPost(HttpServletRequest in, HttpServletResponse out) throws IOException, ServletException {

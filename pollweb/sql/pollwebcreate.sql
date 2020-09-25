@@ -31,6 +31,7 @@ utente_id VARCHAR(255)NOT NULL,
 titolo VARCHAR(255) NOT NULL,
 testoiniziale LONGTEXT NOT NULL,
 testofinale LONGTEXT NOT NULL,
+stato INT default 0,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (utente_id) REFERENCES Utente(email) on update cascade on delete cascade
 );

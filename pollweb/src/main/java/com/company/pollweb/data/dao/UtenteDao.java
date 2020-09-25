@@ -5,7 +5,9 @@
  */
 package com.company.pollweb.data.dao;
 
+import com.company.pollweb.data.impl.UtenteImpl;
 import com.company.pollweb.data.models.Utente;
+import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.utility.Database;
 import com.company.pollweb.utility.ValidazioneCampi;
 import java.sql.Connection;
@@ -18,7 +20,7 @@ import java.sql.SQLException;
  * @author alessandrodorazio
  */
 public interface UtenteDao {
-    public static int storeUtente(Utente u) throws ClassNotFoundException, SQLException {
+    public static int storeUtente(UtenteImpl u) throws ClassNotFoundException, SQLException {
         
             Connection con = Database.getConnection();
             
@@ -69,4 +71,6 @@ public interface UtenteDao {
         
         return false;
     }
+
+    Utente getUtente (int ID) throws DataException;
 }
