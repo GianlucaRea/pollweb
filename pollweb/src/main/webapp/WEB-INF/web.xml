@@ -21,12 +21,12 @@
         <url-pattern>/utenti/nuovo_responsabile</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>Sondaggio</servlet-name>
+        <servlet-name>CreazioneSondaggio</servlet-name>
         <description>Questa servlet implementa la funzione di creazione di un nuovo sondaggio </description>
         <servlet-class>com.company.pollweb.controllers.CreazioneSondaggio</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Sondaggio</servlet-name>
+        <servlet-name>CreazioneSondaggio</servlet-name>
         <url-pattern>/sondaggi/nuovo_sondaggio</url-pattern>
     </servlet-mapping>
     <session-config>

@@ -13,4 +13,5 @@ public interface SondaggioDao {
 
     public Sondaggio creazioneSondaggio();
 
+    void inserimentoSondaggio(Sondaggio p);
 }

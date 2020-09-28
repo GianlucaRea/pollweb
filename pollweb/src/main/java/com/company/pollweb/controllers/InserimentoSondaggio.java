@@ -3,7 +3,9 @@ package com.company.pollweb.controllers;
 import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.data.models.Sondaggio;
 import com.company.pollweb.framework.data.DataException;
+import com.company.pollweb.framework.result.FailureResult;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,14 +35,14 @@ public class InserimentoSondaggio extends PoolWebBaseController {
             if (request.getParameterMap() != null) {
                 Sondaggio p;
                 Utente user;
-                p = ((PoolWebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().creazioneSondaggio();
-                user = ((PoolWebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((String) s.getAttribute("user_email"));
+                p = ((com.company.pollweb.data.dao.PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().creazioneSondaggio();
+                user = ((com.company.pollweb.data.dao.PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((String) s.getAttribute("user_email"));
                 if (p != null) {
                     p.setTitolo(request.getParameter("titolo"));
                     p.setTestoiniziale(request.getParameter("testoapertura"));
                     p.setTestofinale(request.getParameter("testochiusura"));
                     p.setUserID(user.getEmail());
-                    ((PoolWebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().storePoll(p);
+                    ((com.company.pollweb.data.dao.PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().inserimentoSondaggio(p);
                     action_write(request, response);
                 }
                 else {
@@ -63,7 +65,7 @@ public class InserimentoSondaggio extends PoolWebBaseController {
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         try {
             request.setAttribute("urlrequest", request.getRequestURL());
-            RequestDispatcher rd = request.getRequestDispatcher("/accedi");
+            RequestDispatcher rd = request.getRequestDispatcher("/utenti/login");
             rd.forward(request, response);
         } catch (ServletException e) {
             e.printStackTrace();

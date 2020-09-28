@@ -72,5 +72,5 @@ public interface UtenteDao {
         return false;
     }
 
-    Utente getUtente (int ID) throws DataException;
+    Utente getUtente (String email) throws DataException;
 }
