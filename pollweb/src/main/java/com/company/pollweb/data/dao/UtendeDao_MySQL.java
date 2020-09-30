@@ -44,7 +44,7 @@ public class UtendeDao_MySQL extends DAO implements UtenteDao {
             utenteByEmail.setString(1, email);
             try (ResultSet rs = utenteByEmail.executeQuery()) {
                 if (rs.next()) {
-                    return null; //createUser(rs); //Metodo da fare!!
+                    return createUser(rs); //Metodo da fare!!
                 }
             }
         } catch (SQLException ex) {

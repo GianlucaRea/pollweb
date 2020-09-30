@@ -5,10 +5,8 @@
  */
 package com.company.pollweb.utility;
 
-//import com.company.pollweb.controllers.NuovoResponsabile;
+import com.company.pollweb.controllers.NuovoResponsabile;
 import com.company.pollweb.data.dao.UtenteDao;
-import com.company.pollweb.data.models.Utente;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -62,9 +60,9 @@ public class FiltroAutenticazione {
                 return ;
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Utente.class.getName()).log(Level.SEVERE, null, ex);//Al posto di utente nuovo responsabile
+            Logger.getLogger(NuovoResponsabile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Utente.class.getName()).log(Level.SEVERE, null, ex);//Al posto di utente nuovo responsabile
+            Logger.getLogger(NuovoResponsabile.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

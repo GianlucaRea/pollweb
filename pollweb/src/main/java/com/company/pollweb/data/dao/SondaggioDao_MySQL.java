@@ -24,11 +24,6 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
     }
 
     @Override
-    public void inserimentoSondaggio(Sondaggio p) {
-
-    }
-
-    @Override
     public SondaggioProxy creazioneSondaggio(ResultSet rs) throws DataException {
         try {
             SondaggioProxy a = creazioneSondaggio();

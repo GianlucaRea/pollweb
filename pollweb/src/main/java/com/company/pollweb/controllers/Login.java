@@ -28,13 +28,12 @@ public class Login extends PoolWebBaseController {
             RequestDispatcher dispatcher = in.getRequestDispatcher("/index.ftl");
             in.setAttribute("success", "Sei già loggato!");
             dispatcher.forward(in, out);
-            //return;
+            return;
         }
 
         out.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher dispatcher = in.getRequestDispatcher("login.ftl");
+        RequestDispatcher dispatcher = in.getRequestDispatcher("/utenti/login.ftl");
         dispatcher.forward(in, out);
-        return;
     }
 
     @Override

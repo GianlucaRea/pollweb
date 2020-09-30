@@ -10,7 +10,7 @@ package com.company.pollweb.framework.result;
 
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
-import com.company.pollweb.framework.security.SecurityLayer;
+import poolweb.framework.security.SecurityLayer;
 
 import java.util.List;
 
