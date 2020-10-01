@@ -1,5 +1,6 @@
 package com.company.pollweb.controllers;
 
+import com.company.pollweb.data.dao.PollwebDataLayer;
 import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.data.models.Sondaggio;
 import com.company.pollweb.framework.data.DataException;
@@ -17,17 +18,18 @@ import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
 
 public class InserimentoSondaggio extends PollWebBaseController {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        try {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DataException {
+        action_poll1(request, response);
+       /* try {
             HttpSession s = checkSession(request);
             if (s!= null) {
-                action_poll(request, response, s);
+                action_poll1(request, response, s);
             } else {
                 action_redirect(request, response);
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } */
     }
 
     private void action_poll(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws IOException {
@@ -35,14 +37,14 @@ public class InserimentoSondaggio extends PollWebBaseController {
             if (request.getParameterMap() != null) {
                 Sondaggio p;
                 Utente user;
-                p = ((com.company.pollweb.data.dao.PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().creazioneSondaggio();
-                user = ((com.company.pollweb.data.dao.PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((String) s.getAttribute("user_email"));
+                p = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().creazioneSondaggio();
+                user = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((String) s.getAttribute("user_email"));
                 if (p != null) {
                     p.setTitolo(request.getParameter("titolo"));
                     p.setTestoiniziale(request.getParameter("testoapertura"));
                     p.setTestofinale(request.getParameter("testochiusura"));
-                    p.setUserID(user.getEmail());
-                    ((com.company.pollweb.data.dao.PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().creazioneSondaggio();
+                    p.setUtenteEmail(user.getEmail());
+                    ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().creazioneSondaggio();
                     action_write(request, response);
                 }
                 else {
@@ -56,6 +58,26 @@ public class InserimentoSondaggio extends PollWebBaseController {
         }
     }
 
+    private void action_poll1(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
+        if (request.getParameterMap() != null) {
+            Sondaggio p;
+            //Utente user;
+            p = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().creazioneSondaggio();
+            //user = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((String) s.getAttribute("user_email"));
+            if (p != null) {
+                p.setTitolo(request.getParameter("titolo"));
+                p.setTestoiniziale(request.getParameter("testoapertura"));
+                p.setTestofinale(request.getParameter("testochiusura"));
+                p.setUtenteEmail("utente@mail.it");
+                ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().salvaSondaggio(p);
+                action_write(request, response);
+            }
+            else {
+                request.setAttribute("message", "Errore aggiornamento del sondaggio");
+                action_error(request, response);
+            }
+        }
+    }
 
 
     private void action_write(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -65,7 +87,7 @@ public class InserimentoSondaggio extends PollWebBaseController {
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         try {
             request.setAttribute("urlrequest", request.getRequestURL());
-            RequestDispatcher rd = request.getRequestDispatcher("/accedi");
+            RequestDispatcher rd = request.getRequestDispatcher("/login");
             rd.forward(request, response);
         } catch (ServletException e) {
             e.printStackTrace();

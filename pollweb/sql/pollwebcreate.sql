@@ -26,7 +26,7 @@ FOREIGN KEY (ruolo_id) REFERENCES Ruolo(id) on update cascade on delete cascade
 
 
 CREATE TABLE Sondaggio(
-id BIGINT auto_increment PRIMARY KEY,
+id BIGINT auto_increment NOT NULL PRIMARY KEY,
 utente_id VARCHAR(255)NOT NULL,
 titolo VARCHAR(255) NOT NULL,
 testoiniziale LONGTEXT NOT NULL,

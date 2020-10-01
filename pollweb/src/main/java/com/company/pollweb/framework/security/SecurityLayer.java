@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static java.lang.StrictMath.random;
+
 public class SecurityLayer {
 
     //--------- SESSION SECURITY ------------    
@@ -82,12 +84,13 @@ public class SecurityLayer {
         }
     }
 
-    public static HttpSession createSession(HttpServletRequest request, String username, String email) {
+    public static HttpSession createSession(HttpServletRequest request, String name, String email) {
         HttpSession s = request.getSession(true);
-        s.setAttribute("username", username);
+        s.setAttribute("name", name);
         s.setAttribute("ip", request.getRemoteHost());
         s.setAttribute("inizio-sessione", Calendar.getInstance());
         s.setAttribute("email", email);
+        s.setAttribute("id",random());
         return s;
     }
 

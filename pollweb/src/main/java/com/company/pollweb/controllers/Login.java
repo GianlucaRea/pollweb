@@ -45,7 +45,6 @@ public class Login extends PollWebBaseController {
             } else {
                 System.out.println("non loggato");
             }
-             //Titolo da iniettare nel template con freeMarker
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             res.activate("login.ftl", request, response);
@@ -59,9 +58,9 @@ public class Login extends PollWebBaseController {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             Utente newUser = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(email, HashingMaps(password));
-            if (newUser!= null) {
+            if (newUser!= null) {  HttpSession session=request.getSession();
                 createSession(request, newUser.getNome(),newUser.getEmail());
-                response.sendRedirect("nuovo_sondaggio");
+                response.sendRedirect("/sondaggi/nuovo_sondaggio");
             } else {
                 request.setAttribute("login_error", "Username o password errati");
                 res.activate("login.ftl", request, response);

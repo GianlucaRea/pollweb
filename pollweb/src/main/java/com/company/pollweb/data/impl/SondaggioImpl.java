@@ -13,7 +13,8 @@ import com.company.pollweb.data.models.Sondaggio;
  */
 public class SondaggioImpl implements Sondaggio {
     
-    protected String  titolo, testoiniziale, testofinale, user_id;
+    protected String  titolo, testoiniziale, testofinale, user_email;
+    protected int id;
 
     
     public SondaggioImpl(){
@@ -26,9 +27,11 @@ public class SondaggioImpl implements Sondaggio {
         this.titolo = titolo;
         this.testoiniziale = testoiniziale;
         this.testofinale = testofinale;
-        this.user_id = user_id;
+        this.user_email = user_email;
     }
-    
+
+    public int getId(){return this.id;}
+
     public String getTestofinale(){
         return this.testofinale;
     }
@@ -41,9 +44,11 @@ public class SondaggioImpl implements Sondaggio {
         return this.titolo;
     }
     
-    public String getUserID(){
-        return this.user_id;
+    public String getUtenteEmail(){
+        return this.user_email;
     }
+
+    public void setId(int nID){this.id = nID;}
     
     public void setTestofinale(String Ntestofinale){
          this.testofinale = Ntestofinale;
@@ -57,8 +62,8 @@ public class SondaggioImpl implements Sondaggio {
          this.titolo = Ntitolo;
     }
     
-    public void setUserID(String Nuser_id){
-         this.user_id = Nuser_id;
+    public void setUtenteEmail(String Nuser_email){
+         this.user_email = Nuser_email;
     }
     
     

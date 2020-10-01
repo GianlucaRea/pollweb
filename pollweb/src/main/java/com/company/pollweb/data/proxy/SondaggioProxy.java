@@ -6,7 +6,7 @@ import com.company.pollweb.framework.data.DataLayer;
 public class SondaggioProxy extends SondaggioImpl {
 
     protected boolean dirty;
-    protected int user_key = 0;
+    protected String user_email;
 
     protected DataLayer dataLayer;
 
@@ -14,7 +14,7 @@ public class SondaggioProxy extends SondaggioImpl {
         super();
         this.dataLayer = d;
         this.dirty = false;
-        this.user_key = 0;
+        this.user_email = "nomecognome@mail.it";
     }
 
     /*
@@ -51,6 +51,12 @@ public class SondaggioProxy extends SondaggioImpl {
         super.setTestofinale(testofinale);
         this.dirty = true;
     }
+    public void setUtenteEmail(String Nuser_email) {
+        this.user_email = Nuser_email;
+        //resettiamo la cache dell'autore
+        //reset author cache
+        super.setUtenteEmail(null);
+    }
 
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
@@ -60,10 +66,5 @@ public class SondaggioProxy extends SondaggioImpl {
         return dirty;
     }
 
-    public void setUserID(int userID) {
-        this.user_key = userID;
-        //resettiamo la cache dell'autore
-        //reset author cache
-        super.setUserID(null);
-    }
+
 }

@@ -20,7 +20,7 @@ and open the template in the editor.
             </div>
             <div class="container" id="creationForm">
                 <h2 class="text-primary">Nuovo Sondaggio</h2>
-                <form id="creationForm" action="/sondaggi/nuovo_sondaggio" method="post">
+                <form id="creationForm"  method="post" action="/inserisci_sondaggio">
                     <div class="form-row">
                         <label for="titolo">Titolo del sondaggio</label>
                         <input id="titolo" type="text" name="titolo" class="form-control" placeholder="Il mio Sondaggio" required>
@@ -33,7 +33,7 @@ and open the template in the editor.
                         <textarea id="testofinale" name="testofinale" placeholder="Aggiungi una nota personalizzata" required rows="3" cols="50"></textarea>
                     </div>
                     <div class="form-row">
-                        <input type="submit" value="Submit">
+                        <input type="submit" value="CreaSondaggio">
                     </div>
                 </form>
             </div>

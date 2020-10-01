@@ -36,7 +36,7 @@
                             <input type="checkbox" id="showPassword"> <label for="showPassword">Mostra password</label>
                         </div>
                         <div class="float-right">
-                            <input type="submit" value="Login" class="btn btn-primary" />
+                            <input type="submit" value="Login" class="btn btn-primary" href="/home"/>
                         </div>
                     </form>
                 </div>

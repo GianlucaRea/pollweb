@@ -2,6 +2,7 @@ package com.company.pollweb.data.models;
 
 public interface Sondaggio {
 
+    public int getId();
 
     public String getTestofinale();
 
@@ -9,7 +10,9 @@ public interface Sondaggio {
 
     public String getTitolo();
 
-    public String getUserID();
+    public String getUtenteEmail();
+
+    public void setId(int Nid);
 
     public void setTestofinale(String Ntestofinale);
 
@@ -17,6 +20,6 @@ public interface Sondaggio {
 
     public void setTitolo(String Ntitolo);
 
-    public void setUserID(String Nuser_id);
+    public void setUtenteEmail(String Nemail);
 
 }

@@ -10,7 +10,6 @@ import com.company.pollweb.framework.result.TemplateResult;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,12 +22,12 @@ import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
  *
  * @author gianlucarea
  */
-@WebServlet("nuovo_sondaggio")
 
 public class CreazioneSondaggio extends PollWebBaseController {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        try {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, TemplateManagerException {
+        action_1(request, response);
+      /*  try {
             HttpSession s = checkSession(request);
             if (s!= null) {
                 action_poll(request, response, s);
@@ -37,7 +36,13 @@ public class CreazioneSondaggio extends PollWebBaseController {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+    }
+
+    private void action_1(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException {
+        TemplateResult res = new TemplateResult(getServletContext());
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        res.activate("creazione.ftl", request, response);
     }
 
     private void action_poll(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws IOException, ServletException {

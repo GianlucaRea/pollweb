@@ -13,4 +13,7 @@ public interface SondaggioDao {
 
     public Sondaggio creazioneSondaggio();
 
+    public void salvaSondaggio(Sondaggio p) throws DataException;
+
+
 }
