@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 
 @WebServlet(name = "PoolWebBaseController")
-public abstract class PoolWebBaseController extends HttpServlet {
+public abstract class PollWebBaseController extends HttpServlet {
 
     @Resource(name = "jdbc/pollweb")
     private DataSource ds;

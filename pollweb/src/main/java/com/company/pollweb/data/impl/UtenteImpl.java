@@ -12,9 +12,9 @@ import com.company.pollweb.data.models.Utente;
  * @author alessandrodorazio
  */
 public class UtenteImpl implements Utente {
-    protected String nome, cognome, email;
-    protected int id ,ruolo_id;
-    
+    protected String nome, cognome, email,password;
+    protected int ruolo_id;
+
     public UtenteImpl() {
         this.nome = "";
         this.cognome = "";
@@ -40,7 +40,10 @@ public class UtenteImpl implements Utente {
     public String getNomeCompleto() {
         return this.nome + " " + this.cognome;
     }
-    
+
+    @Override
+    public String getPassword() { return this.password; }
+
     public String getEmail() {
         return this.email;
     }
@@ -49,10 +52,34 @@ public class UtenteImpl implements Utente {
         return this.ruolo_id;
     }
 
-
     public String getNomeRuolo() {
         if(this.ruolo_id == 3) return "Amministratore";
         if(this.ruolo_id == 2) return "Responsabile";
         return "Utente";
+    }
+
+    @Override
+    public void setNome(String newNome) {
+        this.nome = newNome;
+    }
+
+    @Override
+    public void setCognome(String newCognome) {
+        this.cognome = newCognome;
+    }
+
+    @Override
+    public void setEmail(String newEmail) {
+        this.email = newEmail;
+    }
+
+    @Override
+    public void setPassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    @Override
+    public void setRuolo(int newRuoloId) {
+        this.ruolo_id = newRuoloId;
     }
 }

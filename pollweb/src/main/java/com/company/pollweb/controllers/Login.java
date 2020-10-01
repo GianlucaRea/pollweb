@@ -1,77 +1,86 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.company.pollweb.controllers;
 
-import com.company.pollweb.data.dao.LoginDao;
-import com.company.pollweb.utility.FiltroAutenticazione;
-import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
+import  com.company.pollweb.data.dao.PollwebDataLayer;
+import  com.company.pollweb.data.models.Utente;
+import  com.company.pollweb.framework.data.DataException;
+import  com.company.pollweb.framework.result.FailureResult;
+import  com.company.pollweb.framework.result.SplitSlashesFmkExt;
+import  com.company.pollweb.framework.result.TemplateManagerException;
+import  com.company.pollweb.framework.result.TemplateResult;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author alessandrodorazio
- */
-public class Login extends PoolWebBaseController {
+import static com.company.pollweb.framework.security.SecurityLayer.*;
 
-    public void init(ServletConfig c) throws ServletException {
-        super.init(c);
-    }
-
+public class Login extends PollWebBaseController {
     @Override
-    public void doGet(HttpServletRequest in, HttpServletResponse out) throws ServletException, IOException {
-        //check se l'utente risulta già loggato        
-        if(FiltroAutenticazione.checkLoggato(in) == false) {
-            RequestDispatcher dispatcher = in.getRequestDispatcher("/index.ftl");
-            in.setAttribute("success", "Sei già loggato!");
-            dispatcher.forward(in, out);
-            return;
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
+            HttpSession s = checkSession(request);
+            if (s!=null){
+                action_update(request, response, s);
+            } else if((request.getParameter("email")!=null)&&(request.getParameter("password")!=null)) {
+                action_write(request, response, request.getParameter("email"), request.getParameter("password"));
+            } else {
+                action_default(request, response);
+            }
+        } catch (NumberFormatException ex) {
+            request.setAttribute("message", "Invalid number submitted");
+            action_error(request, response);
+        } catch (IOException | TemplateManagerException ex) {
+            request.setAttribute("exception", ex);
+            action_error(request, response);
         }
-
-        out.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher dispatcher = in.getRequestDispatcher("/utenti/login.ftl");
-        dispatcher.forward(in, out);
     }
 
-    @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        try {
+            HttpSession s = checkSession(request);
+            if(s!=null){
+                System.out.println("loggato");
+            } else {
+                System.out.println("non loggato");
+            }
+             //Titolo da iniettare nel template con freeMarker
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            res.activate("login.ftl", request, response);
+        } catch (TemplateManagerException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void doPost(HttpServletRequest in, HttpServletResponse out) throws IOException, ServletException {
-        String email = in.getParameter("email");
-        String password = in.getParameter("password");
-
-        if (email.length() == 0 || password.length() == 0) {
-            RequestDispatcher dispatcher = in.getRequestDispatcher("login.ftl");
-            in.setAttribute("error", "Campi mancanti");
-            dispatcher.forward(in, out);
-            return;
+    private void action_write(HttpServletRequest request, HttpServletResponse response, String email, String password) throws IOException, TemplateManagerException {
+        try {
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            Utente newUser = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(email, HashingMaps(password));
+            if (newUser!= null) {
+                createSession(request, newUser.getNome(),newUser.getEmail());
+                response.sendRedirect("nuovo_sondaggio");
+            } else {
+                request.setAttribute("login_error", "Username o password errati");
+                res.activate("login.ftl", request, response);
+            }
+        } catch (DataException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
+    }
 
-        out.setContentType("text/html;charset=UTF-8");
-        PrintWriter writer = out.getWriter();
+    private void action_update(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws IOException, ServletException, TemplateManagerException {
+        response.sendRedirect(request.getAttribute("urlrequest").toString());
+    }
 
-        if (LoginDao.validate(email, password)) {
-            HttpSession session = in.getSession();
-            session.setAttribute("email", email);
-            session.setAttribute("password", password);
-            
-            //TODO redirect in base, da decidere come procedere
-            writer.print("LOGGATO");
+    //Necessario per gestire le return di errori
+    private void action_error(HttpServletRequest request, HttpServletResponse response) {
+        if (request.getAttribute("exception") != null) {
+            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         } else {
-            RequestDispatcher dispatcher = in.getRequestDispatcher("login.ftl");
-            in.setAttribute("error", "Combinazione email/password errata");
-            dispatcher.forward(in, out);
+            (new FailureResult(getServletContext())).activate((String) request.getAttribute("message"), request, response);
         }
-        writer.close();
-
-    }
-
-    public String getServletInfo() {
-        return "Servlet di login, versione 1.0";
     }
 }

@@ -8,10 +8,22 @@ public interface Utente {
 
     public String getNomeCompleto();
 
+    public String getPassword();
+
     public String getEmail();
 
     public int getRuolo();
 
     public String getNomeRuolo();
+
+    public void setNome(String newNome);
+
+    public void setCognome(String newCognome);
+
+    public void setEmail(String newEmail);
+
+    public void setPassword(String newPassword);
+
+    public void setRuolo(int newRuoloId);
 
 }

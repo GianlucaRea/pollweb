@@ -1,4 +1,4 @@
-<#import "../templates/globalTemplate.ftl" as globalTemplate>
+<#import "globalTemplate.ftl" as globalTemplate>
 
 <!DOCTYPE html>
 <!--

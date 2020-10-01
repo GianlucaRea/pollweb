@@ -1,7 +1,7 @@
 package com.company.pollweb.controllers;
 
-import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.data.dao.PollwebDataLayer;
+import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.result.FailureResult;
 import com.company.pollweb.framework.result.SplitSlashesFmkExt;
@@ -23,9 +23,9 @@ import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
  *
  * @author gianlucarea
  */
-@WebServlet("/sondaggio/nuovo_sondaggio")
+@WebServlet("nuovo_sondaggio")
 
-public class CreazioneSondaggio extends PoolWebBaseController{
+public class CreazioneSondaggio extends PollWebBaseController {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
@@ -42,13 +42,12 @@ public class CreazioneSondaggio extends PoolWebBaseController{
 
     private void action_poll(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws IOException, ServletException {
         try {
-            Utente currentuser = ((PoolwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((String) s.getAttribute("user_email"));
+            Utente currentuser = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((String) s.getAttribute("user_email"));
             if (currentuser.getNomeRuolo().equals("Utente")) {
                 request.setAttribute("message", "Non sei autorizzato ad accedere a questa area");
-                request.setAttribute("submessage", "Contatta gli admin per diventare collaboratore");
+                request.setAttribute("submessage", "Contatta gli amministratori per diventare responsabile");
                 action_error(request, response);
             } else {
-                request.setAttribute("page_title", "Crea Sondaggio");
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 res.activate("creazione.ftl", request, response);
@@ -61,7 +60,7 @@ public class CreazioneSondaggio extends PoolWebBaseController{
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         try {
             request.setAttribute("urlrequest", request.getRequestURL());
-            RequestDispatcher rd = request.getRequestDispatcher("/accedi"); //Qui ci va l'url del login!!!
+            RequestDispatcher rd = request.getRequestDispatcher("login.ftl"); //Qui ci va l'url del login!!!
             rd.forward(request, response);
         } catch (ServletException e) {
             e.printStackTrace();

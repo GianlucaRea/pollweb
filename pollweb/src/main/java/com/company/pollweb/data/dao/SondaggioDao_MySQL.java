@@ -1,14 +1,10 @@
 package com.company.pollweb.data.dao;
 
-import com.company.pollweb.data.models.Sondaggio;
 import com.company.pollweb.framework.data.DAO;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.data.DataLayer;
-import com.company.pollweb.framework.proxy.SondaggioProxy;
-import com.company.pollweb.utility.Database;
+import com.company.pollweb.data.proxy.SondaggioProxy;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

@@ -108,6 +108,20 @@
         <url-pattern>*.ftlh</url-pattern>
         <url-pattern>*.ftlx</url-pattern>
     </servlet-mapping>
+
+    <!--
+    Database configuration connection Pooling
+    -->
+    <context-param>
+        <param-name>data.source</param-name>
+        <param-value>java:comp/env/jdbc/pollweb</param-value>
+    </context-param>
+    <resource-ref>
+        <res-ref-name>jdbc/pollweb</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
     <!--
       Prevent the visiting of MVC Views from outside the servlet container.
       RequestDispatcher.forward/include should, and will still work.

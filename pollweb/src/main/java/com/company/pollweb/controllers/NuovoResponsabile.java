@@ -6,6 +6,7 @@
 package com.company.pollweb.controllers;
 
 import com.company.pollweb.data.dao.UtenteDao;
+import com.company.pollweb.data.impl.UtenteImpl;
 import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.utility.FiltroAutenticazione;
 import com.company.pollweb.utility.ValidazioneCampi;
@@ -25,7 +26,7 @@ import java.util.logging.Logger;
  *
  * @author alessandrodorazio
  */
-public class NuovoResponsabile extends PoolWebBaseController {
+public class NuovoResponsabile extends PollWebBaseController {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -115,11 +116,11 @@ public class NuovoResponsabile extends PoolWebBaseController {
         }
         //fine validazione
         
-        u = new Utente(nome, cognome, email, 2);
+        u = new UtenteImpl(nome, cognome, email, 2);
         
         try {
             //inserimento nuovo responsabile
-            risInserimentoUtente = UtenteDao.storeUtente(u);
+            risInserimentoUtente = UtenteDao.storeUtente((UtenteImpl) u);
             RequestDispatcher dispatcher = in.getRequestDispatcher("/utenti/nuovoResponsabile.ftl");
             if (risInserimentoUtente == 1) { //inserimento avvenuto con successo
                 in.setAttribute("success", "Responsabile inserito nel sistema");

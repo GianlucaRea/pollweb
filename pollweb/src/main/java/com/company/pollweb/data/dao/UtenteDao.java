@@ -7,6 +7,7 @@ package com.company.pollweb.data.dao;
 
 import com.company.pollweb.data.impl.UtenteImpl;
 import com.company.pollweb.data.models.Utente;
+import com.company.pollweb.data.proxy.UtenteProxy;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.utility.Database;
 import com.company.pollweb.utility.ValidazioneCampi;
@@ -72,5 +73,12 @@ public interface UtenteDao {
         return false;
     }
 
-    Utente getUtente (int ID) throws DataException;
+    Utente getUtente(String email) throws DataException;
+
+    Utente getUtente(String email, String password) throws DataException;
+
+    Utente  creaUtente() throws DataException;
+
+    Utente  creaUtente(ResultSet res) throws DataException;
+
 }
