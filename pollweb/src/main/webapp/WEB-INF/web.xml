@@ -30,11 +30,6 @@
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>NuovoResponsabile</servlet-name>
-        <description>Questa servlet implementa la funzione di creazione di un nuovo responsabile </description>
-        <servlet-class>com.company.pollweb.controllers.NuovoResponsabile</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>NuovoResponsabile</servlet-name>
         <url-pattern>/utenti/nuovo_responsabile</url-pattern>
@@ -140,6 +135,10 @@
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
+
+    <welcome-file-list>
+        <welcome-file>home</welcome-file>
+    </welcome-file-list>
     <!--
       Prevent the visiting of MVC Views from outside the servlet container.
       RequestDispatcher.forward/include should, and will still work.

@@ -18,9 +18,6 @@ public class SondaggioImpl implements Sondaggio {
 
     
     public SondaggioImpl(){
-        this.titolo = "";
-        this.testoiniziale = "";
-        this.testofinale = "";
     }
     
     public SondaggioImpl(String titolo, String testoiniziale, String testofinale, String user_id){

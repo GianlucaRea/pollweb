@@ -9,12 +9,12 @@ import com.company.pollweb.data.proxy.SondaggioProxy;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
 
-    private final String INSERIMENTO_SONDAGGIO = "INSERT INTO Sondaggio (titolo, testoiniziale, testofinale, utente_id)" + "VALUES (?, ?, ?, ?)";
+    private static final String INSERIMENTO_SONDAGGIO = "INSERT INTO Sondaggio (utente_email, titolo, testoiniziale, testofinale, created_at)" + "VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)";
 
-    private PreparedStatement inserimentoSondaggio;
 
     public SondaggioDao_MySQL(DataLayer d) {
         super(d);
@@ -43,19 +43,19 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
 
     public void salvaSondaggio(Sondaggio p) throws DataException {
         int id = p.getId();
-        try {
+        try (PreparedStatement ps = connection.prepareStatement(INSERIMENTO_SONDAGGIO,Statement.RETURN_GENERATED_KEYS)) {
             if (p.getId() > 0) {
                 if (p instanceof SondaggioProxy && ((SondaggioProxy) p).isDirty()) {
                     return;
                 }
                 // TODO Qui ci va la modifica del sondaggio o meglio se un sondaggio esiste già si può modificare qui
             } else {
-                inserimentoSondaggio.setString(1, p.getTitolo());
-                inserimentoSondaggio.setString(2, p.getTestoiniziale());
-                inserimentoSondaggio.setString(3, p.getTestofinale());
-                inserimentoSondaggio.setString(4, p.getUtenteEmail());
-                if (inserimentoSondaggio.executeUpdate() == 1) {
-                    try (ResultSet rs = inserimentoSondaggio.getGeneratedKeys()) {
+                ps.setString(1, p.getUtenteEmail());
+                ps.setString(2, p.getTitolo());
+                ps.setString(3, p.getTestoiniziale());
+                ps.setString(4, p.getTestofinale());
+                if (ps.executeUpdate() == 1) {
+                    try (ResultSet rs = ps.getGeneratedKeys()) {
                         if (rs.next()) {
                             id = rs.getInt(1);
                         }
@@ -68,5 +68,4 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
             throw new DataException("Unable to insert or update Poll", ex);
         }
     }
-
 }

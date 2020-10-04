@@ -28,9 +28,9 @@ and open the template in the editor.
                     <br>
                     <div class="form-row">
                         <label for="testoiniziale">Testo Iniziale</label>
-                        <textarea id="testoiniziale" name="testoiniziale" placeholder="Aggiungi una nota personalizzata" required rows="3" cols="50"></textarea>
+                        <textarea id="testoiniziale" type="text" name="testoiniziale" placeholder="Aggiungi una nota personalizzata" required rows="3" cols="50"></textarea>
                         <label for="testofinale">Testo Finale</label>
-                        <textarea id="testofinale" name="testofinale" placeholder="Aggiungi una nota personalizzata" required rows="3" cols="50"></textarea>
+                        <textarea id="testofinale" type="text" name="testofinale" placeholder="Aggiungi una nota personalizzata" required rows="3" cols="50"></textarea>
                     </div>
                     <div class="form-row">
                         <input type="submit" value="CreaSondaggio">
