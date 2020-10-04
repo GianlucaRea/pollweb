@@ -3,7 +3,7 @@ CREATE DATABASE pollweb;
 USE pollweb;
 
 DROP TABLE IF EXISTS `Compilazione`;
-DROP TABLE IF EXISTS `Domande`;
+DROP TABLE IF EXISTS `Domanda`;
 DROP TABLE IF EXISTS `Sondaggio`;
 DROP TABLE IF EXISTS `Utente`;
 DROP TABLE IF EXISTS `Ruolo`;
@@ -33,10 +33,10 @@ testoiniziale LONGTEXT NOT NULL,
 testofinale LONGTEXT NOT NULL,
 stato INT default 0,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (utente_id) REFERENCES Utente(email) on update cascade on delete cascade
+FOREIGN KEY (utente_email) REFERENCES Utente(email) on update cascade on delete cascade
 );
 
-CREATE TABLE Domande(
+CREATE TABLE Domanda(
 id BIGINT auto_increment PRIMARY KEY,
 sondaggio_id BIGINT NOT NULL,
 testo VARCHAR(255) NOT NULL,
