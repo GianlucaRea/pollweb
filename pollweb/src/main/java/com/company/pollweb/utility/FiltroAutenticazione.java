@@ -5,12 +5,7 @@
  */
 package com.company.pollweb.utility;
 
-import com.company.pollweb.controllers.NuovoResponsabile;
-import com.company.pollweb.data.dao.UtenteDao;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +42,7 @@ public class FiltroAutenticazione {
         
     }
     
-    public static void soloAdmin(HttpServletRequest in, HttpServletResponse out) throws ServletException, IOException{
+  /* public static void soloAdmin(HttpServletRequest in, HttpServletResponse out) throws ServletException, IOException{
         //controllo se l'utente loggato è amministratore
         HttpSession session=in.getSession(false); 
         String emailUtenteLoggato=(String)session.getAttribute("email");
@@ -64,5 +59,5 @@ public class FiltroAutenticazione {
         } catch (SQLException ex) {
             Logger.getLogger(NuovoResponsabile.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    } */
 }

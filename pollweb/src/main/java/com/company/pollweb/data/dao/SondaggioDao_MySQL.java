@@ -10,14 +10,40 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
 
-    private static final String INSERIMENTO_SONDAGGIO = "INSERT INTO Sondaggio (utente_email, titolo, testoiniziale, testofinale, created_at)" + "VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)";
 
+    private PreparedStatement inserimento_sondaggio;
 
     public SondaggioDao_MySQL(DataLayer d) {
         super(d);
+    }
+
+    @Override
+    public void init() throws DataException {
+
+        try {
+            super.init();
+
+            inserimento_sondaggio = connection.prepareStatement("INSERT INTO Sondaggio (utente_id, titolo, testoiniziale, testofinale, created_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP);",Statement.RETURN_GENERATED_KEYS);
+
+        } catch (SQLException ex) {
+            throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
+        }
+    }
+
+    @Override
+    public void destroy() throws DataException {
+
+        try {
+            inserimento_sondaggio.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SondaggioDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        super.destroy();
     }
 
     @Override
@@ -33,7 +59,7 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
             a.setTitolo(rs.getString("title"));
             a.setTestoiniziale(rs.getString("openText"));
             a.setTestofinale(rs.getString("closeText"));
-            a.setUtenteEmail(rs.getString("utenteEmail"));
+            a.setUtenteId(rs.getInt("utenteId"));
             return a;
         } catch (SQLException ex) {
             throw new DataException("Unable to create Poll object from ResultSet", ex);
@@ -43,14 +69,14 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
 
     public void salvaSondaggio(Sondaggio p) throws DataException {
         int id = p.getId();
-        try (PreparedStatement ps = connection.prepareStatement(INSERIMENTO_SONDAGGIO,Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = inserimento_sondaggio ) {
             if (p.getId() > 0) {
                 if (p instanceof SondaggioProxy && ((SondaggioProxy) p).isDirty()) {
                     return;
                 }
                 // TODO Qui ci va la modifica del sondaggio o meglio se un sondaggio esiste già si può modificare qui
             } else {
-                ps.setString(1, p.getUtenteEmail());
+                ps.setInt(1, p.getUtenteId());
                 ps.setString(2, p.getTitolo());
                 ps.setString(3, p.getTestoiniziale());
                 ps.setString(4, p.getTestofinale());

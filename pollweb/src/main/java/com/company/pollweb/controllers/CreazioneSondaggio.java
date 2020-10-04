@@ -26,8 +26,8 @@ import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
 public class CreazioneSondaggio extends PollWebBaseController {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, TemplateManagerException {
-        action_1(request, response);
-      /*  try {
+
+        try {
             HttpSession s = checkSession(request);
             if (s!= null) {
                 action_poll(request, response, s);
@@ -36,18 +36,13 @@ public class CreazioneSondaggio extends PollWebBaseController {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
-    private void action_1(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException {
-        TemplateResult res = new TemplateResult(getServletContext());
-        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        res.activate("creazione.ftl", request, response);
-    }
 
     private void action_poll(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws IOException, ServletException {
         try {
-            Utente currentuser = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((String) s.getAttribute("user_email"));
+            Utente currentuser = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
             if (currentuser.getNomeRuolo().equals("Utente")) {
                 request.setAttribute("message", "Non sei autorizzato ad accedere a questa area");
                 request.setAttribute("submessage", "Contatta gli amministratori per diventare responsabile");

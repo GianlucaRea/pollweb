@@ -9,16 +9,13 @@ import com.company.pollweb.framework.data.DataLayer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UtendeDao_MySQL extends DAO implements UtenteDao {
 
-    private final String SELECT_UTENTE_BY_EMAIL = "SELECT * FROM utente WHERE email = ?";
-    private final String SELECT_UTENTE_BY_NAME_AND_PASSWORD ="SELECT * FROM utente where email = ? AND password = ?";
 
-    private PreparedStatement utenteByEmail;
-    private PreparedStatement utenteByLogin;
-
-
+    private PreparedStatement utenteById,utenteByLogin,utenteByEmail;
 
     public UtendeDao_MySQL(DataLayer d) {
         super(d);
@@ -27,19 +24,22 @@ public class UtendeDao_MySQL extends DAO implements UtenteDao {
     public void init() throws DataException {
         try {
             super.init();
-            utenteByEmail = connection.prepareStatement(SELECT_UTENTE_BY_EMAIL);
-            utenteByLogin = connection.prepareStatement(SELECT_UTENTE_BY_NAME_AND_PASSWORD);
+            utenteById = connection.prepareStatement("SELECT * FROM utente WHERE id = ?;");
+            utenteByLogin = connection.prepareStatement("SELECT * FROM utente where email = ? AND password = ?;");
+            utenteByEmail = connection.prepareStatement("SELECT * FROM utente where email = ?;");
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            throw new DataException("Errore durante l'inizializzazione del data layer pollweb", ex);
         }
     }
 
     @Override
     public void destroy() throws DataException {
         try {
+            utenteById.close();
+            utenteByLogin.close();
             utenteByEmail.close();
         } catch (SQLException ex){
-            //
+            Logger.getLogger(UtendeDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         super.destroy();
     }
@@ -51,21 +51,35 @@ public class UtendeDao_MySQL extends DAO implements UtenteDao {
 
     @Override
     public UtenteProxy creaUtente(ResultSet res) throws DataException {
-        UtenteProxy a = creaUtente();
+        UtenteProxy u = creaUtente();
         try {
-            a.setNome(res.getString("nome"));
-            a.setEmail(res.getString("email"));
-            a.setPassword(res.getString("password"));
-            a.setRuolo(1);
-            return a;
-        } catch (Exception e) {
-            e.printStackTrace();
+            u.setNome(res.getString("nome"));
+            u.setEmail(res.getString("email"));
+            u.setPassword(res.getString("password"));
+            u.setRuolo(1);
+        } catch (Exception ex) {
+            throw new DataException("Impossibile creare l'oggetto Utente dal ResultSet", ex);
         }
-        return a;
+        return u;
     }
 
 
-    public Utente getUtente(String email) throws DataException {
+    public Utente getUtente(int id) throws DataException {
+        try {
+            utenteById.setInt(1, id);
+            try (ResultSet rs = utenteById.executeQuery()) {
+                if (rs.next()) {
+                    return creaUtente(rs);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load User by Email", ex);
+        }
+        return null;
+    }
+
+    @Override
+    public Utente getUtenteByEmail(String email) throws DataException {
         try {
             utenteByEmail.setString(1, email);
             try (ResultSet rs = utenteByEmail.executeQuery()) {
@@ -74,7 +88,7 @@ public class UtendeDao_MySQL extends DAO implements UtenteDao {
                 }
             }
         } catch (SQLException ex) {
-            throw new DataException("Unable to load User by Email", ex);
+            throw new DataException("Impossibile caricare Studente By Email", ex);
         }
         return null;
     }

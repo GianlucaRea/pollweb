@@ -12,6 +12,8 @@ public interface Utente {
 
     public String getEmail();
 
+    public int getId();
+
     public int getRuolo();
 
     public String getNomeRuolo();
@@ -25,5 +27,7 @@ public interface Utente {
     public void setPassword(String newPassword);
 
     public void setRuolo(int newRuoloId);
+
+    public void setId(int newId);
 
 }

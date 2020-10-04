@@ -13,16 +13,14 @@ import com.company.pollweb.data.models.Utente;
  */
 public class UtenteImpl implements Utente {
     protected String nome, cognome, email,password;
-    protected int ruolo_id;
+    protected int id, ruolo_id;
 
     public UtenteImpl() {
-        this.nome = "";
-        this.cognome = "";
-        this.email = "";
         this.ruolo_id = 1;
     }
     
-    public UtenteImpl(String nome, String cognome, String email, int ruolo_id) {
+    public UtenteImpl(String nome, String cognome, String email,int id, int ruolo_id) {
+        this.id = id;
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
@@ -51,6 +49,8 @@ public class UtenteImpl implements Utente {
     public int getRuolo() {
         return this.ruolo_id;
     }
+
+    public int getId() {return this.id;}
 
     public String getNomeRuolo() {
         if(this.ruolo_id == 3) return "Amministratore";
@@ -82,4 +82,6 @@ public class UtenteImpl implements Utente {
     public void setRuolo(int newRuoloId) {
         this.ruolo_id = newRuoloId;
     }
+
+    public void setId(int newId) {this.id = newId;}
 }

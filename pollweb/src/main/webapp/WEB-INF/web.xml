@@ -10,10 +10,7 @@
         <servlet-name>Home</servlet-name>
         <servlet-class>com.company.pollweb.controllers.Home</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>NuovoResponsabile</servlet-name>
-        <servlet-class>com.company.pollweb.controllers.NuovoResponsabile</servlet-class>
-    </servlet>
+
     <servlet>
         <servlet-name>CreaSondaggio</servlet-name>
         <servlet-class>com.company.pollweb.controllers.CreazioneSondaggio</servlet-class>
@@ -30,10 +27,7 @@
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>NuovoResponsabile</servlet-name>
-        <url-pattern>/utenti/nuovo_responsabile</url-pattern>
-    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>CreaSondaggio</servlet-name>
         <url-pattern>/sondaggi/crea_sondaggio</url-pattern>

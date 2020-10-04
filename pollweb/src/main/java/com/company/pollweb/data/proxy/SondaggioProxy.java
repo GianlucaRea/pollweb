@@ -49,8 +49,8 @@ public class SondaggioProxy extends SondaggioImpl {
         super.setTestofinale(testofinale);
         this.dirty = true;
     }
-    public void setUtenteEmail(String Nuser_email) {
-        super.setUtenteEmail(Nuser_email);
+    public void setUtenteId(int Nuser_id) {
+        super.setUtenteId(Nuser_id);
     }
 
     public void setDirty(boolean dirty) {

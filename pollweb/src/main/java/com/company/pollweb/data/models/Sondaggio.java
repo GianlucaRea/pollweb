@@ -10,7 +10,7 @@ public interface Sondaggio {
 
     public String getTitolo();
 
-    public String getUtenteEmail();
+    public int getUtenteId();
 
     public void setId(int Nid);
 
@@ -20,6 +20,6 @@ public interface Sondaggio {
 
     public void setTitolo(String Ntitolo);
 
-    public void setUtenteEmail(String Nemail);
+    public void setUtenteId(int Nutente_id);
 
 }

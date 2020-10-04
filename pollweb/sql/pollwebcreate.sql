@@ -15,7 +15,8 @@ nome_ruolo VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Utente (
-email VARCHAR(255)NOT NULL PRIMARY KEY,
+id BIGINT auto_increment NOT NULL PRIMARY KEY,
+email VARCHAR(255)NOT NULL,
 nome VARCHAR(255) NOT NULL,
 cognome VARCHAR(255) NOT NULL,
 ruolo_id INT NOT NULL,
@@ -27,13 +28,13 @@ FOREIGN KEY (ruolo_id) REFERENCES Ruolo(id) on update cascade on delete cascade
 
 CREATE TABLE Sondaggio(
 id BIGINT auto_increment NOT NULL PRIMARY KEY,
-utente_email VARCHAR(255)NOT NULL,
+utente_id BIGINT NOT NULL,
 titolo VARCHAR(255) NOT NULL,
 testoiniziale LONGTEXT NOT NULL,
 testofinale LONGTEXT NOT NULL,
 stato INT default 0,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (utente_email) REFERENCES Utente(email) on update cascade on delete cascade
+FOREIGN KEY (utente_id) REFERENCES Utente(id) on update cascade on delete cascade
 );
 
 CREATE TABLE Domanda(
@@ -51,9 +52,9 @@ FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete 
 CREATE TABLE Compilazione (
 id BIGINT auto_increment PRIMARY KEY,
 sondaggio_id BIGINT NOT NULL,
-utente_id VARCHAR(255)NOT NULL,
+utente_id BIGINT NOT NULL,
 risposte JSON NOT NULL ,
-FOREIGN KEY (utente_id) REFERENCES Utente(email) on update cascade on delete cascade,
+FOREIGN KEY (utente_id) REFERENCES Utente(id) on update cascade on delete cascade,
 FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade
 );
 
