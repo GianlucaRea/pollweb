@@ -1,85 +1,84 @@
 package com.company.pollweb.controllers;
 
-import  com.company.pollweb.data.dao.PollwebDataLayer;
-import  com.company.pollweb.data.models.Utente;
+
+import com.company.pollweb.data.dao.PollwebDataLayer;
 import  com.company.pollweb.framework.data.DataException;
-import  com.company.pollweb.framework.result.FailureResult;
-import  com.company.pollweb.framework.result.SplitSlashesFmkExt;
-import  com.company.pollweb.framework.result.TemplateManagerException;
-import  com.company.pollweb.framework.result.TemplateResult;
+import com.company.pollweb.framework.security.SecurityLayer;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import javax.servlet.http.HttpSession;
+import java.net.URLEncoder;
 
-import static com.company.pollweb.framework.security.SecurityLayer.*;
 
 public class Login extends PollWebBaseController {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     */
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        try {
-            HttpSession s = checkSession(request);
-            if (s!=null){
-                action_update(request, response, s);
-            } else if((request.getParameter("email")!=null)&&(request.getParameter("password")!=null)) {
-                action_write(request, response, request.getParameter("email"), request.getParameter("password"));
-            } else {
-                action_default(request, response);
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException{
+        try{
+            //controllo se l'utente è già in sessione
+            if(SecurityLayer.checkSession(request) != null){
+                response.sendRedirect("Home");
             }
-        } catch (NumberFormatException ex) {
-            request.setAttribute("message", "Invalid number submitted");
-            action_error(request, response);
-        } catch (IOException | TemplateManagerException ex) {
-            request.setAttribute("exception", ex);
-            action_error(request, response);
-        }
-    }
+            if(request.getParameter("login") != null){
+                String email = SecurityLayer.addSlashes(request.getParameter("email").toLowerCase());
+                PollwebDataLayer dl = ((PollwebDataLayer)request.getAttribute("datalayer"));
 
-    private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        try {
-            HttpSession s = checkSession(request);
-            if(s!=null){
-                System.out.println("loggato");
-            } else {
-                System.out.println("non loggato");
+                try{
+                    String referrer = null;
+                    if(request.getParameter("referrer") != null){
+
+                        referrer = SecurityLayer.addSlashes(request.getParameter("referrer"));
+                        request.setAttribute("referrer", referrer);
+
+                    }
+
+                    if(email != null && ! email.equals("")){
+
+                        if(dl.getUtenteDAO().getUtenteByEmail(email) != null){
+                            action_login_utente(request,response);
+                        }else{
+                            if(referrer != null){
+                                response.sendRedirect("Login?referrer=" + URLEncoder.encode(referrer, "UTF-8"));
+                            }else{
+                                response.sendRedirect("Login");
+                            }
+                        }
+
+                    }else{
+
+                        if(referrer != null){
+                            response.sendRedirect("Login?referrer=" + URLEncoder.encode(referrer, "UTF-8"));
+                        }else{
+                            response.sendRedirect("Login");
+                        }
+
+                    }
+                } catch (DataException ex) {
+                    new ErrorGenerator(Login.class.getName(), request, response, getServletContext()).handle_exception(ex, null);
+                }
+            }else{
+                //rimando alla pagina di login per riempire la form di login
+                renderizza_form_login(request,response);
             }
-            TemplateResult res = new TemplateResult(getServletContext());
-            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            res.activate("login.ftl", request, response);
-        } catch (TemplateManagerException e) {
-            e.printStackTrace();
+        }catch (IOException ex) {
+            new ErrorGenerator(Login.class.getName(), request, response, getServletContext()).handle_exception(ex, null);
         }
     }
 
-    private void action_write(HttpServletRequest request, HttpServletResponse response, String email, String password) throws IOException, TemplateManagerException {
-        try {
-            TemplateResult res = new TemplateResult(getServletContext());
-            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            Utente newUser = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(email, HashingMaps(password));
-            if (newUser!= null) {  HttpSession session=request.getSession();
-                createSession(request, newUser.getNome(),newUser.getEmail());
-                response.sendRedirect("/sondaggi/nuovo_sondaggio");
-            } else {
-                request.setAttribute("login_error", "Username o password errati");
-                res.activate("login.ftl", request, response);
-            }
-        } catch (DataException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+    private void renderizza_form_login(HttpServletRequest request, HttpServletResponse response) {
     }
 
-    private void action_update(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws IOException, ServletException, TemplateManagerException {
-        response.sendRedirect(request.getAttribute("urlrequest").toString());
-    }
-
-    //Necessario per gestire le return di errori
-    private void action_error(HttpServletRequest request, HttpServletResponse response) {
-        if (request.getAttribute("exception") != null) {
-            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-        } else {
-            (new FailureResult(getServletContext())).activate((String) request.getAttribute("message"), request, response);
-        }
+    private void action_login_utente(HttpServletRequest request, HttpServletResponse response) {
     }
 }
