@@ -1,6 +1,6 @@
 package com.company.pollweb.data.dao;
 
-import com.company.pollweb.data.impl.SondaggioImpl;
+import com.company.pollweb.data.implementation.SondaggioImpl;
 import com.company.pollweb.data.models.Sondaggio;
 import com.company.pollweb.framework.data.DAO;
 import com.company.pollweb.framework.data.DataException;

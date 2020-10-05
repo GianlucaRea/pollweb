@@ -35,7 +35,9 @@ public class VisualizzaSondaggio extends PollWebBaseController {
         if(visibilita == 0)  {
             // mostra direttamente il sondaggio
         } else {
-            // inserimento email per verificare che sia stato invitato
+            // verifica se è stata inserita l'email e l'utente può accedervi
+            
+            // altrimenti, rimanda al form di inserimento email per verificare che sia stato invitato
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             res.activate("sondaggio/formSondaggioPrivato.ftl", request, response);

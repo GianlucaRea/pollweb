@@ -1,6 +1,6 @@
 package com.company.pollweb.data.proxy;
 
-import com.company.pollweb.data.impl.UtenteImpl;
+import com.company.pollweb.data.implementation.UtenteImpl;
 import com.company.pollweb.framework.data.DataLayer;
 
 public class UtenteProxy extends UtenteImpl {
