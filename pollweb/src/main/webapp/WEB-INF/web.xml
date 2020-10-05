@@ -19,6 +19,14 @@
         <servlet-name>InserimentoSondaggio</servlet-name>
         <servlet-class>com.company.pollweb.controllers.InserimentoSondaggio</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VisualizzaSondaggio</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.VisualizzaSondaggio</servlet-class>
+        <init-param>
+            <param-name>sondaggio_id</param-name>
+            <param-value>sondaggio_id</param-value>
+        </init-param>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -35,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>InserimentoSondaggio</servlet-name>
         <url-pattern>/inserisci_sondaggio</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisualizzaSondaggio</servlet-name>
+        <url-pattern>/sondaggi/visualizza</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -15,5 +15,7 @@ public interface SondaggioDao {
 
     public void salvaSondaggio(Sondaggio p) throws DataException;
 
+    public Sondaggio getSondaggio(int sondaggioId) throws SQLException;
+
 
 }
