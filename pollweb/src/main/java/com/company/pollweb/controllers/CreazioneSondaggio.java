@@ -60,7 +60,7 @@ public class CreazioneSondaggio extends PollWebBaseController {
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         try {
             request.setAttribute("urlrequest", request.getRequestURL());
-            RequestDispatcher rd = request.getRequestDispatcher("login.ftl"); //Qui ci va l'url del login!!!
+            RequestDispatcher rd = request.getRequestDispatcher("/templates/login.ftl"); //Qui ci va l'url del login!!!
             rd.forward(request, response);
         } catch (ServletException e) {
             e.printStackTrace();
