@@ -12,12 +12,12 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UtendeDao_MySQL extends DAO implements UtenteDao {
+public class UtenteDao_MySQL extends DAO implements UtenteDao {
 
 
     private PreparedStatement utenteById,utenteByLogin,utenteByEmail;
 
-    public UtendeDao_MySQL(DataLayer d) {
+    public UtenteDao_MySQL(DataLayer d) {
         super(d);
     }
 
@@ -39,7 +39,7 @@ public class UtendeDao_MySQL extends DAO implements UtenteDao {
             utenteByLogin.close();
             utenteByEmail.close();
         } catch (SQLException ex){
-            Logger.getLogger(UtendeDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UtenteDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         super.destroy();
     }
