@@ -97,7 +97,8 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
     }
 
     public Sondaggio getSondaggio(int sondaggioId) throws SQLException {
-        PreparedStatement sondaggioQuery = connection.prepareStatement("SELECT * FROM Sondaggio WHERE id=1");
+        PreparedStatement sondaggioQuery = connection.prepareStatement("SELECT * FROM Sondaggio WHERE id=?");
+        sondaggioQuery.setInt(1, sondaggioId);
         ResultSet rs = sondaggioQuery.executeQuery();
         SondaggioImpl sondaggio = new SondaggioImpl();
         while(rs.next()) {
