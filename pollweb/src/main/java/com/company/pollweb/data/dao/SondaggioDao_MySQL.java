@@ -1,5 +1,6 @@
 package com.company.pollweb.data.dao;
 
+import com.company.pollweb.data.implementation.SondaggioImpl;
 import com.company.pollweb.data.models.Sondaggio;
 import com.company.pollweb.framework.data.DAO;
 import com.company.pollweb.framework.data.DataException;
@@ -93,5 +94,23 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
             ex.printStackTrace();
             throw new DataException("Unable to insert or update Poll", ex);
         }
+    }
+
+    public Sondaggio getSondaggio(int sondaggioId) throws SQLException {
+        PreparedStatement sondaggioQuery = connection.prepareStatement("SELECT * FROM Sondaggio WHERE id=?");
+        sondaggioQuery.setInt(1, sondaggioId);
+        ResultSet rs = sondaggioQuery.executeQuery();
+        SondaggioImpl sondaggio = new SondaggioImpl();
+        while(rs.next()) {
+            sondaggio.setId(rs.getInt("id"));
+            sondaggio.setUtenteId(rs.getInt("utente_id"));
+            sondaggio.setTitolo(rs.getString("titolo"));
+            sondaggio.setTestoiniziale(rs.getString("testoiniziale"));
+            sondaggio.setTestofinale(rs.getString("testofinale"));
+        }
+        rs.close();
+        sondaggioQuery.close();
+        return sondaggio;
+
     }
 }

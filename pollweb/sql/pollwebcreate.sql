@@ -1,3 +1,5 @@
+# noinspection SqlNoDataSourceInspectionForFile
+
 DROP DATABASE IF exists pollweb;
 CREATE DATABASE pollweb;
 USE pollweb;
@@ -33,6 +35,7 @@ titolo VARCHAR(255) NOT NULL,
 testoiniziale LONGTEXT NOT NULL,
 testofinale LONGTEXT NOT NULL,
 stato INT default 0,
+visibilita INT default 1, /* 1=pubblico, 2=privato */
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (utente_id) REFERENCES Utente(id) on update cascade on delete cascade
 );
@@ -58,9 +61,9 @@ FOREIGN KEY (utente_id) REFERENCES Utente(id) on update cascade on delete cascad
 FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade
 );
 
-INSERT INTO `pollweb`.`ruolo`(`id`,`nome_ruolo`)VALUES('1','amministratore');
+INSERT INTO `pollweb`.`ruolo`(`id`,`nome_ruolo`)VALUES('1','utente');
 INSERT INTO `pollweb`.`ruolo`(`id`,`nome_ruolo`)VALUES('2','responsabile');
-INSERT INTO `pollweb`.`ruolo`(`id`,`nome_ruolo`)VALUES('3','utente');
+INSERT INTO `pollweb`.`ruolo`(`id`,`nome_ruolo`)VALUES('3','amministratore');
 
 
 

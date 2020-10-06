@@ -1,6 +1,6 @@
-error=""<#macro style>
+<#macro style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/duotone.css" integrity="sha384-oRY9z8lvkaf2a1RyLPsz9ba5IbYiz1X/udoO3kZH3WM+gidZ+eELnojAqaBwvAmB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/solid.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/fontawesome.css" integrity="sha384-tSxOKkJ+YPQOZg1RZd01upxL2FeeFVkHtkL0+04oWgcm9jnvH+EQNLxhpaNYblG2" crossorigin="anonymous">
 
 </#macro>
@@ -14,11 +14,11 @@ error=""<#macro style>
 <#macro navbar>
     <nav class="navbar navbar-dark bg-primary">
         <a class="navbar-brand" href="#">
-          <img src="../img/logo_icona.png" width="30" height="30" class="d-inline-block align-top" alt="Pollweb logo" />
+          <img src="/img/logo_icona.png" width="30" height="30" class="d-inline-block align-top" alt="Pollweb logo" />
           Pollweb
         </a>
         <div class="ml-auto">
-            <i class="fad fa-user fa-2x fa-fw text-white"></i>
+            <i class="fas fa-user fa-2x fa-fw text-white"></i>
         </div>
     </nav>
 </#macro>

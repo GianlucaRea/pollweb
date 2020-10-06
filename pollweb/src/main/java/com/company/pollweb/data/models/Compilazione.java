@@ -2,16 +2,16 @@ package com.company.pollweb.data.models;
 
 public interface Compilazione  {
 
-    public void setMail_utente(String mail_utente);
+    public void setUtenteId(int emailId);
 
-    public String getMail_utente();
+    public int getUtenteId();
 
-    public void setId_compilazione(int id_compilazione);
+    public void setId(int id_compilazione);
 
-    public int getId_compilazione();
+    public int getId();
 
-    public int getId_sondaggio();
+    public int getSondaggioId();
 
-    public void setId_sondaggio(int id_sondaggio);
+    public void setSondaggioId(int id_sondaggio);
 
 }

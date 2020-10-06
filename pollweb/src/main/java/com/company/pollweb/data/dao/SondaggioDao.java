@@ -1,7 +1,6 @@
 package com.company.pollweb.data.dao;
 
 import com.company.pollweb.data.models.Sondaggio;
-import com.company.pollweb.data.impl.SondaggioImpl;
 import com.company.pollweb.framework.data.DataException;
 
 import java.sql.ResultSet;
@@ -14,6 +13,8 @@ public interface SondaggioDao {
     public Sondaggio creazioneSondaggio();
 
     public void salvaSondaggio(Sondaggio p) throws DataException;
+
+    public Sondaggio getSondaggio(int sondaggioId) throws SQLException;
 
 
 }

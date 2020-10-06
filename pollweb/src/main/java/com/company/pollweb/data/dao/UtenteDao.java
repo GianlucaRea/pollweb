@@ -5,16 +5,10 @@
  */
 package com.company.pollweb.data.dao;
 
-import com.company.pollweb.data.impl.UtenteImpl;
 import com.company.pollweb.data.models.Utente;
-import com.company.pollweb.data.proxy.UtenteProxy;
 import com.company.pollweb.framework.data.DataException;
-import com.company.pollweb.utility.Database;
-import com.company.pollweb.utility.ValidazioneCampi;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  *

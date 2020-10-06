@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.company.pollweb.data.impl;
+package com.company.pollweb.data.implementation;
 
 import com.company.pollweb.data.models.Sondaggio;
 
@@ -14,17 +14,18 @@ import com.company.pollweb.data.models.Sondaggio;
 public class SondaggioImpl implements Sondaggio {
     
     protected String  titolo, testoiniziale, testofinale;
-    protected int id , utente_id;
+    protected int id , utente_id, visibilita;
 
     
     public SondaggioImpl(){
     }
     
-    public SondaggioImpl(String titolo, String testoiniziale, String testofinale, int utente_id){
+    public SondaggioImpl(String titolo, String testoiniziale, String testofinale, int utente_id, int visibilita){
         this.titolo = titolo;
         this.testoiniziale = testoiniziale;
         this.testofinale = testofinale;
         this.utente_id = utente_id;
+        this.visibilita = visibilita;
     }
 
     public int getId(){return this.id;}
@@ -43,23 +44,29 @@ public class SondaggioImpl implements Sondaggio {
     
     public int getUtenteId(){return this.utente_id;}
 
-    public void setId(int nID){this.id = nID;}
+    public int getVisibilita(){return this.visibilita;}
+
+    public Sondaggio getSondaggio(){return this;}
+
+    public void setId(int id){this.id = id;} // NON DEVE ESSERE POSSIBILE IMPOSTARE L'ID DI UN SONDAGGIO
     
-    public void setTestofinale(String Ntestofinale){
-         this.testofinale = Ntestofinale;
+    public void setTestofinale(String testofinale){
+         this.testofinale = testofinale;
     }
     
-    public void setTestoiniziale(String Ntestoiniziale){
-         this.testoiniziale =  Ntestoiniziale;
+    public void setTestoiniziale(String testoiniziale){
+         this.testoiniziale =  testoiniziale;
     }
     
-    public void setTitolo(String Ntitolo){
-         this.titolo = Ntitolo;
+    public void setTitolo(String titolo){
+         this.titolo = titolo;
     }
     
-    public void setUtenteId(int Nutente_id){
-         this.utente_id = Nutente_id;
+    public void setUtenteId(int utente_id){
+         this.utente_id = utente_id;
     }
+
+    public void setVisibilita(int visibilita) { this.visibilita = visibilita; }
     
     
 }

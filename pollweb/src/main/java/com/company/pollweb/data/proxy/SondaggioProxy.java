@@ -1,6 +1,6 @@
 package com.company.pollweb.data.proxy;
 
-import com.company.pollweb.data.impl.SondaggioImpl;
+import com.company.pollweb.data.implementation.SondaggioImpl;
 import com.company.pollweb.framework.data.DataLayer;
 
 public class SondaggioProxy extends SondaggioImpl {

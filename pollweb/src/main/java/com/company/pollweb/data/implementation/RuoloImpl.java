@@ -1,7 +1,7 @@
 /**
  * @author GianlucaRea
  */
-package com.company.pollweb.data.impl;
+package com.company.pollweb.data.implementation;
 
 import com.company.pollweb.data.models.Ruolo;
 

@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
         @Override
         public void init() throws DataException {
-            registerDAO(Utente.class, new UtendeDao_MySQL(this));
+            registerDAO(Utente.class, new UtenteDao_MySQL(this));
             registerDAO(Sondaggio.class, new SondaggioDao_MySQL(this));
             registerDAO(Domanda.class, new DomandaDao_MySQL(this));
             registerDAO(Ruolo.class, new RuoloDao_MySQL(this));

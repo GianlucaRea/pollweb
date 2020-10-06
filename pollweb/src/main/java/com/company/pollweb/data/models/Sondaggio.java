@@ -12,6 +12,10 @@ public interface Sondaggio {
 
     public int getUtenteId();
 
+    public int getVisibilita();
+
+    public Sondaggio getSondaggio();
+
     public void setId(int Nid);
 
     public void setTestofinale(String Ntestofinale);
@@ -21,5 +25,7 @@ public interface Sondaggio {
     public void setTitolo(String Ntitolo);
 
     public void setUtenteId(int Nutente_id);
+
+    public void setVisibilita(int Nvisibilita);
 
 }
