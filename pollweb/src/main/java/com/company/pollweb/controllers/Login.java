@@ -2,14 +2,20 @@ package com.company.pollweb.controllers;
 
 
 import com.company.pollweb.data.dao.PollwebDataLayer;
+import com.company.pollweb.data.models.Utente;
 import  com.company.pollweb.framework.data.DataException;
+import com.company.pollweb.framework.result.TemplateManagerException;
+import com.company.pollweb.framework.result.TemplateResult;
 import com.company.pollweb.framework.security.SecurityLayer;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Login extends PollWebBaseController {
@@ -65,20 +71,93 @@ public class Login extends PollWebBaseController {
 
                     }
                 } catch (DataException ex) {
-                    new ErrorGenerator(Login.class.getName(), request, response, getServletContext()).handle_exception(ex, null);
+                    //TODO Handle exception
                 }
             }else{
                 //rimando alla pagina di login per riempire la form di login
                 renderizza_form_login(request,response);
             }
         }catch (IOException ex) {
-            new ErrorGenerator(Login.class.getName(), request, response, getServletContext()).handle_exception(ex, null);
+            //TODO Handle exception
         }
     }
 
     private void renderizza_form_login(HttpServletRequest request, HttpServletResponse response) {
+        TemplateResult r = new TemplateResult(getServletContext());
+
+        try {
+            Map data = new HashMap();
+            if(! request.getParameter("referrer").equals(getServletContext().getContextPath()+"/Registrazione")){
+                data.put("referrer",request.getParameter("referrer"));
+            }
+
+            r.activate("login.ftl", data, response,request);
+
+        } catch (TemplateManagerException ex) {
+            //TODO Handle exception
+        }
     }
 
-    private void action_login_utente(HttpServletRequest request, HttpServletResponse response) {
+    /**
+     * Effettua il login come utente
+     * @param request
+     * @param response
+     */
+    private void action_login_utente(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        //recupero credenziali di login
+        String email = SecurityLayer.addSlashes(request.getParameter("email").toLowerCase());
+        email = SecurityLayer.sanitizeHTMLOutput(email);
+
+        String password = SecurityLayer.addSlashes(request.getParameter("password"));
+        password = SecurityLayer.sanitizeHTMLOutput(password);
+
+        if(!email.isEmpty() && !password.isEmpty()){
+            try {
+                //recupero utente dal db
+                Utente u = ((PollwebDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenteByEmail(email);
+
+                //controllo che l'utente esista
+                if(u != null){
+                    //controllo i parametri
+                    if(u.getEmail().equalsIgnoreCase(email) && new BasicPasswordEncryptor().checkPassword(password, u.getPassword())){
+                        //se l'utente esiste ed è lui
+
+                        request.setAttribute("userName", u.getNome());
+
+                        SecurityLayer.createSession(request, u.getId());
+
+                        if (request.getParameter("referrer") != null) {
+                            response.sendRedirect(request.getParameter("referrer"));
+                        } else {
+                            response.sendRedirect("home");
+                        }
+                    }else{
+                        if(request.getAttribute("referrer") != null){
+                            response.sendRedirect("Login?referrer=" + URLEncoder.encode(((String)request.getAttribute("referrer")), "UTF-8"));
+                        }else{
+                            response.sendRedirect("Login");
+                        }
+                    }
+
+                }else{
+
+                    if(request.getAttribute("referrer") != null){
+                        response.sendRedirect("Login?referrer=" + URLEncoder.encode(((String)request.getAttribute("referrer")), "UTF-8"));
+                    }else{
+                        response.sendRedirect("Login");
+                    }
+                }
+            }catch (DataException ex) {
+                //TODO Handle Exception
+
+            }
+        } else {
+
+            if(request.getAttribute("referrer") != null){
+                response.sendRedirect("Login?referrer=" + URLEncoder.encode(((String)request.getAttribute("referrer")), "UTF-8"));
+            }else{
+                response.sendRedirect("Login");
+            }
+        }
     }
 }

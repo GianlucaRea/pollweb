@@ -84,13 +84,14 @@ public class SecurityLayer {
         }
     }
 
-    public static HttpSession createSession(HttpServletRequest request, String name, String email) {
+    public static HttpSession createSession(HttpServletRequest request, int userid) {
+        //se una sessione � gi� attiva, rimuoviamola e creiamone una nuova
+        //if a session already exists, remove it and recreate a new one
+        disposeSession(request);
         HttpSession s = request.getSession(true);
-        s.setAttribute("name", name);
         s.setAttribute("ip", request.getRemoteHost());
         s.setAttribute("inizio-sessione", Calendar.getInstance());
-        s.setAttribute("email", email);
-        s.setAttribute("id",random());
+        s.setAttribute("userid", userid);
         return s;
     }
 
@@ -184,5 +185,13 @@ public class SecurityLayer {
                 throw new ServletException("Cannot redirect to https!");
             }
         }
+    }
+
+    public static String sanitizeHTMLOutput(String s) {
+        return s.replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll("<", "&gt;")
+                .replaceAll("'", "&apos;")
+                .replaceAll("\"", "&#034;");
     }
 }

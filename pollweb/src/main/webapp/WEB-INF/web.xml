@@ -3,6 +3,10 @@
     <display-name>Progetto IW</display-name>
 
     <servlet>
+        <servlet-name>Registrazione</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.InserimentoSondaggio</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>com.company.pollweb.controllers.Login</servlet-class>
     </servlet>
@@ -19,15 +23,19 @@
         <servlet-name>InserimentoSondaggio</servlet-name>
         <servlet-class>com.company.pollweb.controllers.InserimentoSondaggio</servlet-class>
     </servlet>
+
     <servlet-mapping>
-        <servlet-name>Home</servlet-name>
-        <url-pattern>/home</url-pattern>
+        <servlet-name>Registrazione</servlet-name>
+        <url-pattern>/registrazione</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CreaSondaggio</servlet-name>
         <url-pattern>/sondaggi/crea_sondaggio</url-pattern>
