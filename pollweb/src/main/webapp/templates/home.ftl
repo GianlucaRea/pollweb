@@ -12,5 +12,6 @@
 <body>
 <div>
     <a class="block" href="/sondaggi/crea_sondaggio">Crea Sondaggio</a>
+    ${request}
 </div>
 </body>

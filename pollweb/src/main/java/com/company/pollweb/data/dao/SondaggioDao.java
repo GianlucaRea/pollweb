@@ -16,5 +16,6 @@ public interface SondaggioDao {
 
     public Sondaggio getSondaggio(int sondaggioId) throws SQLException;
 
+    public boolean isEmailAbilitataAllaCompilazione(Sondaggio sondaggio, String email) throws SQLException;
 
 }

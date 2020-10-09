@@ -107,10 +107,26 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
             sondaggio.setTitolo(rs.getString("titolo"));
             sondaggio.setTestoiniziale(rs.getString("testoiniziale"));
             sondaggio.setTestofinale(rs.getString("testofinale"));
+            sondaggio.setVisibilita(rs.getInt("visibilita"));
         }
         rs.close();
         sondaggioQuery.close();
         return sondaggio;
+
+    }
+
+    public boolean isEmailAbilitataAllaCompilazione(Sondaggio sondaggio, String email) throws SQLException {
+        if(sondaggio.getVisibilita() == 1) {
+            return true;
+        } else {
+            PreparedStatement emailCompilazioneQuery = connection.prepareStatement("SELECT COUNT(*) AS rowcount FROM Compilazione WHERE sondaggio_id=? AND email=?");
+            emailCompilazioneQuery.setInt(1, sondaggio.getId());
+            emailCompilazioneQuery.setString(2, email);
+            ResultSet rs = emailCompilazioneQuery.executeQuery();
+            rs.next();
+            return rs.getInt("rowcount")==1;
+        }
+
 
     }
 }

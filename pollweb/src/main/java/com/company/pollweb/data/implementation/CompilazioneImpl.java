@@ -4,23 +4,24 @@ import com.company.pollweb.data.models.Compilazione;
 
 public class CompilazioneImpl implements Compilazione {
 
-    protected int id_compilazione , id_sondaggio, utente_id;
+    protected int id_compilazione , id_sondaggio;
+    protected String email;
 
     public CompilazioneImpl(){
 
     }
 
-    public CompilazioneImpl(int id_sondaggio, int utenteId){
+    public CompilazioneImpl(int id_sondaggio, String email){
         this.id_sondaggio = id_sondaggio;
-        this.utente_id = utenteId;
+        this.email = email;
     }
 
-    public void setUtenteId(int utenteId) {
-        this.utente_id = utenteId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getUtenteId() {
-        return utente_id;
+    public String getEmail() {
+        return email;
     }
 
     public void setId(int id) {

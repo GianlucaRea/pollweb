@@ -14,10 +14,11 @@ import com.company.pollweb.data.models.Sondaggio;
 public class SondaggioImpl implements Sondaggio {
     
     protected String  titolo, testoiniziale, testofinale;
-    protected int id , utente_id, visibilita;
+    protected int id, utente_id, visibilita;
 
     
     public SondaggioImpl(){
+        this.id = -1;
     }
     
     public SondaggioImpl(String titolo, String testoiniziale, String testofinale, int utente_id, int visibilita){
