@@ -55,9 +55,8 @@ FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete 
 CREATE TABLE Compilazione (
 id BIGINT auto_increment PRIMARY KEY,
 sondaggio_id BIGINT NOT NULL,
-utente_id BIGINT NOT NULL,
-risposte JSON NOT NULL ,
-FOREIGN KEY (utente_id) REFERENCES Utente(id) on update cascade on delete cascade,
+email varchar(255) NOT NULL,
+risposte JSON,
 FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade
 );
 
