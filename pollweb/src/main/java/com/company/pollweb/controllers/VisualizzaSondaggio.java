@@ -44,6 +44,9 @@ public class VisualizzaSondaggio extends PollWebBaseController {
         if(sondaggio.getVisibilita() == 1)  {
             // mostra direttamente il sondaggio
             System.out.println("SONDAGGIO VISIBILE");
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            res.activate("sondaggio/compilazione.ftl", request, response);
         } else {
             // verifica se è stata inserita l'email e l'utente può accedervi
             String email = request.getParameter("email");

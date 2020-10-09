@@ -34,7 +34,7 @@ utente_id BIGINT NOT NULL,
 titolo VARCHAR(255) NOT NULL,
 testoiniziale LONGTEXT NOT NULL,
 testofinale LONGTEXT NOT NULL,
-stato INT default 0,
+stato INT default 0, /* 0=non attivo, 1=attivo, 2=chiuso */
 visibilita INT default 1, /* 1=pubblico, 2=privato */
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (utente_id) REFERENCES Utente(id) on update cascade on delete cascade
@@ -56,8 +56,16 @@ CREATE TABLE Compilazione (
 id BIGINT auto_increment PRIMARY KEY,
 sondaggio_id BIGINT NOT NULL,
 email varchar(255) NOT NULL,
-risposte JSON,
 FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade
+);
+
+CREATE TABLE CompilazioneDomanda (
+compilazione_id BIGINT NOT NULL,
+domanda_id BIGINT NOT NULL,
+risposta JSON,
+PRIMARY KEY(compilazione_id, domanda_id),
+FOREIGN KEY(compilazione_id) REFERENCES Compilazione(id) on update cascade on delete cascade,
+FOREIGN KEY(domanda_id) REFERENCES Domanda(id) on update cascade on delete cascade
 );
 
 INSERT INTO `pollweb`.`ruolo`(`id`,`nome_ruolo`)VALUES('1','utente');
