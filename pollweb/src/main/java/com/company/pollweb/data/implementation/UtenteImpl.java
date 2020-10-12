@@ -16,7 +16,7 @@ public class UtenteImpl implements Utente {
     protected int id, ruolo_id;
 
     public UtenteImpl() {
-        this.ruolo_id = 1;
+
     }
     
     public UtenteImpl(String nome, String cognome, String email,int id, int ruolo_id) {

@@ -57,10 +57,10 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
     public SondaggioProxy creazioneSondaggio(ResultSet rs) throws DataException {
         try {
             SondaggioProxy a = creazioneSondaggio();
-            a.setTitolo(rs.getString("title"));
-            a.setTestoiniziale(rs.getString("openText"));
-            a.setTestofinale(rs.getString("closeText"));
-            a.setUtenteId(rs.getInt("utenteId"));
+            a.setTitolo(rs.getString("titolo"));
+            a.setTestoiniziale(rs.getString("testoiniziale"));
+            a.setTestofinale(rs.getString("testofinale"));
+            a.setUtenteId(rs.getInt("utente_id"));
             return a;
         } catch (SQLException ex) {
             throw new DataException("Unable to create Poll object from ResultSet", ex);

@@ -33,12 +33,30 @@ public class Login extends PollWebBaseController {
             throws ServletException{
         try{
             //controllo se l'utente è già in sessione
+
             if(SecurityLayer.checkSession(request) != null){
                 response.sendRedirect("Home");
             }
-            if(request.getParameter("login") != null){
+
+            if("POST".equals(request.getMethod())) {
+                System.out.println("ENTRO");
                 String email = SecurityLayer.addSlashes(request.getParameter("email").toLowerCase());
                 PollwebDataLayer dl = ((PollwebDataLayer)request.getAttribute("datalayer"));
+
+                if(email != null && ! email.equals("")){
+
+                    if(dl.getUtenteDAO().getUtenteByEmail(email) != null){
+                        action_login_utente(request,response);
+                    }else{
+
+                        response.sendRedirect("Login");
+                    }
+
+                }
+            }
+
+
+            if(request.getParameter("login") != null){
 
                 try{
                     String referrer = null;
@@ -48,6 +66,9 @@ public class Login extends PollWebBaseController {
                         request.setAttribute("referrer", referrer);
 
                     }
+
+                    String email = "";
+                    PollwebDataLayer dl = ((PollwebDataLayer)request.getAttribute("datalayer"));
 
                     if(email != null && ! email.equals("")){
 
@@ -77,7 +98,7 @@ public class Login extends PollWebBaseController {
                 //rimando alla pagina di login per riempire la form di login
                 renderizza_form_login(request,response);
             }
-        }catch (IOException ex) {
+        }catch (IOException | DataException ex) {
             //TODO Handle exception
         }
     }
@@ -87,11 +108,9 @@ public class Login extends PollWebBaseController {
 
         try {
             Map data = new HashMap();
-            if(! request.getParameter("referrer").equals(getServletContext().getContextPath()+"/Registrazione")){
-                data.put("referrer",request.getParameter("referrer"));
-            }
 
-            r.activate("login.ftl", data, response,request);
+
+            r.activate("/login.ftl", data, response,request);
 
         } catch (TemplateManagerException ex) {
             //TODO Handle exception
@@ -112,10 +131,10 @@ public class Login extends PollWebBaseController {
         password = SecurityLayer.sanitizeHTMLOutput(password);
 
         if(!email.isEmpty() && !password.isEmpty()){
+
             try {
                 //recupero utente dal db
                 Utente u = ((PollwebDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenteByEmail(email);
-
                 //controllo che l'utente esista
                 if(u != null){
                     //controllo i parametri
@@ -123,6 +142,8 @@ public class Login extends PollWebBaseController {
                         //se l'utente esiste ed è lui
 
                         request.setAttribute("userName", u.getNome());
+                        request.setAttribute("user_id", u.getId());
+                        System.out.println(u.getId());
 
                         SecurityLayer.createSession(request, u.getId());
 

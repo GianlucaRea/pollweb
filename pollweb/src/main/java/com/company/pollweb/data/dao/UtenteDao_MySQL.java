@@ -56,10 +56,11 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
     public UtenteProxy creaUtente(ResultSet res) throws DataException {
         UtenteProxy u = creaUtente();
         try {
+            u.setId(res.getInt("id"));
             u.setNome(res.getString("nome"));
             u.setEmail(res.getString("email"));
             u.setPassword(res.getString("password"));
-            u.setRuolo(1);
+            u.setRuolo(res.getInt("ruolo_id"));
         } catch (Exception ex) {
             throw new DataException("Impossibile creare l'oggetto Utente dal ResultSet", ex);
         }
@@ -132,7 +133,7 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
                 }
             }
         } catch (SQLException ex) {
-            throw new DataException("Impossibile caricare Studente By Email", ex);
+            throw new DataException("Impossibile caricare Utente By Email", ex);
         }
         return null;
     }

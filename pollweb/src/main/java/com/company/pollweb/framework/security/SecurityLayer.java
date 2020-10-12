@@ -33,7 +33,7 @@ public class SecurityLayer {
 
         //check sulla validità  della sessione
         //second, check is the session contains valid data
-        if (s.getAttribute("userid") == null) {
+        if (s.getAttribute("user_id") == null) {
             check = false;
             //check sull'ip del client
             //check if the client ip chaged
@@ -91,7 +91,7 @@ public class SecurityLayer {
         HttpSession s = request.getSession(true);
         s.setAttribute("ip", request.getRemoteHost());
         s.setAttribute("inizio-sessione", Calendar.getInstance());
-        s.setAttribute("userid", userid);
+        s.setAttribute("user_id", userid);
         return s;
     }
 
