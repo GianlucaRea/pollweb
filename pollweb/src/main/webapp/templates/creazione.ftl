@@ -32,11 +32,39 @@ and open the template in the editor.
                         <label for="testofinale">Testo Finale</label>
                         <textarea id="testofinale" type="text" name="testofinale" placeholder="Aggiungi una nota personalizzata" required rows="3" cols="50"></textarea>
                     </div>
+
+                    <div id="Container">
+                    <h2 class="text-primary">Domanda n°</h2>
+                    <div class="form-row">
+                        <label for="testo">Titolo Della domanda</label>
+                        <input id="testo" type="text" name="testo" class="form-control" placeholder="La mia Domanda" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="nota">Nota</label>
+                        <input id="nota" type="text" name="nota" class="form-control" placeholder="Una nota" required>
+                    </div>
+                    <div class="form-row">
+                    <label><input type=checkbox checked name=obbligo disabled> Obbligo</label>
+                    </div>
+                    </div>
+                    <button id="nuovaDomanda">Nuova Domanda</button>
                     <div class="form-row">
                         <input type="submit" value="CreaSondaggio">
                     </div>
+
                 </form>
+
             </div>
     </body>
+
+    <script>
+        $(document).ready(function () {
+            $('#nuovaDomanda').on('click', function () {
+                $('#Container')
+                    .clone()
+                    .appendTo("body");
+            });
+        });
+    </script>
 </html>
 

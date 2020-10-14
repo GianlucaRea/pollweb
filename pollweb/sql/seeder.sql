@@ -1,4 +1,4 @@
-INSERT INTO `pollweb`.`Utente`(`email`,`nome`,`cognome`,`ruolo_id`,`password`)VALUES('amministratore@email.it','amministratoreNome','amministratoreCognome','3','password');
+INSERT INTO `pollweb`.`Utente`(`email`,`nome`,`cognome`,`ruolo_id`,`password`)VALUES('amministratore@email.it','amministratoreNome','amministratoreCognome','3','2IehbF5176j9p7zbdMdmEod7kIi+piia');
 INSERT INTO `pollweb`.`Utente`(`email`,`nome`,`cognome`,`ruolo_id`,`password`)VALUES('responsabile@email.it','responsabileNome','responsabileCognome','2','password');
 
 INSERT INTO `pollweb`.`Sondaggio`(`utente_id`, `titolo`, `testoiniziale`, `testofinale`, `stato`, `visibilita`)

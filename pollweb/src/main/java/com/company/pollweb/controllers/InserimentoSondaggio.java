@@ -44,7 +44,6 @@ public class InserimentoSondaggio extends PollWebBaseController {
                     p.setTestoiniziale(request.getParameter("testoiniziale"));
                     p.setTestofinale(request.getParameter("testofinale"));
                     p.setUtenteId(user.getId());
-                    //p.setUtenteEmail(user.getEmail()); TODO utente id
                     ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().salvaSondaggio(p);
                     action_write(request, response);
                 }

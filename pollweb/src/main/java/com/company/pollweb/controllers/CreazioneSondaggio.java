@@ -8,7 +8,7 @@ import com.company.pollweb.framework.result.SplitSlashesFmkExt;
 import com.company.pollweb.framework.result.TemplateManagerException;
 import com.company.pollweb.framework.result.TemplateResult;
 
-import javax.servlet.RequestDispatcher;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,12 +29,9 @@ public class CreazioneSondaggio extends PollWebBaseController {
 
         try {
             HttpSession s = checkSession(request);
-            System.out.println("SESSIONEEE");
             if (s!= null) {
-                System.out.println("ACTIONPOLL");
                 action_poll(request, response, s);
             } else {
-                System.out.println("ACTIONREDIRECT");
                 action_redirect(request, response);
             }
         } catch (IOException e) {
@@ -46,14 +43,11 @@ public class CreazioneSondaggio extends PollWebBaseController {
     private void action_poll(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws IOException, ServletException {
         try {
             Utente currentuser = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
-            System.out.println("ACTIONPOLL");
             if (currentuser.getNomeRuolo().equals("Utente")) {
-                System.out.println("IF1");
                 request.setAttribute("message", "Non sei autorizzato ad accedere a questa area");
                 request.setAttribute("submessage", "Contatta gli amministratori per diventare responsabile");
                 action_error(request, response);
             } else {
-                System.out.println("ELSE1");
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 res.activate("creazione.ftl", request, response);
@@ -64,13 +58,7 @@ public class CreazioneSondaggio extends PollWebBaseController {
     }
 
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
-        try {
-            request.setAttribute("urlrequest", request.getRequestURL());
-            RequestDispatcher rd = request.getRequestDispatcher("/templates/login.ftl"); //Qui ci va l'url del login!!!
-            rd.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        }
+        response.sendRedirect("login");
     }
 
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
