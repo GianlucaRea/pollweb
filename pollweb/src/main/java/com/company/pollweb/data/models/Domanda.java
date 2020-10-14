@@ -2,6 +2,8 @@ package com.company.pollweb.data.models;
 
 public interface Domanda {
 
+    public int getId();
+
     public String getNota();
 
     public String getTesto();
@@ -13,6 +15,8 @@ public interface Domanda {
     public int getObbligo();
 
     public int getOrdine();
+
+    public void setId(int newId);
 
     public void setNota(String newNota);
 

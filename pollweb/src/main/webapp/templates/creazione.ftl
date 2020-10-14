@@ -66,7 +66,7 @@ and open the template in the editor.
                 '                    <input id="notaDomanda' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][nota]" class="form-control" placeholder="Una nota" required>\n' +
                 '                </div>\n' +
                 '                <div class="form-row">\n' +
-                '                    <label><input type=checkbox checked name=obbligo disabled> Obbligo</label>\n' +
+                '                    <label><input type=checkbox name=obbligo disabled> Obbligo</label>\n' +
                 '                </div>\n' +
                 '            </div>');
         });

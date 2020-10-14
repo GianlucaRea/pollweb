@@ -45,10 +45,10 @@ id BIGINT auto_increment PRIMARY KEY,
 sondaggio_id BIGINT NOT NULL,
 testo VARCHAR(255) NOT NULL,
 nota VARCHAR(255),
-obbligo BOOLEAN,
-ordine INT NOT NULL,
-tipologia INT NOT NULL,
-vincoli JSON,
+obbligo BOOLEAN default true, /* togliere default a obbligo , ordine tipologia*/
+ordine INT NOT NULL default 0, 
+tipologia INT NOT NULL default 0,
+vincoli JSON default "{}",
 FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade
 );
 

@@ -13,7 +13,7 @@ import com.company.pollweb.data.models.Domanda;
  */
 public class DomandaImpl implements Domanda {
     protected String nota, testo;
-    protected int sondaggio_id , tipologia , obbligo , ordine;
+    protected int id ,sondaggio_id , tipologia , obbligo , ordine;
    
     //manca vincoli che è in json
 
@@ -32,7 +32,10 @@ public class DomandaImpl implements Domanda {
         this.obbligo = obbligo;
         this.ordine = ordine;
     }
-    
+
+    @Override
+    public int getId() {return this.id;}
+
     public String getNota(){
         return this.nota;
     }
@@ -56,7 +59,10 @@ public class DomandaImpl implements Domanda {
     public int getOrdine(){
         return this.ordine;
     }
-    
+
+    @Override
+    public void setId(int newId) {this.id = newId;}
+
     public void setNota(String newNota){
         this.nota = newNota;
     }

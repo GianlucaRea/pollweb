@@ -6,7 +6,11 @@
 package com.company.pollweb.data.dao;
 
 import com.company.pollweb.data.models.Domanda;
+import com.company.pollweb.data.models.Sondaggio;
+import com.company.pollweb.data.proxy.DomandaProxy;
+import com.company.pollweb.framework.data.DataException;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 /**
  *
@@ -14,5 +18,9 @@ import java.sql.SQLException;
  */
 public interface DomandaDao {
 
-  public void storeDomanda(Domanda d) throws ClassNotFoundException, SQLException ;
+  public DomandaProxy creazioneDomanda(ResultSet rs) throws DataException;
+
+  public DomandaProxy creazioneDomanda();
+
+  void salvaDomanda(Domanda d) throws DataException;
 }

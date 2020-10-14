@@ -1,6 +1,7 @@
 package com.company.pollweb.controllers;
 
 import com.company.pollweb.data.dao.PollwebDataLayer;
+import com.company.pollweb.data.models.Domanda;
 import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.data.models.Sondaggio;
 import com.company.pollweb.framework.data.DataException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
 
@@ -37,6 +39,7 @@ public class InserimentoSondaggio extends PollWebBaseController {
             if (request.getParameterMap() != null) {
                 Sondaggio p;
                 Utente user;
+                Domanda d ;
                 p = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().creazioneSondaggio();
                 user = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
                 if (p != null) {
@@ -45,13 +48,32 @@ public class InserimentoSondaggio extends PollWebBaseController {
                     p.setTestofinale(request.getParameter("testofinale"));
                     p.setUtenteId(user.getId());
                     ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().salvaSondaggio(p);
-                    action_write(request, response);
                 }
                 else {
                     request.setAttribute("message", "Errore aggiornamento del sondaggio");
                     action_error(request, response);
                 }
+                for(int i = 1 ;request.getParameter("domande["+i+"][testo]") != null ; i++){
+                   d = ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().creazioneDomanda();
+                    if (d != null) {
+                        d.setTesto(request.getParameter("domande["+i+"][testo]"));
+                        d.setNota(request.getParameter("domande["+i+"][nota]"));
+                        d.setSondaggio_id(p.getId());
+                        //obbligo
+                        //ordine
+                        //tipologia
+
+                        ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().salvaDomanda(d);
+
+                    }
+                    else {
+                        request.setAttribute("message", "Errore aggiornamento della domanda");
+                        action_error(request, response);
+                    }
+                }
+                action_write(request, response);
             }
+
         } catch (DataException e) {
             request.setAttribute("message", "Errore creazione del sondaggio");
             action_error(request, response);
