@@ -54,11 +54,13 @@ public class InserimentoSondaggio extends PollWebBaseController {
                     action_error(request, response);
                 }
                 for(int i = 1 ;request.getParameter("domande["+i+"][testo]") != null ; i++){
+                ((PollwebDataLayer) request.getAttribute("datalayer")).init();
                    d = ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().creazioneDomanda();
                     if (d != null) {
+                        d.setSondaggio_id(p.getId());
                         d.setTesto(request.getParameter("domande["+i+"][testo]"));
                         d.setNota(request.getParameter("domande["+i+"][nota]"));
-                        d.setSondaggio_id(p.getId());
+
                         //obbligo
                         //ordine
                         //tipologia

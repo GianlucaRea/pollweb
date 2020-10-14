@@ -83,7 +83,9 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
                     }
                     d.setId(id);
                 }
+                ps.close();
             }
+            inserimento_domanda.close();
             this.destroy();
         } catch (SQLException ex) {
             ex.printStackTrace();
