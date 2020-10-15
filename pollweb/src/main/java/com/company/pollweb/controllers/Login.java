@@ -35,7 +35,7 @@ public class Login extends PollWebBaseController {
             //controllo se l'utente è già in sessione
 
             if(SecurityLayer.checkSession(request) != null){
-                response.sendRedirect("home");
+                response.sendRedirect("/home");
             }
             if("POST".equals(request.getMethod())) {
                 String email = SecurityLayer.addSlashes(request.getParameter("email").toLowerCase());
@@ -45,7 +45,7 @@ public class Login extends PollWebBaseController {
                         action_login_utente(request,response);
                     }else{
 
-                        response.sendRedirect("login");
+                        response.sendRedirect("/login");
                     }
 
                 }
@@ -66,16 +66,16 @@ public class Login extends PollWebBaseController {
                             action_login_utente(request,response);
                         }else{
                             if(referrer != null){
-                                response.sendRedirect("login?referrer=" + URLEncoder.encode(referrer, "UTF-8"));
+                                response.sendRedirect("/login?referrer=" + URLEncoder.encode(referrer, "UTF-8"));
                             }else{
-                                response.sendRedirect("login");
+                                response.sendRedirect("/login");
                             }
                         }
                     }else{
                         if(referrer != null){
-                            response.sendRedirect("login?referrer=" + URLEncoder.encode(referrer, "UTF-8"));
+                            response.sendRedirect("/login?referrer=" + URLEncoder.encode(referrer, "UTF-8"));
                         }else{
-                            response.sendRedirect("login");
+                            response.sendRedirect("/login");
                         }
                     }
                 } catch (DataException ex) {
@@ -94,7 +94,7 @@ public class Login extends PollWebBaseController {
         TemplateResult r = new TemplateResult(getServletContext());
         try {
             Map data = new HashMap();
-            r.activate("/login.ftl", data, response,request);
+            r.activate("auth/login.ftl", data, response,request);
         } catch (TemplateManagerException ex) {
             //TODO Handle exception
         }
@@ -130,22 +130,22 @@ public class Login extends PollWebBaseController {
                         if (request.getParameter("referrer") != null) {
                             response.sendRedirect(request.getParameter("referrer"));
                         } else {
-                            response.sendRedirect("home");
+                            response.sendRedirect("/home");
                         }
                     }else{
                         if(request.getAttribute("referrer") != null){
-                            response.sendRedirect("Login?referrer=" + URLEncoder.encode(((String)request.getAttribute("referrer")), "UTF-8"));
+                            response.sendRedirect("/login?referrer=" + URLEncoder.encode(((String)request.getAttribute("referrer")), "UTF-8"));
                         }else{
-                            response.sendRedirect("Login");
+                            response.sendRedirect("/login");
                         }
                     }
 
                 }else{
 
                     if(request.getAttribute("referrer") != null){
-                        response.sendRedirect("Login?referrer=" + URLEncoder.encode(((String)request.getAttribute("referrer")), "UTF-8"));
+                        response.sendRedirect("/login?referrer=" + URLEncoder.encode(((String)request.getAttribute("referrer")), "UTF-8"));
                     }else{
-                        response.sendRedirect("login");
+                        response.sendRedirect("/login");
                     }
                 }
             }catch (DataException ex) {
@@ -155,9 +155,9 @@ public class Login extends PollWebBaseController {
         } else {
 
             if(request.getAttribute("referrer") != null){
-                response.sendRedirect("login?referrer=" + URLEncoder.encode(((String)request.getAttribute("referrer")), "UTF-8"));
+                response.sendRedirect("/login?referrer=" + URLEncoder.encode(((String)request.getAttribute("referrer")), "UTF-8"));
             }else{
-                response.sendRedirect("login");
+                response.sendRedirect("/login");
             }
         }
     }

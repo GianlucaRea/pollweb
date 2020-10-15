@@ -1,4 +1,4 @@
-<#import "globalTemplate.ftl" as globalTemplate>
+<#import "../globalTemplate.ftl" as globalTemplate>
 
 <!DOCTYPE html>
 <!--
@@ -12,7 +12,7 @@ and open the template in the editor.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <@globalTemplate.style />
-    <link rel="stylesheet" href="../css/sondaggio.css"/>
+    <link rel="stylesheet" href="../../css/sondaggio.css"/>
 </head>
 <body>
 <@globalTemplate.navbar />

@@ -50,7 +50,7 @@ public class CreazioneSondaggio extends PollWebBaseController {
             } else {
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-                res.activate("creazione.ftl", request, response);
+                res.activate("sondaggi/creazione.ftl", request, response);
             }
         } catch (TemplateManagerException | DataException e) {
             e.printStackTrace();

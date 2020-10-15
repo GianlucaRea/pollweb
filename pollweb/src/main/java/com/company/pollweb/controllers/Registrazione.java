@@ -112,7 +112,7 @@ public class Registrazione extends PollWebBaseController{
                         model.put("succes",true);
                         model.put("utenteRegistrato",true);
                         TemplateResult tr = new TemplateResult(getServletContext());
-                        tr.activate("login.ftl", model, response, request);
+                        tr.activate("auth/login.ftl", model, response, request);
                     }
 
                 } catch (TemplateManagerException | DataException ex) {
@@ -138,7 +138,7 @@ public class Registrazione extends PollWebBaseController{
     private void renderizza_form_registrazione(HttpServletRequest request, HttpServletResponse response) {
         TemplateResult res = new TemplateResult(getServletContext());
         try {
-            res.activate("registrazione.ftl",null, response,request);
+            res.activate("/registrazione.ftl",null, response,request);
         } catch (TemplateManagerException ex){
             // TODO Handle Exception
         }

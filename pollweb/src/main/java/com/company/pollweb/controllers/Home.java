@@ -26,7 +26,7 @@ public class Home extends PollWebBaseController{
             if(0 == 0){
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-                res.activate("home.ftl", request, response);
+                res.activate("/home.ftl", request, response);
             } else {
                 request.setAttribute("message", "Impossibile caricare la Home");
                 action_error(request, response);

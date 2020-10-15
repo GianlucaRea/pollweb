@@ -68,18 +68,21 @@ public class VisualizzaSondaggio extends PollWebBaseController {
             System.out.println("SONDAGGIO VISIBILE");
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            res.activate("sondaggio/compilazione.ftl", request, response);
+            res.activate("sondaggi/compilazione.ftl", request, response);
         } else {
             // verifica se è stata inserita l'email e l'utente può accedervi
             String email = request.getParameter("email");
-            if(email != null && sondaggioDao.isEmailAbilitataAllaCompilazione(sondaggio, email)) {
+            //TODO controllo se email rispetta il pattern
+            if(email != null && sondaggioDao.isEmailAbilitataAllaCompilazione(sondaggio, email)) { //email abilitata alla compilazione
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-                res.activate("sondaggio/compilazione.ftl", request, response);
+                res.activate("sondaggi/compilazione.ftl", request, response);
             } else { // altrimenti, rimanda al form di inserimento email per verificare che sia stato invitato
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-                res.activate("sondaggio/formSondaggioPrivato.ftl", request, response);
+                request.setAttribute("sondaggioId", sondaggio.getId());
+                request.setAttribute("error", "Questa email non è abilitata alla compilazione del sondaggio");
+                res.activate("sondaggi/formSondaggioPrivato.ftl", request, response);
             }
 
 
