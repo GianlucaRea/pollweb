@@ -14,19 +14,20 @@ import com.company.pollweb.data.models.Sondaggio;
 public class SondaggioImpl implements Sondaggio {
     
     protected String  titolo, testoiniziale, testofinale;
-    protected int id, utente_id, visibilita;
+    protected int id, utente_id, visibilita, stato;
 
     
     public SondaggioImpl(){
         this.id = -1;
     }
     
-    public SondaggioImpl(String titolo, String testoiniziale, String testofinale, int utente_id, int visibilita){
+    public SondaggioImpl(String titolo, String testoiniziale, String testofinale, int utente_id, int visibilita, int stato){
         this.titolo = titolo;
         this.testoiniziale = testoiniziale;
         this.testofinale = testofinale;
         this.utente_id = utente_id;
         this.visibilita = visibilita;
+        this.stato = stato;
     }
 
     public int getId(){return this.id;}
@@ -44,6 +45,8 @@ public class SondaggioImpl implements Sondaggio {
     }
     
     public int getUtenteId(){return this.utente_id;}
+
+    public int getStato(){ return this.stato; }
 
     public int getVisibilita(){return this.visibilita;}
 
@@ -68,6 +71,8 @@ public class SondaggioImpl implements Sondaggio {
     }
 
     public void setVisibilita(int visibilita) { this.visibilita = visibilita; }
+
+    public void setStato(int stato) { this.stato = stato; }
     
     
 }

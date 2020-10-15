@@ -24,15 +24,39 @@ public class VisualizzaSondaggio extends PollWebBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, TemplateManagerException, DataException {
         try {
             int sondaggioId =  Integer.parseInt(request.getParameter("id"));
-            action_check_visibility(request, response, sondaggioId);
+            SondaggioDao sondaggioDao = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO();
+            Sondaggio sondaggio = sondaggioDao.getSondaggio(sondaggioId);
+            if(sondaggio.getStato() == 0 || sondaggio.getStato() == 2) {
+                //verifica se il sondaggio è attivo
+                action_check_is_active(request, response, sondaggio);
+            } else {
+                //verifica se il sondaggio è visibile
+                action_check_visibility(request, response, sondaggio, sondaggioDao);
+            }
         }catch(Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void action_check_visibility(HttpServletRequest request, HttpServletResponse response, int sondaggioId) throws TemplateManagerException, SQLException {
-        SondaggioDao sondaggioDao = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO();
-        Sondaggio sondaggio = sondaggioDao.getSondaggio(sondaggioId);
+    private void action_check_is_active(HttpServletRequest request, HttpServletResponse response, Sondaggio sondaggio) throws TemplateManagerException {
+        if(sondaggio.getStato() == 0) {
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            request.setAttribute("error", "Sondaggio non attivo");
+            res.activate("/error.ftl", request, response);
+            return ;
+        }
+
+        if(sondaggio.getStato() == 2) {
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            request.setAttribute("error", "Sondaggio scaduto");
+            res.activate("/error.ftl", request, response);
+            return ;
+        }
+    }
+
+    private void action_check_visibility(HttpServletRequest request, HttpServletResponse response, Sondaggio sondaggio, SondaggioDao sondaggioDao) throws TemplateManagerException, SQLException {
         if(sondaggio.getId() == -1) {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -40,9 +64,7 @@ public class VisualizzaSondaggio extends PollWebBaseController {
             res.activate("/error.ftl", request, response);
             return ;
         }
-        System.out.println(sondaggio.getVisibilita());
         if(sondaggio.getVisibilita() == 1)  {
-            // mostra direttamente il sondaggio
             System.out.println("SONDAGGIO VISIBILE");
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -51,7 +73,6 @@ public class VisualizzaSondaggio extends PollWebBaseController {
             // verifica se è stata inserita l'email e l'utente può accedervi
             String email = request.getParameter("email");
             if(email != null && sondaggioDao.isEmailAbilitataAllaCompilazione(sondaggio, email)) {
-                System.out.println("EMAIL ABILITATA");
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 res.activate("sondaggio/compilazione.ftl", request, response);

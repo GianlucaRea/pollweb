@@ -12,6 +12,8 @@ public interface Sondaggio {
 
     public int getUtenteId();
 
+    public int getStato();
+
     public int getVisibilita();
 
     public Sondaggio getSondaggio();
@@ -27,5 +29,7 @@ public interface Sondaggio {
     public void setUtenteId(int Nutente_id);
 
     public void setVisibilita(int Nvisibilita);
+
+    public void setStato(int Nstato);
 
 }

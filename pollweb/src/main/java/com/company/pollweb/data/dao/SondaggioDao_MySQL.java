@@ -108,6 +108,7 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
             sondaggio.setTestoiniziale(rs.getString("testoiniziale"));
             sondaggio.setTestofinale(rs.getString("testofinale"));
             sondaggio.setVisibilita(rs.getInt("visibilita"));
+            sondaggio.setStato(rs.getInt("stato"));
         }
         rs.close();
         sondaggioQuery.close();
