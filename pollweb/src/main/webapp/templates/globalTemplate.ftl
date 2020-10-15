@@ -1,8 +1,6 @@
 <#macro style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/solid.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/fontawesome.css" integrity="sha384-tSxOKkJ+YPQOZg1RZd01upxL2FeeFVkHtkL0+04oWgcm9jnvH+EQNLxhpaNYblG2" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="/css/fontawesome.css" crossorigin="anonymous">
 </#macro>
     
 <#macro script>
