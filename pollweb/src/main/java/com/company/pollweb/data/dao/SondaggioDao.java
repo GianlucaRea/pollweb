@@ -20,6 +20,11 @@ public interface SondaggioDao {
 
     public ArrayList<Domanda> getDomande(int sondaggioId) throws SQLException;
 
+    public boolean pubblicaSondaggio(int sondaggioId) throws SQLException;
+
+    public boolean chiudiSondaggio(int sondaggioId) throws SQLException;
+
+
     public boolean isEmailAbilitataAllaCompilazione(Sondaggio sondaggio, String email) throws SQLException;
 
 }

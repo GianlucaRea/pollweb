@@ -55,7 +55,7 @@ public class RiepilogoSondaggio extends PollWebBaseController {
         ((PollwebDataLayer) request.getAttribute("datalayer")).init();
         Sondaggio sondaggio = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getSondaggio(sondaggioId);
 
-        if(sondaggio.getUtenteId() == utente.getId()) {
+        if(sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
             ((PollwebDataLayer) request.getAttribute("datalayer")).init();
             ArrayList<Domanda> domande = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getDomande(sondaggio.getId());
             TemplateResult res = new TemplateResult(getServletContext());

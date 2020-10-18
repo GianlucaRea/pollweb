@@ -70,8 +70,8 @@ public class DomandaImpl implements Domanda {
     }
 
     public String getNomeObbligo() {
-        if(obbligo==0) return "Obbligatoria";
-        return "Non obbligatoria";
+        if(obbligo==0) return "Non obbligatoria";
+        return "Obbligatoria";
     }
 
     public int getOrdine(){

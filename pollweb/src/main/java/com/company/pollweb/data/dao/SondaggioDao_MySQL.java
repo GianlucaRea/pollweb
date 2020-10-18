@@ -131,8 +131,6 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
 
     public ArrayList<Domanda> getDomande(int sondaggioId) throws SQLException {
 
-
-
         //GET DOMANDE E INSERISCI IN ARRAY
         PreparedStatement getDomandeQuery = connection.prepareStatement("SELECT * FROM Domanda WHERE sondaggio_id=?");
         getDomandeQuery.setInt(1, sondaggioId);
@@ -159,5 +157,25 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
         rs.close();
         getDomandeQuery.close();
         return domande;
+    }
+
+    public boolean pubblicaSondaggio(int sondaggioId) throws SQLException {
+        PreparedStatement pubblicaSondaggioQuery = connection.prepareStatement("UPDATE Sondaggio SET stato=1 WHERE id=?");
+        pubblicaSondaggioQuery.setInt(1, sondaggioId);
+        if(pubblicaSondaggioQuery.executeUpdate() == 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean chiudiSondaggio(int sondaggioId) throws SQLException {
+        PreparedStatement pubblicaSondaggioQuery = connection.prepareStatement("UPDATE Sondaggio SET stato=2 WHERE id=?");
+        pubblicaSondaggioQuery.setInt(1, sondaggioId);
+        if(pubblicaSondaggioQuery.executeUpdate() == 1){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -28,6 +28,14 @@
         <servlet-class>com.company.pollweb.controllers.sondaggi.RiepilogoSondaggio</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>PubblicaSondaggio</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.sondaggi.PubblicaSondaggio</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChiudiSondaggio</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.sondaggi.ChiudiSondaggio</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>VisualizzaSondaggio</servlet-name>
         <servlet-class>com.company.pollweb.controllers.VisualizzaSondaggio</servlet-class>
         <init-param>
@@ -62,6 +70,14 @@
     <servlet-mapping>
         <servlet-name>RiepilogoSondaggio</servlet-name>
         <url-pattern>/sondaggi/riepilogo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PubblicaSondaggio</servlet-name>
+        <url-pattern>/sondaggi/pubblica</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChiudiSondaggio</servlet-name>
+        <url-pattern>/sondaggi/chiudi</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
