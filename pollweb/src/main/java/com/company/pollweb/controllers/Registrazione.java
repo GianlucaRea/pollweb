@@ -107,7 +107,7 @@ public class Registrazione extends PollWebBaseController{
 
 
                         //rendo persistente lo studente
-                        dl.getUtenteDAO().inserisciUtente(utente);
+                        dl.getUtenteDAO().salvaUtente(utente);
                         HashMap<String,Object> model = new HashMap<>();
                         model.put("succes",true);
                         model.put("utenteRegistrato",true);

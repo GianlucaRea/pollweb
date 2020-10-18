@@ -79,6 +79,6 @@ public interface UtenteDao {
 
     Utente  creaUtente(ResultSet res) throws DataException;
 
-    void  inserisciUtente(Utente utente) throws DataException;
+    void  salvaUtente(Utente utente) throws DataException;
 
 }

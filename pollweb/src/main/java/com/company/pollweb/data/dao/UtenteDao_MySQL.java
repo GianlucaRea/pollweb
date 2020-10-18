@@ -28,7 +28,7 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
             utenteById = connection.prepareStatement("SELECT * FROM utente WHERE id = ?;");
             utenteByLogin = connection.prepareStatement("SELECT * FROM utente where email = ? AND password = ?;");
             utenteByEmail = connection.prepareStatement("SELECT * FROM utente where email = ?;");
-            inserimentoUtente = connection.prepareStatement("INSERT INTO studenti (email,nome,cognome,password,ruolo_id) VALUES (?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
+            inserimentoUtente = connection.prepareStatement("INSERT INTO Utente (email,nome,cognome,password,ruolo_id) VALUES (?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer pollweb", ex);
         }
@@ -69,7 +69,7 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
 
 
     @Override
-    public void inserisciUtente (Utente utente) throws DataException { // per update e insert
+    public void salvaUtente (Utente utente) throws DataException { // per update e insert
         int id = utente.getId();
         int ruolo = 2;
         try {

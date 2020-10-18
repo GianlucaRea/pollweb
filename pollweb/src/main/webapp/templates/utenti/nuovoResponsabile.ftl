@@ -1,7 +1,7 @@
 <#assign charset="UTF-8">
 <#assign title="Nuovo responsabile">
 
-<#import "/templates/globalTemplate.ftl" as globalTemplate>
+<#import "/globalTemplate.ftl" as globalTemplate>
 
 <!DOCTYPE html>
 <html>
@@ -24,7 +24,7 @@
                 </#if>
                 <h1>Nuovo responsabile</h1>
                 <div class="pt-3">
-                    <form action="nuovo_responsabile" method="post" name="nuovoResponsabileForm">
+                    <form action="/utenti/nuovo_responsabile" method="post" name="nuovoResponsabileForm">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
