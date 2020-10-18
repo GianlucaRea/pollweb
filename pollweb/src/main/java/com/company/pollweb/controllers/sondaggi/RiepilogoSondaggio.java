@@ -1,2 +1,84 @@
-package com.company.pollweb.controllers.sondaggi;public class RiepilogoSondaggio {
+package com.company.pollweb.controllers.sondaggi;
+
+import com.company.pollweb.controllers.PollWebBaseController;
+import com.company.pollweb.data.dao.PollwebDataLayer;
+import com.company.pollweb.data.models.Domanda;
+import com.company.pollweb.data.models.Utente;
+import com.company.pollweb.data.models.Sondaggio;
+import com.company.pollweb.framework.data.DataException;
+import com.company.pollweb.framework.result.FailureResult;
+import com.company.pollweb.framework.result.SplitSlashesFmkExt;
+import com.company.pollweb.framework.result.TemplateManagerException;
+import com.company.pollweb.framework.result.TemplateResult;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+
+import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
+
+public class RiepilogoSondaggio extends PollWebBaseController {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DataException {
+
+        try {
+            HttpSession s = checkSession(request);
+
+            if(request.getParameter("id") == null) {
+                TemplateResult res = new TemplateResult(getServletContext());
+                request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                request.setAttribute("error", "Sondaggio non trovato");
+                res.activate("/error.ftl", request, response);
+                return ;
+            }
+            //TODO check se amministratore o creatore sondaggio
+            if (s!= null) {
+                action_check_permission(request, response, s);
+            } else {
+                action_redirect(request, response);
+            }
+        } catch (IOException | SQLException | TemplateManagerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void action_check_permission(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws DataException, SQLException, TemplateManagerException {
+        int sondaggioId = Integer.parseInt(request.getParameter("id"));
+        ((PollwebDataLayer) request.getAttribute("datalayer")).init();
+        Utente utente = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
+        ((PollwebDataLayer) request.getAttribute("datalayer")).init();
+        Sondaggio sondaggio = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getSondaggio(sondaggioId);
+
+        if(sondaggio.getUtenteId() == utente.getId()) {
+            ((PollwebDataLayer) request.getAttribute("datalayer")).init();
+            ArrayList<Domanda> domande = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getDomande(sondaggio.getId());
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            request.setAttribute("sondaggio", sondaggio);
+            request.setAttribute("domande", domande);
+            res.activate("sondaggi/riepilogo.ftl", request, response);
+        } else {
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            request.setAttribute("error", "Permesso negato");
+            res.activate("/error.ftl", request, response);
+        }
+    }
+
+    private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+        try {
+            request.setAttribute("urlrequest", request.getRequestURL());
+            RequestDispatcher rd = request.getRequestDispatcher("/login");
+            rd.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
