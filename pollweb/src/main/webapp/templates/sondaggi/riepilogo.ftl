@@ -32,7 +32,7 @@ and open the template in the editor.
                             <p><strong>Ordine</strong>: ${domanda.getOrdine()}</p>
                         </div>
                     </div>
-                    <p class="text-muted mb-0"><i class="fad fa-edit fa-fw"></i> ${domanda.getNomeTipologia()} | <i class="fad fa-exclamation fa-fw"></i> ${domanda.getNomeObbligo()}</p>
+                    <p class="text-muted mb-0"><i class="fad fa-edit fa-fw"></i> ${domanda.getTipologia()} | <i class="fad fa-exclamation fa-fw"></i> ${domanda.getNomeObbligo()}</p>
                 </div>
             </div>
         </#list>

@@ -151,7 +151,7 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
             d.setNota(rs.getString("nota"));
             d.setObbligo(rs.getInt("obbligo"));
             d.setOrdine(rs.getInt("ordine"));
-            d.setTipologia(rs.getInt("tipologia"));
+            d.setTipologia(rs.getString("tipologia"));
             domande.add(d);
         }
         rs.close();

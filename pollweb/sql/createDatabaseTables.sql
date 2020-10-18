@@ -47,7 +47,7 @@ testo VARCHAR(255) NOT NULL,
 nota VARCHAR(255),
 obbligo BOOLEAN default true, /* togliere default a obbligo , ordine tipologia*/
 ordine INT NOT NULL default 0, 
-tipologia INT NOT NULL default 0, /*1=testo breve, 2=testo lungo, 3=numero, 4=data, 5=scelta singolo, 6=scelta multipla*/
+tipologia VARCHAR(255) NOT NULL, /*testo breve, testo lungo, numero, data, scelta singolo, scelta multipla*/
 vincoli JSON,
 FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade
 );

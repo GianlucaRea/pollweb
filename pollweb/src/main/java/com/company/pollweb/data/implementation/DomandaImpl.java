@@ -12,8 +12,8 @@ import com.company.pollweb.data.models.Domanda;
  * @author gianlucarea
  */
 public class DomandaImpl implements Domanda {
-    protected String nota, testo;
-    protected int id ,sondaggio_id , tipologia , obbligo , ordine;
+    protected String nota, testo, tipologia;
+    protected int id ,sondaggio_id  , obbligo , ordine;
    
     //manca vincoli che è in json
 
@@ -25,7 +25,7 @@ public class DomandaImpl implements Domanda {
        this.ordine = 0;
     }
     
-    public DomandaImpl(String nota, String testo, int sondaggio_id, int tipologia, int obbligo , int ordine){
+    public DomandaImpl(String nota, String testo, int sondaggio_id, String tipologia, int obbligo , int ordine){
         this.nota = nota;
         this.testo = testo;
         this.sondaggio_id = sondaggio_id;
@@ -49,20 +49,8 @@ public class DomandaImpl implements Domanda {
         return this.sondaggio_id;
     }
     
-    public int getTipologia(){
+    public String getTipologia(){
         return this.tipologia;
-    }
-
-    public String getNomeTipologia() {
-        switch (this.tipologia) {
-            case 1: return "Testo breve";
-            case 2: return "Testo lungo";
-            case 3: return "Numero";
-            case 4: return "Data";
-            case 5: return "Scelta singola";
-            case 6: return "Scelta multipla";
-            default: return "N/D";
-        }
     }
     
     public int getObbligo(){
@@ -93,7 +81,7 @@ public class DomandaImpl implements Domanda {
          this.sondaggio_id = newSondaggio_id;
     }
     
-    public void setTipologia(int newTipologia){
+    public void setTipologia(String newTipologia){
         this.tipologia = newTipologia;
     }
     

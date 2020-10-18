@@ -88,6 +88,16 @@ and open the template in the editor.
                 '<div class="form-group">' +
                 '<label><input type="checkbox" name="domande[' + numeroDomanda + '][obbligo]"> Obbligo</label>' +
                 '</div>' +
+                '<div class="form-group">' +
+                '<label for="tipologiaDomanda' + numeroDomanda + '">Tipologia</label>' +
+                '<select id="tipologiaDomanda' + numeroDomanda + '" name="domande[' + numeroDomanda + '][tipologia]" required>' +
+                '<option value="testo breve" selected="selected">Testo breve</option>'+
+                '<option value="testo lungo">Testo lungo</option>'+
+                '<option value="numero">Numero</option>'+
+                '<option value="data">Data</option>'+
+                '<option value="scelta singola">Scelta singola</option>'+
+                '<option value="scelta multipla">Scelta multipla</option></select>'+
+                '</div>' +
                 '</div>'+
                 '</div>'+
                 '</div>');

@@ -10,9 +10,7 @@ public interface Domanda {
 
     public int getSondaggio_id();
 
-    public int getTipologia();
-
-    public String getNomeTipologia();
+    public String getTipologia();
 
     public int getObbligo();
 
@@ -28,7 +26,7 @@ public interface Domanda {
 
     public void setSondaggio_id(int newSondaggio_id);
 
-    public void setTipologia(int newTipologia);
+    public void setTipologia(String newTipologia);
 
     public void setObbligo(int newObbligo);
 

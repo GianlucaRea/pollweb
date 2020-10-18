@@ -62,14 +62,11 @@ public class InserimentoSondaggio extends PollWebBaseController {
                         d.setNota(request.getParameter("domande["+i+"][nota]"));
                        if (request.getParameter("domande["+i+"][obbligo]") != null){
                            d.setObbligo(1);
-                       }else {
+                       }else{
                            d.setObbligo(0);
                        }
-
-                        //obbligo
+                       d.setTipologia(request.getParameter("domande["+i+"][tipologia]"));
                         //ordine
-                        //tipologia
-
                         ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().salvaDomanda(d);
 
                     }

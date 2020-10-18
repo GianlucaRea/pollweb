@@ -31,7 +31,7 @@ public class DomandaProxy extends DomandaImpl {
         super.setSondaggio_id(Sondaggio_id);
     }
 
-    public void setTipologia(int Tipologia){
+    public void setTipologia(String Tipologia){
         super.setTipologia(Tipologia);
     }
     public void setObbligo(int newObbligo){

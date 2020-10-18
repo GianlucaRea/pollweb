@@ -11,13 +11,13 @@ INSERT INTO `pollweb`.`Sondaggio`(`utente_id`, `titolo`, `testoiniziale`, `testo
 VALUES(1, 'titoloSondaggioPrivato3', 'testoInizialePrivato3', 'testoFinalePrivato3', 0, 2);
 
 INSERT INTO `pollweb`.`Domanda`(`sondaggio_id`, `testo`, `nota`, `obbligo`, `ordine`, `tipologia`, `vincoli`)VALUES
-(1, 'testoDomanda1', 'nota1', false, 1, 1, '{}');
+(1, 'testoDomanda1', 'nota1', false, 1,'scelta singola', '{}');
 
 INSERT INTO `pollweb`.`Domanda`(`sondaggio_id`, `testo`, `nota`, `obbligo`, `ordine`, `tipologia`, `vincoli`)VALUES
-(3, 'testoDomanda2', 'nota2', false, 2, 1, '{}');
+(3, 'testoDomanda2', 'nota2', false, 2, 'scelta singola', '{}');
 
 INSERT INTO `pollweb`.`Domanda`(`sondaggio_id`, `testo`, `nota`, `obbligo`, `ordine`, `tipologia`, `vincoli`)VALUES
-(1, 'testoDomanda3', 'nota3', false, 3, 1, '{}');
+(1, 'testoDomanda3', 'nota3', false, 3,'scelta singola', '{}');
 
 INSERT INTO `pollweb`.`Compilazione`(`sondaggio_id`, `email`)VALUES(3, 'test@test.it');
 
