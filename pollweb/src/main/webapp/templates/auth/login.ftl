@@ -1,4 +1,4 @@
-<#import "globalTemplate.ftl" as globalTemplate>
+<#import "../globalTemplate.ftl" as globalTemplate>
 
 <!DOCTYPE html>
 <html>
@@ -7,12 +7,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <@globalTemplate.style />
-    <link rel="stylesheet" href="../css/login.css"/>
+    <link rel="stylesheet" href="../../css/login.css"/>
 </head>
 <body>
 <div class="row">
     <div class="col-md-8 bg-login" id="login-left-side">
-        <img src="../img/logo_bianco.png" alt="Pollweb logo"/>
+        <img src="../../img/logo_bianco.png" alt="Pollweb logo"/>
         <h1>Benvenuto su PollWeb!</h1>
         <p>PollWeb è la piattaforma che darà vita ai tuoi sondaggi!</p>
         <p>Puoi creare sondaggi personalizzati scegliendo tra 6 tipologie di domande, condivisibili tramite link o

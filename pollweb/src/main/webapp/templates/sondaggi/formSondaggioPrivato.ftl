@@ -1,5 +1,5 @@
 <#assign charset="UTF-8">
-<#assign title="Nuovo responsabile">
+<#assign title="Sondaggio privato">
 
 <#import "/globalTemplate.ftl" as globalTemplate>
 
@@ -24,14 +24,15 @@
         </#if>
         <div class="text-center">
             <h1>${title}</h1>
-            <p class="lead">Questo sondaggio è privato. Per compilarlo, inserisci il tuo indirizzo email.</p>
+            <p class="lead">Questo sondaggio è privato. <br> Per compilarlo, inserisci il tuo indirizzo email.</p>
         </div>
         <div class="pt-3">
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="card">
                         <div class="card-body">
-                            <form id="formSondaggioPrivato" action="post">
+                            <form id="formSondaggioPrivato" method="get">
+                                <input type="hidden" name="id" value="${sondaggioId}">
                                 <div class="form-group">
                                     <label for="inputEmail"><strong>Indirizzo email</strong></label>
                                     <input type="email" name="email" id="inputEmail" class="form-control" placeholder="mario.rossi@email.it" />

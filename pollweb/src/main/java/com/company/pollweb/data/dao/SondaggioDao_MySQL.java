@@ -1,16 +1,16 @@
 package com.company.pollweb.data.dao;
 
+import com.company.pollweb.data.implementation.DomandaImpl;
 import com.company.pollweb.data.implementation.SondaggioImpl;
+import com.company.pollweb.data.models.Domanda;
 import com.company.pollweb.data.models.Sondaggio;
 import com.company.pollweb.framework.data.DAO;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.data.DataLayer;
 import com.company.pollweb.data.proxy.SondaggioProxy;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -127,7 +127,37 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
             rs.next();
             return rs.getInt("rowcount")==1;
         }
+    }
+
+    public ArrayList<Domanda> getDomande(int sondaggioId) throws SQLException {
 
 
+
+        //GET DOMANDE E INSERISCI IN ARRAY
+        PreparedStatement getDomandeQuery = connection.prepareStatement("SELECT * FROM Domanda WHERE sondaggio_id=?");
+        getDomandeQuery.setInt(1, sondaggioId);
+        ResultSet rs = getDomandeQuery.executeQuery();
+
+        //Stores properties of a ResultSet object, including column count
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int countDomande = rsmd.getColumnCount();
+
+        ArrayList<Domanda> domande = new ArrayList<Domanda>(countDomande);
+
+        Domanda d;
+        while(rs.next()) {
+            d = new DomandaImpl();
+            d.setId(rs.getInt("id"));
+            d.setSondaggio_id(rs.getInt("sondaggio_id"));
+            d.setTesto(rs.getString("testo"));
+            d.setNota(rs.getString("nota"));
+            d.setObbligo(rs.getInt("obbligo"));
+            d.setOrdine(rs.getInt("ordine"));
+            d.setTipologia(rs.getInt("tipologia"));
+            domande.add(d);
+        }
+        rs.close();
+        getDomandeQuery.close();
+        return domande;
     }
 }

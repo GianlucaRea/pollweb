@@ -52,9 +52,26 @@ public class DomandaImpl implements Domanda {
     public int getTipologia(){
         return this.tipologia;
     }
+
+    public String getNomeTipologia() {
+        switch (this.tipologia) {
+            case 1: return "Testo breve";
+            case 2: return "Testo lungo";
+            case 3: return "Numero";
+            case 4: return "Data";
+            case 5: return "Scelta singola";
+            case 6: return "Scelta multipla";
+            default: return "N/D";
+        }
+    }
     
     public int getObbligo(){
         return this.obbligo;
+    }
+
+    public String getNomeObbligo() {
+        if(obbligo==0) return "Obbligatoria";
+        return "Non obbligatoria";
     }
 
     public int getOrdine(){

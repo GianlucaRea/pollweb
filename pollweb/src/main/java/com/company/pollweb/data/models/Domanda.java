@@ -12,7 +12,11 @@ public interface Domanda {
 
     public int getTipologia();
 
+    public String getNomeTipologia();
+
     public int getObbligo();
+
+    public String getNomeObbligo();
 
     public int getOrdine();
 

@@ -5,6 +5,7 @@
  */
 package com.company.pollweb.data.implementation;
 
+import com.company.pollweb.data.models.Domanda;
 import com.company.pollweb.data.models.Sondaggio;
 
 /**
@@ -51,6 +52,7 @@ public class SondaggioImpl implements Sondaggio {
     public int getVisibilita(){return this.visibilita;}
 
     public Sondaggio getSondaggio(){return this;}
+
 
     public void setId(int id){this.id = id;} // NON DEVE ESSERE POSSIBILE IMPOSTARE L'ID DI UN SONDAGGIO
     

@@ -24,6 +24,10 @@
         <servlet-class>com.company.pollweb.controllers.InserimentoSondaggio</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>RiepilogoSondaggio</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.sondaggi.RiepilogoSondaggio</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>VisualizzaSondaggio</servlet-name>
         <servlet-class>com.company.pollweb.controllers.VisualizzaSondaggio</servlet-class>
         <init-param>
@@ -54,6 +58,10 @@
     <servlet-mapping>
         <servlet-name>VisualizzaSondaggio</servlet-name>
         <url-pattern>/sondaggi/visualizza</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RiepilogoSondaggio</servlet-name>
+        <url-pattern>/sondaggi/riepilogo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

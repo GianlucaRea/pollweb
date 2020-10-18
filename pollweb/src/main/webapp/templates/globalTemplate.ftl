@@ -15,9 +15,6 @@
           <img src="/img/logo_icona.png" width="30" height="30" class="d-inline-block align-top" alt="Pollweb logo" />
           Pollweb
         </a>
-        <div class="ml-auto">
-            <i class="fas fa-user fa-2x fa-fw text-white"></i>
-        </div>
     </nav>
 </#macro>
     

@@ -73,7 +73,7 @@ public class InserimentoSondaggio extends PollWebBaseController {
                         action_error(request, response);
                     }
                 }
-                action_write(request, response);
+                action_write(request, response, p.getId());
             }
 
         } catch (DataException e) {
@@ -82,8 +82,8 @@ public class InserimentoSondaggio extends PollWebBaseController {
         }
     }
 
-    private void action_write(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendRedirect("/inserimentoriuscito");
+    private void action_write(HttpServletRequest request, HttpServletResponse response, int sondaggioId) throws IOException {
+        response.sendRedirect("/sondaggi/riepilogo?id=" + sondaggioId);
     }
 
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
