@@ -38,11 +38,8 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-
             <div id="domande">
-
             </div>
-
             <div class="row">
                 <div class="col-md-6">
                     <button id="btnNuovaDomanda" type="button" class="btn btn-primary">Nuova Domanda</button>
@@ -53,11 +50,8 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-
         </form>
-
     </div>
-
 </div>
 
 <@globalTemplate.script />
@@ -92,7 +86,7 @@ and open the template in the editor.
                 '<input id="notaDomanda' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][nota]" class="form-control" placeholder="Una nota" required>' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label><input type="checkbox" name="obbligo"> Obbligo</label>' +
+                '<label><input type="checkbox" name="domande[' + numeroDomanda + '][obbligo]"> Obbligo</label>' +
                 '</div>' +
                 '</div>'+
                 '</div>'+

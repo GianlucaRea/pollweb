@@ -60,6 +60,11 @@ public class InserimentoSondaggio extends PollWebBaseController {
                         d.setSondaggio_id(p.getId());
                         d.setTesto(request.getParameter("domande["+i+"][testo]"));
                         d.setNota(request.getParameter("domande["+i+"][nota]"));
+                       if (request.getParameter("domande["+i+"][obbligo]") != null){
+                           d.setObbligo(1);
+                       }else {
+                           d.setObbligo(0);
+                       }
 
                         //obbligo
                         //ordine
