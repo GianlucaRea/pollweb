@@ -68,7 +68,6 @@ public class InserimentoSondaggio extends PollWebBaseController {
                        d.setTipologia(request.getParameter("domande["+i+"][tipologia]"));
                         //ordine
                         ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().salvaDomanda(d);
-
                     }
                     else {
                         request.setAttribute("message", "Errore aggiornamento della domanda");
