@@ -58,6 +58,15 @@ and open the template in the editor.
 </body>
 
 <script>
+
+    function updateVincoli(id) {
+        console.log(id);
+        //TODO verificare che il vincolo non sia già lo stesso selezionato
+        //TODO applicare l'aggiornamento al click sulla select, il pulsante non serve
+        //TODO l'append al vincolo corretto si fa tramite l'istruzione qui sotto
+        $("#vincoloSelect" + id).append("WEWE");
+    }
+
     $(document).ready(function () {
         let numeroDomanda = 0;
         $('#btnNuovaDomanda').on('click', function () {
@@ -97,21 +106,23 @@ and open the template in the editor.
                 '<option value="data">Data</option>'+
                 '<option value="scelta_singola">Scelta singola</option>'+
                 '<option value="scelta_multipla">Scelta multipla</option></select>'+
-                '<button id="btnTipologia" type="button" class="btn btn-primary">Scegli</button>'+
-                '<div id="vincoloSelect">'+
+                '<button type="button" class="btn btn-primary" onClick="updateVincoli(' + numeroDomanda + ')">Scegli</button>'+
+                '<div class="vincoloSelect" id="vincoloSelect' + numeroDomanda + '">'+
                 '</div>'+
                 '</div>' +
                 '</div>'+
                 '</div>'+
                 '</div>');
 
-            $('#btnTipologia').on('click', function () {
+
+            $('.btnTipologia').on('click', function () {
 
                 let tipologia = document.getElementById("tipologiaDomanda").value;
+                let vincoloSelect = $(this).closest(".vincoloSelect");
                 console.log(tipologia);
                 switch(tipologia) {
                     case "testo_breve":
-                        $("#vincoloSelect").append('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
+                        vincoloSelect.append('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
                             '<div class="form-group">' +
                             '<label for="LunghezzaMassimaTestoBreve' + numeroDomanda + '">Lunghezza Massima Testo Breve</label>' +
                             '<input id="LunghezzaMassimaTestoBreve' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][LunghezzaMassimaTestoBreve]" class="form-control" placeholder="250" required>' +
@@ -124,7 +135,7 @@ and open the template in the editor.
                         );
                         break;
                     case "testo_lungo":
-                        $("#vincoloSelect").append('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
+                        vincoloSelect.append('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
                             '<div class="form-group">' +
                             '<label for="LunghezzaMassimaTestoLungo' + numeroDomanda + '">Lunghezza Massima Testo Lungo</label>' +
                             '<input id="LunghezzaMassimaTestoLungo' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][LunghezzaMassimaTestoBreve]" class="form-control" placeholder="Lunghezza Massima Testo Lungo" required>' +
@@ -141,7 +152,7 @@ and open the template in the editor.
                         );
                         break;
                     case "numero":
-                        $("#vincoloSelect").append('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
+                        vincoloSelect.append('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
                             '<div class="form-group">' +
                             '<label for="Numerominimo' + numeroDomanda + '">Numero minimo</label>' +
                             '<input id="Numerominimo' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][Numerominimo]" class="form-control" placeholder="Numero Massim0" required>' +
@@ -158,7 +169,7 @@ and open the template in the editor.
                         break;
                     case "scelta_singola":
                         text = "Inserisci le varie opzioni separate dalla virgola";
-                        $("#vincoloSelect").append('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
+                        vincoloSelect.append('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
                             '<div class="form-group">' +
                             '<label for="sceltasingola' + numeroDomanda + '">Scelta Singola</label>' +
                             '<input id="sceltasingola' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][sceltasingola]" class="form-control" placeholder="Opzione1,Opzione2,..." required>' +
@@ -167,7 +178,7 @@ and open the template in the editor.
                         );
                     case "scelta_multipla":
                         text = "Inserisci le varie opzioni separate dalla virgola";
-                        $("#vincoloSelect").append('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
+                        vincoloSelect.append('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
                             '<div class="form-group">' +
                             '<label for="sceltasingola' + numeroDomanda + '">Scelta Singola</label>' +
                             '<input id="sceltasingola' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][sceltasingola]" class="form-control" placeholder="Opzione1,Opzione2,..." required>' +
@@ -184,7 +195,7 @@ and open the template in the editor.
                         );
                         break;
                     default:
-                        $("#vincoloSelect").append('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
+                        vincoloSelect.append('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
                             '<div class="form-group">' +
                             '<label for="LunghezzaMassimaTestoBreve' + numeroDomanda + '">Titolo Della domanda</label>' +
                             '<input id="LunghezzaMassimaTestoBreve' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][LunghezzaMassimaTestoBreve]" class="form-control" placeholder="La mia Domanda" required>' +
