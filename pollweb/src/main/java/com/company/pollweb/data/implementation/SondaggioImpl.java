@@ -49,7 +49,17 @@ public class SondaggioImpl implements Sondaggio {
 
     public int getStato(){ return this.stato; }
 
+    public String getNomeStato() {
+        if(this.stato == 0 ) return "Non attivo";
+        if(this.stato == 1) return "Attivo";
+        return "Chiuso";
+    }
+
     public int getVisibilita(){return this.visibilita;}
+
+    public String getNomeVisibilita() {
+        return (this.visibilita==1)?"Pubblico":"Privato";
+    }
 
     public Sondaggio getSondaggio(){return this;}
 

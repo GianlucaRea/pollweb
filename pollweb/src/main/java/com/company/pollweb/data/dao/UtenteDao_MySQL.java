@@ -1,5 +1,6 @@
 package com.company.pollweb.data.dao;
 
+import com.company.pollweb.data.implementation.UtenteImpl;
 import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.data.proxy.UtenteProxy;
 import com.company.pollweb.framework.data.DAO;
@@ -10,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -152,6 +154,24 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
             throw new DataException("Unable to load User by Email", ex);
         }
         return null;
+    }
+
+    public ArrayList<Utente> listaResponsabili() throws SQLException {
+        ArrayList<Utente> responsabili = new ArrayList<Utente>();
+        PreparedStatement listaResponsabiliQuery = connection.prepareStatement("SELECT * FROM Utente WHERE ruolo_id=2");
+        ResultSet rs = listaResponsabiliQuery.executeQuery();
+
+        Utente u;
+        while(rs.next()) {
+            u = new UtenteImpl();
+            u.setId(rs.getInt("id"));
+            u.setNome(rs.getString("nome"));
+            u.setCognome(rs.getString("cognome"));
+            u.setEmail(rs.getString("email"));
+            u.setRuolo(rs.getInt("ruolo_id"));
+            responsabili.add(u);
+        }
+        return responsabili;
     }
 
 }

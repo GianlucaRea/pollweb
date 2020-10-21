@@ -9,6 +9,8 @@ import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.framework.data.DataException;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -80,5 +82,7 @@ public interface UtenteDao {
     Utente  creaUtente(ResultSet res) throws DataException;
 
     void  salvaUtente(Utente utente) throws DataException;
+
+    ArrayList<Utente> listaResponsabili() throws SQLException;
 
 }

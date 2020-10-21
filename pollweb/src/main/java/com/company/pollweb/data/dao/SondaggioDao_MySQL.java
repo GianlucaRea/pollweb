@@ -131,16 +131,14 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
 
     public ArrayList<Domanda> getDomande(int sondaggioId) throws SQLException {
 
-        //GET DOMANDE E INSERISCI IN ARRAY
         PreparedStatement getDomandeQuery = connection.prepareStatement("SELECT * FROM Domanda WHERE sondaggio_id=?");
         getDomandeQuery.setInt(1, sondaggioId);
         ResultSet rs = getDomandeQuery.executeQuery();
 
-        //Stores properties of a ResultSet object, including column count
         ResultSetMetaData rsmd = rs.getMetaData();
         int countDomande = rsmd.getColumnCount();
 
-        ArrayList<Domanda> domande = new ArrayList<Domanda>(countDomande);
+        ArrayList<Domanda> domande = new ArrayList<Domanda>();
 
         Domanda d;
         while(rs.next()) {
@@ -157,6 +155,36 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
         rs.close();
         getDomandeQuery.close();
         return domande;
+    }
+
+    private ArrayList<Sondaggio> getSondaggi(PreparedStatement getListaSondaggiQuery) throws SQLException {
+        ResultSet rs = getListaSondaggiQuery.executeQuery();
+
+        ArrayList<Sondaggio> sondaggi = new ArrayList<Sondaggio>();
+        Sondaggio s;
+        while(rs.next()) {
+            s = new SondaggioImpl();
+            s.setUtenteId(rs.getInt("utente_id"));
+            s.setTitolo(rs.getString("titolo"));
+            s.setTestoiniziale(rs.getString("testoiniziale"));
+            s.setTestofinale(rs.getString("testofinale"));
+            s.setStato(rs.getInt("stato"));
+            s.setVisibilita(rs.getInt("visibilita"));
+            sondaggi.add(s);
+        }
+
+        return sondaggi;
+    }
+
+    public ArrayList<Sondaggio> listaSondaggi() throws SQLException {
+        PreparedStatement getListaSondaggiQuery = connection.prepareStatement("SELECT * FROM Sondaggio");
+        return getSondaggi(getListaSondaggiQuery);
+    }
+
+    public ArrayList<Sondaggio> listaSondaggiResponsabile(int utenteId) throws SQLException {
+        PreparedStatement getListaSondaggiQuery = connection.prepareStatement("SELECT * FROM Sondaggio WHERE utente_id=?");
+        getListaSondaggiQuery.setInt(1, utenteId);
+        return getSondaggi(getListaSondaggiQuery);
     }
 
     public boolean pubblicaSondaggio(int sondaggioId) throws SQLException {
