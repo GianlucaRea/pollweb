@@ -6,6 +6,7 @@
 package com.company.pollweb.data.implementation;
 
 import com.company.pollweb.data.models.Domanda;
+import org.json.JSONObject;
 
 /**
  *
@@ -14,6 +15,7 @@ import com.company.pollweb.data.models.Domanda;
 public class DomandaImpl implements Domanda {
     protected String nota, testo, tipologia;
     protected int id ,sondaggio_id  , obbligo , ordine;
+    protected JSONObject vincoli;
    
     //manca vincoli che è in json
 
@@ -25,13 +27,14 @@ public class DomandaImpl implements Domanda {
        this.ordine = 0;
     }
     
-    public DomandaImpl(String nota, String testo, int sondaggio_id, String tipologia, int obbligo , int ordine){
+    public DomandaImpl(String nota, String testo, int sondaggio_id, String tipologia , JSONObject vincoli, int obbligo , int ordine ){
         this.nota = nota;
         this.testo = testo;
         this.sondaggio_id = sondaggio_id;
         this.tipologia = tipologia;
         this.obbligo = obbligo;
         this.ordine = ordine;
+        this.vincoli = vincoli;
     }
 
     @Override
@@ -61,6 +64,9 @@ public class DomandaImpl implements Domanda {
         if(obbligo==0) return "Non obbligatoria";
         return "Obbligatoria";
     }
+
+    @Override
+    public JSONObject getVincoli() {return this.vincoli;}
 
     public int getOrdine(){
         return this.ordine;
@@ -92,6 +98,9 @@ public class DomandaImpl implements Domanda {
     public void setOrdine(int newOrdine){
         this.ordine = newOrdine;
     }
+
+    @Override
+    public void setVincoli(JSONObject newVincoli) {this.vincoli = newVincoli;}
 
 
 }

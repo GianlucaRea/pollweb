@@ -6,6 +6,8 @@ import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.data.models.Sondaggio;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.result.FailureResult;
+import com.company.pollweb.utility.Serializer;
+import org.json.JSONObject;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,6 +21,9 @@ import java.util.Enumeration;
 import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
 
 public class InserimentoSondaggio extends PollWebBaseController {
+
+    protected String max_lenght, pattern, min_lenght, max_num, min_num, chooses, max_chooses, min_chooses;
+    protected JSONObject Vincoli;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DataException {
 
@@ -66,6 +71,42 @@ public class InserimentoSondaggio extends PollWebBaseController {
                            d.setObbligo(0);
                        }
                        d.setTipologia(request.getParameter("domande["+i+"][tipologia]"));
+                       String type = request.getParameter("domande["+i+"][tipologia]");
+                        switch(type) {
+                            case "testo_breve":
+                                max_lenght = request.getParameter("domande["+i+"][LunghezzaMassimaTestoBreve]");
+                                pattern = request.getParameter("domande["+i+"][PatternTestoBreve]");
+                                Vincoli = Serializer.testobreveToJSON(max_lenght,pattern);
+                                d.setVincoli(Vincoli);
+                                break;
+                            case "testo_lungo":
+                                max_lenght = request.getParameter("domande["+i+"][LunghezzaMassimaTestoLungo]");
+                                min_lenght = request.getParameter("domande["+i+"][LunghezzaMinimaTestoLungo]");
+                                pattern = request.getParameter("domande["+i+"][PatternTestoLungo]");
+                                Vincoli = Serializer.testolungoToJSON(max_lenght,min_lenght,pattern);
+                                d.setVincoli(Vincoli);
+                                break;
+                            case "numero":
+                                max_num = request.getParameter("domande["+i+"][Numeromassimo]");
+                                min_num = request.getParameter("domande["+i+"][Numerominimo]");
+                                Vincoli = Serializer.numeroToJSON(max_num,min_num);
+                                d.setVincoli(Vincoli);
+                                break;
+                            case "data":
+                                //TODO DATA
+                                break;
+                            case "scelta_singola":
+                                chooses = request.getParameter("domande["+i+"][sceltasingola]");
+                                Vincoli = Serializer.sceltaSingolaToJSON(chooses);
+                                d.setVincoli(Vincoli);
+                            case "scelta_multipla":
+                                chooses = request.getParameter("domande["+i+"][sceltamultipla]");
+                                min_chooses = request.getParameter("domande["+i+"][Numerominimoscelte]");
+                                max_chooses = request.getParameter("domande["+i+"][Numeromassimoscelte]");
+                                Vincoli = Serializer.sceltaMultiplaToJSON(chooses,min_chooses,max_chooses);
+                                d.setVincoli(Vincoli);
+                                break;
+                        }
                         //ordine
                         ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().salvaDomanda(d);
                     }

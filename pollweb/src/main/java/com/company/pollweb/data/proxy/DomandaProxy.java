@@ -2,6 +2,7 @@ package com.company.pollweb.data.proxy;
 
 import com.company.pollweb.framework.data.DataLayer;
 import com.company.pollweb.data.implementation.DomandaImpl;
+import org.json.JSONObject;
 
 public class DomandaProxy extends DomandaImpl {
 
@@ -31,12 +32,13 @@ public class DomandaProxy extends DomandaImpl {
         super.setSondaggio_id(Sondaggio_id);
     }
 
-    public void setTipologia(String Tipologia){
-        super.setTipologia(Tipologia);
-    }
+    public void setTipologia(String Tipologia){super.setTipologia(Tipologia);}
+
     public void setObbligo(int newObbligo){
         super.setObbligo(newObbligo);
     }
+
+    public void setVincoli(JSONObject Vincoli) {super.setVincoli(Vincoli);}
 
     public boolean isDirty() {
         return dirty;

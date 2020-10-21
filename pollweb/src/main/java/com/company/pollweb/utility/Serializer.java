@@ -1,0 +1,36 @@
+package com.company.pollweb.utility;
+
+import org.json.*;
+
+/**
+ * @author gianlucarea
+ */
+
+public class Serializer {
+
+    public static JSONObject testobreveToJSON(String max_number, String pattern){
+        String JSON = "{\"max_lenght\" :"+max_number+",\"pattern\":"+pattern+"}";
+        JSONObject obj = new JSONObject(JSON);
+        return obj;
+    }
+    public static JSONObject testolungoToJSON(String max_number, String min_number, String pattern){
+        String JSON = "{\"min_lenght\" :"+min_number+",\"max_lenght\":"+max_number+",\"pattern\":"+pattern+"}";
+        JSONObject obj = new JSONObject(JSON);
+        return obj;
+    }
+    public static JSONObject numeroToJSON(String max_num,String min_num){
+        String JSON = "{\"min_num\" :"+min_num+",\"max_num\":"+max_num+"}";
+        JSONObject obj = new JSONObject(JSON);
+        return obj;
+    }
+    public static JSONObject sceltaSingolaToJSON(String chooses){
+        String JSON = "{\"chooses\" :["+chooses+"]}";
+        JSONObject obj = new JSONObject(JSON);
+        return obj;
+    }
+    public static JSONObject sceltaMultiplaToJSON(String chooses, String min_chooses, String max_chooses){
+        String JSON = "{\"chooses\": ["+chooses+"],\"min_chooses\": "+min_chooses+",\"max_chooses\": "+max_chooses+"}";
+        JSONObject obj = new JSONObject(JSON);
+        return obj;
+    }
+}

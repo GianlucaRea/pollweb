@@ -1,5 +1,7 @@
 package com.company.pollweb.data.models;
 
+import org.json.JSONObject;
+
 public interface Domanda {
 
     public int getId();
@@ -16,6 +18,8 @@ public interface Domanda {
 
     public String getNomeObbligo();
 
+    public JSONObject getVincoli();
+
     public int getOrdine();
 
     public void setId(int newId);
@@ -31,5 +35,7 @@ public interface Domanda {
     public void setObbligo(int newObbligo);
 
     public void setOrdine(int newOrdine);
+
+    public void setVincoli(JSONObject newVincoli);
 
 }

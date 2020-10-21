@@ -7,6 +7,7 @@ import com.company.pollweb.framework.data.DAO;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.data.DataLayer;
 import com.company.pollweb.utility.Database;
+import org.json.JSONObject;
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -24,7 +25,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
 
         try {
             super.init();
-            inserimento_domanda = connection.prepareStatement("INSERT INTO Domanda (sondaggio_id, testo, nota, obbligo, tipologia) VALUES (?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+            inserimento_domanda = connection.prepareStatement("INSERT INTO Domanda (sondaggio_id, testo, nota, obbligo, tipologia, vincoli) VALUES (?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
 
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
@@ -53,6 +54,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             a.setNota(rs.getString("nota"));
             a.setObbligo(rs.getInt("obbligo"));
             a.setTipologia(rs.getString("tipologia"));
+            a.setVincoli((JSONObject) rs.getObject("vincoli"));
             return a;
         } catch (SQLException ex) {
             throw new DataException("Incapace di creare domanda dal ResultSet", ex);
@@ -74,6 +76,8 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
                 ps.setString(3, d.getNota());
                 ps.setInt(4, d.getObbligo());
                 ps.setString(5, d.getTipologia());
+                String stringToBeInserted = JSONObject.valueToString(d.getVincoli());
+                ps.setString(6,stringToBeInserted);
                 // Set int ordine
                 if (ps.executeUpdate() == 1) {
                     try (ResultSet rs = ps.getGeneratedKeys()) {

@@ -14,13 +14,14 @@
           <element id="module-output" name="pollweb" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Maven: org.freemarker:freemarker:2.3.30" />
-          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.20" />
-          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.6.1" />
           <element id="archive" name="pollweb-1.0-SNAPSHOT.jar">
             <element id="module-output" name="pollweb" />
           </element>
+          <element id="library" level="project" name="Maven: org.freemarker:freemarker:2.3.30" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.20" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.6.1" />
           <element id="library" level="project" name="Maven: org.jasypt:jasypt:1.9.3" />
+          <element id="library" level="project" name="Maven: org.json:json:20200518" />
         </element>
       </element>
       <element id="directory" name="META-INF">

@@ -82,15 +82,15 @@ and open the template in the editor.
                 vincoliSelect.html('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
                     '<div class="form-group">' +
                     '<label for="LunghezzaMassimaTestoLungo' + numeroDomanda + '">Lunghezza Massima Testo Lungo</label>' +
-                    '<input id="LunghezzaMassimaTestoLungo' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][LunghezzaMassimaTestoBreve]" class="form-control" placeholder="Lunghezza Massima Testo Lungo" required>' +
+                    '<input id="LunghezzaMassimaTestoLungo' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][LunghezzaMassimaTestoLungo]" class="form-control" placeholder="Lunghezza Massima Testo Lungo" required>' +
                     '</div>' +
                     '<div class="form-group">' +
                     '<label for="LunghezzaMinimaTestoLungo' + numeroDomanda + '">Lunghezza Minima Testo Lungo</label>' +
                     '<input id="LunghezzaMinimaTestoLungo' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][LunghezzaMinimaTestoLungo]" class="form-control" placeholder="Lunghezza Minima Testo Lungo" required>' +
                     '</div>' +
                     '<div class="form-group">' +
-                    '<label for="PatternTestoBreve' + numeroDomanda + '">PatternTestoBreve</label>' +
-                    '<input id="PatternTestoBreve' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][PatternTestoBreve]" class="form-control" placeholder="PatternTestoBreve" required>' +
+                    '<label for="PatternTestoLugo' + numeroDomanda + '">Pattern Testo Lungo</label>' +
+                    '<input id="PatternTestoLungo' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][PatternTestoLungo]" class="form-control" placeholder="Pattern Testo Lungo" required>' +
                     '</div>' +
                     '</div>'
                 );
@@ -99,11 +99,11 @@ and open the template in the editor.
                 vincoliSelect.html('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
                     '<div class="form-group">' +
                     '<label for="Numerominimo' + numeroDomanda + '">Numero minimo</label>' +
-                    '<input id="Numerominimo' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][Numerominimo]" class="form-control" placeholder="Numero Massim0" required>' +
+                    '<input id="Numerominimo' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][Numerominimo]" class="form-control" placeholder="Numero Minimo" required>' +
                     '</div>' +
                     '<div class="form-group">' +
                     '<label for="Numeromassimo' + numeroDomanda + '">Numero massimo</label>' +
-                    '<input id="Numeromassimo' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][Numeromassimo]" class="form-control" placeholder="Numero Minimo" required>' +
+                    '<input id="Numeromassimo' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][Numeromassimo]" class="form-control" placeholder="Numero Massimo" required>' +
                     '</div>' +
                     '</div>'
                 );
