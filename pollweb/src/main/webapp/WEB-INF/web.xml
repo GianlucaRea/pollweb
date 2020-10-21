@@ -47,6 +47,10 @@
             <param-value>sondaggio_id</param-value>
         </init-param>
     </servlet>
+    <servlet>
+        <servlet-name>Dashboard</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.Dashboard</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Registrazione</servlet-name>
         <url-pattern>/registrazione</url-pattern>
@@ -58,6 +62,10 @@
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Dashboard</servlet-name>
+        <url-pattern>/dashboard</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CreaSondaggio</servlet-name>
