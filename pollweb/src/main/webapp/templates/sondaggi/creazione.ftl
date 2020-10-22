@@ -177,7 +177,7 @@ and open the template in the editor.
                 '<div class="form-group">' +
                 '<label for="tipologiaDomanda">Tipologia</label>' +
                 '<select id="tipologiaDomanda' + numeroDomanda + '" name="domande[' + numeroDomanda + '][tipologia]" onchange="updateVincoli(' + numeroDomanda + ')" required>' +
-                '<option value="testo_breve"  selected="selected">Testo breve</option>'+
+                '<option value="testo_breve">Testo breve</option>'+
                 '<option value="testo_lungo">Testo lungo</option>'+
                 '<option value="numero">Numero</option>'+
                 '<option value="data">Data</option>'+
