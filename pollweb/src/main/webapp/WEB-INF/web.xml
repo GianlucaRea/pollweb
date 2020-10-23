@@ -40,6 +40,16 @@
         <servlet-class>com.company.pollweb.controllers.utenti.NuovoResponsabile</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>InvitaUtentiSondaggio</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.sondaggi.InvitaUtentiSondaggio</servlet-class>
+        <multipart-config>
+            <!-- enter your values -->
+            <max-file-size>123456</max-file-size>
+            <max-request-size>123456</max-request-size>
+            <file-size-threshold>123456</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet>
         <servlet-name>VisualizzaSondaggio</servlet-name>
         <servlet-class>com.company.pollweb.controllers.VisualizzaSondaggio</servlet-class>
         <init-param>
@@ -94,6 +104,10 @@
     <servlet-mapping>
         <servlet-name>NuovoResponsabile</servlet-name>
         <url-pattern>/utenti/nuovo_responsabile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InvitaUtentiSondaggio</servlet-name>
+        <url-pattern>/sondaggi/invita_utenti</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

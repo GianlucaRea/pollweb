@@ -8,4 +8,5 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
     public CompilazioneDao_MySQL(DataLayer d) {
         super(d);
     }
+
 }

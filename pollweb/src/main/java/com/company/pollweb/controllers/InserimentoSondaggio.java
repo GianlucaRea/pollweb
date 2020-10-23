@@ -52,7 +52,7 @@ public class InserimentoSondaggio extends PollWebBaseController {
                     p.setTitolo(request.getParameter("titolo"));
                     p.setTestoiniziale(request.getParameter("testoiniziale"));
                     p.setTestofinale(request.getParameter("testofinale"));
-                    p.setUtenteId(user.getId());
+                    p.setUtenteId(user.getId()); //TODO MANCA CHECK SE UTENTE ABILITATO
                     ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().salvaSondaggio(p);
                 }
                 else {

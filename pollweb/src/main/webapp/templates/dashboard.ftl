@@ -31,6 +31,7 @@
             </#list>
         </div>
         <h2>Lista responsabili</h2>
+        <a href="/utenti/nuovo_responsabile" class="btn btn-primary">Nuovo responsabile</a>
         <div class="row">
             <#list responsabili as responsabile>
                 <div class="col-md-4 mt-2">

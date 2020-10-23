@@ -10,6 +10,7 @@ import com.company.pollweb.framework.result.SplitSlashesFmkExt;
 import com.company.pollweb.framework.result.TemplateManagerException;
 import com.company.pollweb.framework.result.TemplateResult;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +29,7 @@ public class Dashboard extends PollWebBaseController{
             if(s != null) {
                 action_dashboard(request, response, s);
             } else {
-                action_error(request, response);
+                action_redirect(request, response);
             }
         } catch (IOException ioexc) {
             ioexc.printStackTrace();
@@ -58,7 +59,7 @@ public class Dashboard extends PollWebBaseController{
                 sondaggi = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().listaSondaggiResponsabile(utente.getId());
 
             } else { //utente o guest, accesso non autorizzato
-                action_error(request, response);
+                action_redirect(request, response);
                 return ;
             }
 
@@ -70,11 +71,13 @@ public class Dashboard extends PollWebBaseController{
         }
     }
 
-    private void action_error(HttpServletRequest request, HttpServletResponse response) {
-        if (request.getAttribute("exception") != null) {
-            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-        } else {
-            (new FailureResult(getServletContext())).activate((String) request.getAttribute("message"), request, response);
+    private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+        try {
+            request.setAttribute("urlrequest", request.getRequestURL());
+            RequestDispatcher rd = request.getRequestDispatcher("/login");
+            rd.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
         }
     }
 }

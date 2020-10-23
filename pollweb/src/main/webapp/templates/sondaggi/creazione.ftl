@@ -46,7 +46,7 @@ and open the template in the editor.
                 </div>
                 <div class="col-md-6">
                     <div class="float-right">
-                        <button type="submit" class="btn btn-primary">Crea sondaggio</button>
+                        <button type="submit" class="btn btn-primary">Vai al riepilogo</button>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@ and open the template in the editor.
 
         switch(selectValue) {
             case "testo_breve":
-                vincoliSelect.html('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
+                vincoliSelect.html('<div class="domanda mt-3 mb-3" id="vincoloDomanda' + numeroDomanda + '">' +
                     '<div class="form-group">' +
                     '<label for="LunghezzaMassimaTestoBreve' + numeroDomanda + '">Lunghezza Massima Testo Breve</label>' +
                     '<input id="LunghezzaMassimaTestoBreve' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][LunghezzaMassimaTestoBreve]" class="form-control" placeholder="250" required>' +
@@ -79,7 +79,7 @@ and open the template in the editor.
                 );
                 break;
             case "testo_lungo":
-                vincoliSelect.html('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
+                vincoliSelect.html('<div class="domanda mt-3 mb-3" id="vincoloDomanda' + numeroDomanda + '">' +
                     '<div class="form-group">' +
                     '<label for="LunghezzaMassimaTestoLungo' + numeroDomanda + '">Lunghezza Massima Testo Lungo</label>' +
                     '<input id="LunghezzaMassimaTestoLungo' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][LunghezzaMassimaTestoLungo]" class="form-control" placeholder="Lunghezza Massima Testo Lungo" required>' +
@@ -96,7 +96,7 @@ and open the template in the editor.
                 );
                 break;
             case "numero":
-                vincoliSelect.html('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
+                vincoliSelect.html('<div class="domanda mt-3 mb-3" id="vincoloDomanda' + numeroDomanda + '">' +
                     '<div class="form-group">' +
                     '<label for="Numerominimo' + numeroDomanda + '">Numero minimo</label>' +
                     '<input id="Numerominimo' + numeroDomanda + '" type="number" name="domande[' + numeroDomanda + '][Numerominimo]" class="form-control" placeholder="Numero Minimo" required>' +
@@ -114,7 +114,7 @@ and open the template in the editor.
                 break;
             case "scelta_singola":
                 text = "Inserisci le varie opzioni separate dalla virgola";
-                vincoliSelect.html('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
+                vincoliSelect.html('<div class="domanda mt-3 mb-3" id="vincoloDomanda' + numeroDomanda + '">' +
                     '<div class="form-group">' +
                     '<label for="sceltasingola' + numeroDomanda + '">Scelta Singola</label>' +
                     '<input id="sceltasingola' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][sceltasingola]" class="form-control" placeholder="Opzione1,Opzione2,..." required>' +
@@ -124,7 +124,7 @@ and open the template in the editor.
                 break;
             case "scelta_multipla":
                 text = "Inserisci le varie opzioni separate dalla virgola";
-                vincoliSelect.html('<div class="domanda mt-3 mb-3 card" id="vincoloDomanda' + numeroDomanda + '">' +
+                vincoliSelect.html('<div class="domanda mt-3 mb-3" id="vincoloDomanda' + numeroDomanda + '">' +
                     '<div class="form-group">' +
                     '<label for="sceltamultipla' + numeroDomanda + '">Scelta Multipla</label>' +
                     '<input id="sceltamultipla' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][sceltamultipla]" class="form-control" placeholder="Opzione1,Opzione2,..." required>' +
@@ -148,6 +148,7 @@ and open the template in the editor.
         let numeroDomanda = 0;
         $('#btnNuovaDomanda').on('click', function () {
             numeroDomanda++;
+<<<<<<< Updated upstream
             $("#domande").append('<div class="domanda mt-3 mb-3 card" id="domanda' + numeroDomanda + '">' +
                 '<div class="card-body">'+
                 '<div class="row">' +
@@ -188,6 +189,57 @@ and open the template in the editor.
                 '</div>' +
                 '</div>'+
                 '</div>'+
+=======
+            $("#domande").append(
+                '<div class="domanda mt-3 mb-3 card" id="domanda' + numeroDomanda + '">' +
+                    '<div class="card-body">'+
+                        '<div class="row">' +
+                            '<div class="col-md-6">'+
+                                '<h2 class="text-primary">Domanda n°' + numeroDomanda + '</h2>' +
+                            '</div>'+
+                            '<div class="col-md-6">'+
+                                '<div class="float-right">'+
+                                    '<a class="btn btn-primary" data-toggle="collapse" href="#collapseDomanda' + numeroDomanda + '" role="button" aria-expanded="false" aria-controls="collapseExample">'+
+                                        'Espandi/Minimizza'+
+                                    '</a>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>' + //close row
+                        '<div class="collapse show" id="collapseDomanda' + numeroDomanda + '">'+
+                            '<div class="row">' +
+                                '<div class="col-md-6">'+
+                                    '<div class="form-group">' +
+                                        '<label for="testoDomanda' + numeroDomanda + '">Titolo Della domanda</label>' +
+                                        '<input id="testoDomanda' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][testo]" class="form-control" placeholder="La mia Domanda" required>' +
+                                    '</div>' +
+                                    '<div class="form-group">' +
+                                        '<label for="notaDomanda' + numeroDomanda + '">Nota</label>' +
+                                        '<input id="notaDomanda' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][nota]" class="form-control" placeholder="Una nota" required>' +
+                                    '</div>' +
+                                    '<div class="form-group">' +
+                                        '<label for="tipologiaDomanda">Tipologia</label>' +
+                                        '<select id="tipologiaDomanda' + numeroDomanda + '" name="domande[' + numeroDomanda + '][tipologia]" class="form-control" onchange="updateVincoli(' + numeroDomanda + ')" required>' +
+                                            '<option value="null" selected disabled>Seleziona un\'opzione...</option>'+
+                                            '<option value="testo_breve">Testo breve</option>'+
+                                            '<option value="testo_lungo">Testo lungo</option>'+
+                                            '<option value="numero">Numero</option>'+
+                                            '<option value="data">Data</option>'+
+                                            '<option value="scelta_singola">Scelta singola</option>'+
+                                            '<option value="scelta_multipla">Scelta multipla</option>' + '' +
+                                        '</select>'+
+                                    '</div>'+
+                                    '<div class="form-group">' +
+                                        '<input type="checkbox" name="domande[' + numeroDomanda + '][obbligo]"><label>&nbsp;Domanda obbligatoria</label>' +
+                                    '</div>' +
+                                '</div>'+
+                                '<div class="col-md-6">'+
+                                    '<div class="vincoliSelect" id="vincoliSelect' + numeroDomanda + '">'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>' +
+                        '</div>'+
+                    '</div>'+
+>>>>>>> Stashed changes
                 '</div>');
         });
     });

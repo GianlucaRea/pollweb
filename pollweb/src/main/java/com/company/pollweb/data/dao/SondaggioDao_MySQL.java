@@ -200,10 +200,45 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
     public boolean chiudiSondaggio(int sondaggioId) throws SQLException {
         PreparedStatement pubblicaSondaggioQuery = connection.prepareStatement("UPDATE Sondaggio SET stato=2 WHERE id=?");
         pubblicaSondaggioQuery.setInt(1, sondaggioId);
-        if(pubblicaSondaggioQuery.executeUpdate() == 1){
-            return true;
-        } else {
-            return false;
+        return pubblicaSondaggioQuery.executeUpdate() == 1;
+    }
+
+    public boolean invitaUtenti(int sondaggioId, String[] utenti) throws SQLException {
+        String aggiungiUtentiSQL = "INSERT INTO Compilazione (sondaggio_id, email) VALUES ";
+        boolean execute = false;
+        for(String utente: utenti) {
+            if(utente.length() > 0) {
+                aggiungiUtentiSQL = aggiungiUtentiSQL + "(?, ?),";
+            }
         }
+        aggiungiUtentiSQL = aggiungiUtentiSQL.substring(0, aggiungiUtentiSQL.length()-1);
+        aggiungiUtentiSQL = aggiungiUtentiSQL + ";";
+        PreparedStatement aggiungiUtentiQuery = connection.prepareStatement(aggiungiUtentiSQL);
+        System.out.println(aggiungiUtentiSQL);
+        for(int i=0;i< utenti.length; i++) {
+            System.out.println(utenti[i]);
+            if(utenti[i].length() > 0){
+                aggiungiUtentiQuery.setInt((2*i)+1, sondaggioId);
+                aggiungiUtentiQuery.setString((2*i)+2, utenti[i]);
+                execute = true;
+            }
+        }
+        System.out.println(aggiungiUtentiSQL);
+        if(execute) {
+            aggiungiUtentiQuery.execute();
+        }
+        aggiungiUtentiQuery.close();
+        return true;
+    }
+
+    public int modificaVisibilita(int sondaggioId, int nuovoValore) throws SQLException {
+        System.out.println("ENTRO");
+        String modificaVisibilitaSQL = "UPDATE Sondaggio SET visibilita=? WHERE id=?";
+        System.out.println(modificaVisibilitaSQL);
+        PreparedStatement modificaVisibilitaQuery = connection.prepareStatement(modificaVisibilitaSQL);
+        modificaVisibilitaQuery.setInt(1, nuovoValore);
+        modificaVisibilitaQuery.setInt(2, sondaggioId);
+        modificaVisibilitaQuery.execute();
+        return 1;
     }
 }

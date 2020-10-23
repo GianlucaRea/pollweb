@@ -61,6 +61,8 @@ public class RiepilogoSondaggio extends PollWebBaseController {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("sondaggio", sondaggio);
+
+
             request.setAttribute("domande", domande);
             res.activate("sondaggi/riepilogo.ftl", request, response);
         } else {
