@@ -17,7 +17,7 @@ and open the template in the editor.
 <@globalTemplate.navbar />
 <div class="pt-5 pb-5">
     <div class="container">
-        <h1>Riepilogo sondaggio ${sondaggio.getTitolo()}</h1>
+        <h1>Riepilogo "${sondaggio.getTitolo()}"</h1>
         <div class="card">
             <div class="card-body">
                 <label for="visibilitaSondaggio">Visibilità del sondaggio</label>
@@ -35,6 +35,7 @@ and open the template in the editor.
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="invitaTramiteEmail">Invita tramite email</label>
+                                <br>
                                 <button type="button" id="invitaTramiteEmail" onclick="aggiungiInvitato()" class="btn btn-primary">Aggiungi email <i class="fad fa-plus"></i></button>
                             </div>
                             <div class="col-md-6">
@@ -57,8 +58,10 @@ and open the template in the editor.
                 </form>
                 <div class="clearfix"></div>
 
-                <p><strong>Testo iniziale</strong>: <#if sondaggio.getTestoIniziale().length>${sondaggio.getTestoIniziale()}</#if></p>
-                <p><strong>Testo finale</strong>: <#if sondaggio.getTestoFinale().length>${sondaggio.getTestoFinale()}</#if></p>
+                <p class="mb-0"><strong>Testo iniziale</strong></p>
+                <p>${sondaggio.getTestoiniziale()}</p>
+                <p class="mb-0"><strong>Testo finale</strong></p>
+                <p>${sondaggio.getTestofinale()}</p>
             </div>
 
         </div>

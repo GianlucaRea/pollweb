@@ -25,7 +25,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
 
         try {
             super.init();
-            inserimento_domanda = connection.prepareStatement("INSERT INTO Domanda (sondaggio_id, testo, nota, obbligo, tipologia, vincoli) VALUES (?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+            inserimento_domanda = connection.prepareStatement("INSERT INTO Domanda (sondaggio_id, testo, nota, obbligo, tipologia, vincoli, ordine) VALUES (?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
 
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
@@ -55,6 +55,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             a.setObbligo(rs.getInt("obbligo"));
             a.setTipologia(rs.getString("tipologia"));
             a.setVincoli((JSONObject) rs.getObject("vincoli"));
+            a.setOrdine(rs.getInt("ordine"));
             return a;
         } catch (SQLException ex) {
             throw new DataException("Incapace di creare domanda dal ResultSet", ex);
@@ -78,6 +79,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
                 ps.setString(5, d.getTipologia());
                 String stringToBeInserted = JSONObject.valueToString(d.getVincoli());
                 ps.setString(6,stringToBeInserted);
+                ps.setInt(7,d.getOrdine());
                 // Set int ordine
                 if (ps.executeUpdate() == 1) {
                     try (ResultSet rs = ps.getGeneratedKeys()) {

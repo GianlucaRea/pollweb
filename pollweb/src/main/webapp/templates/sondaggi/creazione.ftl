@@ -59,53 +59,43 @@ and open the template in the editor.
 
 <script>
 
-    function spostasopra(numeroDomanda) {
+    function spostaDomanda(numeroDomanda, direzione) {
         let rowAttuale = $("#rowDomanda" + numeroDomanda);
-        let rowSopra = rowAttuale.prev();
-
-        if(rowSopra.hasClass("rowDomanda")) {
-            let appRowAttuale = rowAttuale.clone();
-            let appRowSopra = rowSopra.clone();
-
-            rowSopra.replaceWith(appRowAttuale);
-            rowAttuale.replaceWith(appRowSopra);
-
-            //prendi il data-numero-domanda per modificare l'ordine
-            let idRowAttuale = rowAttuale.data("numero-domanda");
-            let idRowSopra = rowSopra.data("numero-domanda");
-
-            let valOrdineRowAttuale = $("#domandaInputOrdine"+idRowAttuale).val();
-            let valOrdineRowSopra = $("#domandaInputOrdine"+idRowSopra).val();
-
-            //swap valore ordine input hidden
-            $("input[id=domandaInputOrdine" + idRowAttuale + "]").val(valOrdineRowSopra);
-            $("input[id=domandaInputOrdine" + idRowSopra + "]").val(valOrdineRowAttuale);
+        let rowScambio;
+        console.log(direzione);
+        if(direzione == 'sopra') {
+            rowScambio = rowAttuale.prev();
+        }
+        if(direzione == 'sotto') {
+            rowScambio = rowAttuale.next();
         }
 
-    }
-
-    function spostasotto(numeroDomanda) {
-        let rowAttuale = $("#rowDomanda" + numeroDomanda);
-        let rowSotto = rowAttuale.next();
-
-        if(rowSotto.hasClass("rowDomanda")) {
+        if(rowScambio.hasClass("rowDomanda")) {
             let appRowAttuale = rowAttuale.clone();
-            let appRowSotto = rowSotto.clone();
+            let appRowScambio = rowScambio.clone();
 
-            rowSotto.replaceWith(appRowAttuale);
-            rowAttuale.replaceWith(appRowSotto);
-
-            //prendi il data-numero-domanda per modificare l'ordine
             let idRowAttuale = rowAttuale.data("numero-domanda");
-            let idRowSotto = rowSotto.data("numero-domanda");
+            let idRowScambio = rowScambio.data("numero-domanda");
 
+            let valTipologiaAttuale = $("#tipologiaDomanda"+idRowAttuale).val();
+            let valTipologiaScambio = $("#tipologiaDomanda"+idRowScambio).val();
+
+            rowScambio.replaceWith(appRowAttuale);
+            rowAttuale.replaceWith(appRowScambio);
+
+            //modifica ordine
             let valOrdineRowAttuale = $("#domandaInputOrdine"+idRowAttuale).val();
-            let valOrdineRowSotto = $("#domandaInputOrdine"+idRowSotto).val();
+            let valOrdineRowScambio = $("#domandaInputOrdine"+idRowScambio).val();
+
+            //imposta tipologia
+            $("#tipologiaDomanda"+idRowAttuale).val(valTipologiaAttuale);
+            $("#tipologiaDomanda"+idRowScambio).val(valTipologiaScambio);
 
             //swap valore ordine input hidden
-            $("input[id=domandaInputOrdine" + idRowAttuale + "]").val(valOrdineRowSotto);
-            $("input[id=domandaInputOrdine" + idRowSotto + "]").val(valOrdineRowAttuale);
+            $("input[id=domandaInputOrdine" + idRowAttuale + "]").val(valOrdineRowScambio);
+            $("input[id=domandaInputOrdine" + idRowScambio + "]").val(valOrdineRowAttuale);
         }
+
     }
 
     function cambiaTitoloDomanda(numeroDomanda) {
@@ -257,8 +247,8 @@ and open the template in the editor.
                     '</div>'+
                     '<div class="col-1">'+
                         '<div class="mt-3 float-right">'+
-                            '<p><button type="button" class="btn btn-secondary btn-sm" onclick="spostasopra(' + numeroDomanda + ')"><i class="fas fa-arrow-up"></i></button></p>'+
-                            '<p><button type="button" class="btn btn-secondary btn-sm" onclick="spostasotto(' + numeroDomanda + ')"><i class="fas fa-arrow-down"></i></button></p>'+
+                            '<p><button type="button" class="btn btn-secondary btn-sm" onclick="spostaDomanda(' + numeroDomanda + ', \'sopra\')"><i class="fas fa-arrow-up"></i></button></p>'+
+                            '<p><button type="button" class="btn btn-secondary btn-sm" onclick="spostaDomanda(' + numeroDomanda + ', \'sotto\')"><i class="fas fa-arrow-down"></i></button></p>'+
                         '</div>'+
                     '</div>'+
                 '</div>');
