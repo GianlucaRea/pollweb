@@ -23,7 +23,7 @@ import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
 public class InserimentoSondaggio extends PollWebBaseController {
 
     protected String  pattern, chooses;
-    protected int max_lenght,min_lenght,max_num,min_num,max_chooses,min_chooses;
+    protected int max_lenght,min_lenght,max_num,min_num,max_chooses,min_chooses,data;
     protected JSONObject Vincoli;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DataException {
@@ -96,7 +96,9 @@ public class InserimentoSondaggio extends PollWebBaseController {
                                 d.setVincoli(Vincoli);
                                 break;
                             case "data":
-                                //TODO DATA
+                                data = 1;
+                                Vincoli = Serializer.dataToJSON(data);
+                                d.setVincoli(Vincoli);
                                 break;
                             case "scelta_singola":
                                 chooses = request.getParameter("domande["+i+"][sceltasingola]");
@@ -112,7 +114,6 @@ public class InserimentoSondaggio extends PollWebBaseController {
                                 d.setVincoli(Vincoli);
                                 break;
                         }
-                        //ordine
                         ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().salvaDomanda(d);
                     }
                     else {

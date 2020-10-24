@@ -12,6 +12,8 @@ import com.company.pollweb.framework.data.DataException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
 /**
  *
  * @author gianlucarea
@@ -23,4 +25,8 @@ public interface DomandaDao {
   public DomandaProxy creazioneDomanda();
 
   void salvaDomanda(Domanda d) throws DataException;
+
+  Domanda getDomandaByID(int domanda_id) throws DataException;
+
+  List<Domanda> getDomandeBySondaggioID(int sondaggioId) throws DataException;
 }

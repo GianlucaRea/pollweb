@@ -10,12 +10,16 @@ import com.company.pollweb.utility.Database;
 import org.json.JSONObject;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.company.pollweb.utility.Serializer.StringToJSON;
+
 public class DomandaDao_MySQL extends DAO implements DomandaDao{
 
-    private PreparedStatement inserimento_domanda;
+    private PreparedStatement inserimento_domanda , domande_by_sondaggioID ,domanda_by_id;
 
     public DomandaDao_MySQL(DataLayer d) {
         super(d);
@@ -26,7 +30,8 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
         try {
             super.init();
             inserimento_domanda = connection.prepareStatement("INSERT INTO Domanda (sondaggio_id, testo, nota, obbligo, tipologia, vincoli, ordine) VALUES (?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
-
+            domande_by_sondaggioID = connection.prepareStatement("SELECT * from Domanda where sondaggio_id=?;");
+            domanda_by_id= connection.prepareStatement("SELECT * FROM Domanda WHERE ID=?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
         }
@@ -35,6 +40,8 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
     public void destroy() throws DataException {
         try {
             inserimento_domanda.close();
+            domande_by_sondaggioID.close();
+            domanda_by_id.close();
         } catch (SQLException ex) {
             Logger.getLogger(SondaggioDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -54,7 +61,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             a.setNota(rs.getString("nota"));
             a.setObbligo(rs.getInt("obbligo"));
             a.setTipologia(rs.getString("tipologia"));
-            a.setVincoli((JSONObject) rs.getObject("vincoli"));
+            a.setVincoli(StringToJSON(rs.getString("vincoli")));
             a.setOrdine(rs.getInt("ordine"));
             return a;
         } catch (SQLException ex) {
@@ -98,5 +105,36 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             throw new DataException("Impossibile inserire o modificare la Domanda", ex);
         }
 
+    }
+
+    @Override
+    public List<Domanda> getDomandeBySondaggioID(int sondaggioId) throws DataException {
+        List<Domanda> domande = new ArrayList();
+        try {
+            domande_by_sondaggioID.setInt(1,sondaggioId);
+            try (ResultSet rs = domande_by_sondaggioID.executeQuery()) {
+                while (rs.next()) {
+                    domande.add((Domanda) getDomandaByID(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare le Domande By Sondaggio", ex);
+        }
+        return domande;
+    }
+
+    @Override
+    public Domanda getDomandaByID(int domanda_id) throws DataException {
+        try {
+            domanda_by_id.setInt(1, domanda_id);
+            try (ResultSet rs = domanda_by_id.executeQuery()) {
+                if (rs.next()) {
+                    return creazioneDomanda(rs);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare Domande By ID", ex);
+        }
+        return null;
     }
 }

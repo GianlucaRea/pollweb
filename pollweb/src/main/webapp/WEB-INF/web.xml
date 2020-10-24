@@ -58,6 +58,14 @@
         </init-param>
     </servlet>
     <servlet>
+        <servlet-name>CompilazioneSondaggio</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.sondaggi.CompilazioneSondaggio</servlet-class>
+        <init-param>
+            <param-name>sondaggio_id</param-name>
+            <param-value>sondaggio_id</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
         <servlet-name>Dashboard</servlet-name>
         <servlet-class>com.company.pollweb.controllers.Dashboard</servlet-class>
     </servlet>
@@ -88,6 +96,10 @@
     <servlet-mapping>
         <servlet-name>VisualizzaSondaggio</servlet-name>
         <url-pattern>/sondaggi/visualizza</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CompilazioneSondaggio</servlet-name>
+        <url-pattern>/sondaggi/compilazione</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RiepilogoSondaggio</servlet-name>

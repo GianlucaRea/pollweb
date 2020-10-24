@@ -152,7 +152,6 @@ and open the template in the editor.
                 );
                 break;
             case "data":
-                text = "Gli utenti potranno scegliere solo date successive all'odierna";
                 vincoliSelect.html();
                 break;
             case "scelta_singola":

@@ -33,4 +33,14 @@ public class Serializer {
         JSONObject obj = new JSONObject(JSON);
         return obj;
     }
+    public static JSONObject dataToJSON(int data){
+        String JSON = "{\"date\" :["+data+"]}";
+        JSONObject obj = new JSONObject(JSON);
+        return obj;
+    }
+
+    public static JSONObject StringToJSON(String JSON){
+        JSONObject obj = new JSONObject(JSON);
+        return obj;
+    }
 }
