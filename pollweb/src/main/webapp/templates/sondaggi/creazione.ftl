@@ -59,6 +59,59 @@ and open the template in the editor.
 
 <script>
 
+    function spostasopra(numeroDomanda) {
+        let rowAttuale = $("#rowDomanda" + numeroDomanda);
+        let rowSopra = rowAttuale.prev();
+
+        if(rowSopra.hasClass("rowDomanda")) {
+            let appRowAttuale = rowAttuale.clone();
+            let appRowSopra = rowSopra.clone();
+
+            rowSopra.replaceWith(appRowAttuale);
+            rowAttuale.replaceWith(appRowSopra);
+
+            //prendi il data-numero-domanda per modificare l'ordine
+            let idRowAttuale = rowAttuale.data("numero-domanda");
+            let idRowSopra = rowSopra.data("numero-domanda");
+
+            let valOrdineRowAttuale = $("#domandaInputOrdine"+idRowAttuale).val();
+            let valOrdineRowSopra = $("#domandaInputOrdine"+idRowSopra).val();
+
+            //swap valore ordine input hidden
+            $("input[id=domandaInputOrdine" + idRowAttuale + "]").val(valOrdineRowSopra);
+            $("input[id=domandaInputOrdine" + idRowSopra + "]").val(valOrdineRowAttuale);
+        }
+
+    }
+
+    function spostasotto(numeroDomanda) {
+        let rowAttuale = $("#rowDomanda" + numeroDomanda);
+        let rowSotto = rowAttuale.next();
+
+        if(rowSotto.hasClass("rowDomanda")) {
+            let appRowAttuale = rowAttuale.clone();
+            let appRowSotto = rowSotto.clone();
+
+            rowSotto.replaceWith(appRowAttuale);
+            rowAttuale.replaceWith(appRowSotto);
+
+            //prendi il data-numero-domanda per modificare l'ordine
+            let idRowAttuale = rowAttuale.data("numero-domanda");
+            let idRowSotto = rowSotto.data("numero-domanda");
+
+            let valOrdineRowAttuale = $("#domandaInputOrdine"+idRowAttuale).val();
+            let valOrdineRowSotto = $("#domandaInputOrdine"+idRowSotto).val();
+
+            //swap valore ordine input hidden
+            $("input[id=domandaInputOrdine" + idRowAttuale + "]").val(valOrdineRowSotto);
+            $("input[id=domandaInputOrdine" + idRowSotto + "]").val(valOrdineRowAttuale);
+        }
+    }
+
+    function cambiaTitoloDomanda(numeroDomanda) {
+        $("#titoloDomanda" + numeroDomanda).text($("#testoDomanda"+numeroDomanda).val());
+    }
+
     function updateVincoli(numeroDomanda) {
 
         let selectValue = $("#tipologiaDomanda"+numeroDomanda).val();
@@ -148,98 +201,66 @@ and open the template in the editor.
         let numeroDomanda = 0;
         $('#btnNuovaDomanda').on('click', function () {
             numeroDomanda++;
-<<<<<<< Updated upstream
-            $("#domande").append('<div class="domanda mt-3 mb-3 card" id="domanda' + numeroDomanda + '">' +
-                '<div class="card-body">'+
-                '<div class="row">' +
-                '<div class="col-md-6">'+
-                '<h2 class="text-primary">Domanda n°' + numeroDomanda + '</h2>' +
-                '</div>'+
-                '<div class="col-md-6">'+
-                '<div class="float-right">'+
-                '<a class="btn btn-primary" data-toggle="collapse" href="#collapseDomanda' + numeroDomanda + '" role="button" aria-expanded="false" aria-controls="collapseExample">'+
-                'Espandi/Minimizza'+
-                '</a>'+
-                '</div>'+
-                '</div>'+
-                '</div>'+
-                '<div class="collapse show" id="collapseDomanda' + numeroDomanda + '">'+
-                '<div class="form-group">' +
-                '<label for="testoDomanda' + numeroDomanda + '">Titolo Della domanda</label>' +
-                '<input id="testoDomanda' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][testo]" class="form-control" placeholder="La mia Domanda" required>' +
-                '</div>' +
-                '<div class="form-group">' +
-                '<label for="notaDomanda' + numeroDomanda + '">Nota</label>' +
-                '<input id="notaDomanda' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][nota]" class="form-control" placeholder="Una nota" required>' +
-                '</div>' +
-                '<div class="form-group">' +
-                '<label><input type="checkbox" name="domande[' + numeroDomanda + '][obbligo]"> Obbligo</label>' +
-                '</div>' +
-                '<div class="form-group">' +
-                '<label for="tipologiaDomanda">Tipologia</label>' +
-                '<select id="tipologiaDomanda' + numeroDomanda + '" name="domande[' + numeroDomanda + '][tipologia]" onchange="updateVincoli(' + numeroDomanda + ')" required>' +
-                '<option value="testo_breve">Testo breve</option>'+
-                '<option value="testo_lungo">Testo lungo</option>'+
-                '<option value="numero">Numero</option>'+
-                '<option value="data">Data</option>'+
-                '<option value="scelta_singola">Scelta singola</option>'+
-                '<option value="scelta_multipla">Scelta multipla</option></select>'+
-                '<div class="vincoliSelect" id="vincoliSelect' + numeroDomanda + '">'+
-                '</div>'+
-                '</div>' +
-                '</div>'+
-                '</div>'+
-=======
             $("#domande").append(
-                '<div class="domanda mt-3 mb-3 card" id="domanda' + numeroDomanda + '">' +
-                    '<div class="card-body">'+
-                        '<div class="row">' +
-                            '<div class="col-md-6">'+
-                                '<h2 class="text-primary">Domanda n°' + numeroDomanda + '</h2>' +
-                            '</div>'+
-                            '<div class="col-md-6">'+
-                                '<div class="float-right">'+
-                                    '<a class="btn btn-primary" data-toggle="collapse" href="#collapseDomanda' + numeroDomanda + '" role="button" aria-expanded="false" aria-controls="collapseExample">'+
-                                        'Espandi/Minimizza'+
-                                    '</a>'+
-                                '</div>'+
-                            '</div>'+
-                        '</div>' + //close row
-                        '<div class="collapse show" id="collapseDomanda' + numeroDomanda + '">'+
-                            '<div class="row">' +
-                                '<div class="col-md-6">'+
-                                    '<div class="form-group">' +
-                                        '<label for="testoDomanda' + numeroDomanda + '">Titolo Della domanda</label>' +
-                                        '<input id="testoDomanda' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][testo]" class="form-control" placeholder="La mia Domanda" required>' +
-                                    '</div>' +
-                                    '<div class="form-group">' +
-                                        '<label for="notaDomanda' + numeroDomanda + '">Nota</label>' +
-                                        '<input id="notaDomanda' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][nota]" class="form-control" placeholder="Una nota" required>' +
-                                    '</div>' +
-                                    '<div class="form-group">' +
-                                        '<label for="tipologiaDomanda">Tipologia</label>' +
-                                        '<select id="tipologiaDomanda' + numeroDomanda + '" name="domande[' + numeroDomanda + '][tipologia]" class="form-control" onchange="updateVincoli(' + numeroDomanda + ')" required>' +
-                                            '<option value="null" selected disabled>Seleziona un\'opzione...</option>'+
-                                            '<option value="testo_breve">Testo breve</option>'+
-                                            '<option value="testo_lungo">Testo lungo</option>'+
-                                            '<option value="numero">Numero</option>'+
-                                            '<option value="data">Data</option>'+
-                                            '<option value="scelta_singola">Scelta singola</option>'+
-                                            '<option value="scelta_multipla">Scelta multipla</option>' + '' +
-                                        '</select>'+
+                '<div class="row rowDomanda" id="rowDomanda' + numeroDomanda + '" data-numero-domanda="' + numeroDomanda + '">' +
+                    '<div class="col-11">' +
+                        '<div class="domanda mt-3 mb-3 card" id="domanda' + numeroDomanda + '">' +
+                            '<div class="card-body">'+
+                                '<div class="row">' +
+                                    '<div class="col-md-6">'+
+                                        '<h2 class="text-primary" id="titoloDomanda' + numeroDomanda + '">Domanda</h2>' +
                                     '</div>'+
-                                    '<div class="form-group">' +
-                                        '<input type="checkbox" name="domande[' + numeroDomanda + '][obbligo]"><label>&nbsp;Domanda obbligatoria</label>' +
+                                    '<div class="col-md-6">'+
+                                        '<div class="float-right">'+
+                                            '<a class="btn btn-primary" data-toggle="collapse" href="#collapseDomanda' + numeroDomanda + '" role="button" aria-expanded="false" aria-controls="collapseExample">'+
+                                                'Espandi/Minimizza'+
+                                            '</a>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>' + //close row
+                                '<div class="collapse show" id="collapseDomanda' + numeroDomanda + '">'+
+                                    '<input type="hidden" id="domandaInputOrdine' + numeroDomanda + '" name="domande['+ numeroDomanda +'][ordine]" value="'+ numeroDomanda + '" />'+
+                                    '<div class="row">' +
+                                        '<div class="col-md-6">'+
+                                            '<div class="form-group">' +
+                                                '<label for="testoDomanda' + numeroDomanda + '">Testo Della domanda</label>' +
+                                                '<input id="testoDomanda' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][testo]" onkeyup="cambiaTitoloDomanda(' + numeroDomanda + ')" class="form-control" placeholder="La mia Domanda" required>' +
+                                            '</div>' +
+                                            '<div class="form-group">' +
+                                                '<label for="notaDomanda' + numeroDomanda + '">Nota</label>' +
+                                                '<input id="notaDomanda' + numeroDomanda + '" type="text" name="domande[' + numeroDomanda + '][nota]" class="form-control" placeholder="Una nota" required>' +
+                                            '</div>' +
+                                            '<div class="form-group">' +
+                                                '<label for="tipologiaDomanda">Tipologia</label>' +
+                                                '<select id="tipologiaDomanda' + numeroDomanda + '" name="domande[' + numeroDomanda + '][tipologia]" class="form-control" onchange="updateVincoli(' + numeroDomanda + ')" required>' +
+                                                    '<option value="null" selected disabled>Seleziona un\'opzione...</option>'+
+                                                    '<option value="testo_breve">Testo breve</option>'+
+                                                    '<option value="testo_lungo">Testo lungo</option>'+
+                                                    '<option value="numero">Numero</option>'+
+                                                    '<option value="data">Data</option>'+
+                                                    '<option value="scelta_singola">Scelta singola</option>'+
+                                                    '<option value="scelta_multipla">Scelta multipla</option>' + '' +
+                                                '</select>'+
+                                            '</div>'+
+                                            '<div class="form-group">' +
+                                                '<input type="checkbox" name="domande[' + numeroDomanda + '][obbligo]"><label>&nbsp;Domanda obbligatoria</label>' +
+                                            '</div>' +
+                                        '</div>'+
+                                        '<div class="col-md-6">'+
+                                            '<div class="vincoliSelect" id="vincoliSelect' + numeroDomanda + '">'+
+                                            '</div>'+
+                                        '</div>'+
                                     '</div>' +
                                 '</div>'+
-                                '<div class="col-md-6">'+
-                                    '<div class="vincoliSelect" id="vincoliSelect' + numeroDomanda + '">'+
-                                    '</div>'+
-                                '</div>'+
-                            '</div>' +
+                            '</div>'+
                         '</div>'+
                     '</div>'+
->>>>>>> Stashed changes
+                    '<div class="col-1">'+
+                        '<div class="mt-3 float-right">'+
+                            '<p><button type="button" class="btn btn-secondary btn-sm" onclick="spostasopra(' + numeroDomanda + ')"><i class="fas fa-arrow-up"></i></button></p>'+
+                            '<p><button type="button" class="btn btn-secondary btn-sm" onclick="spostasotto(' + numeroDomanda + ')"><i class="fas fa-arrow-down"></i></button></p>'+
+                        '</div>'+
+                    '</div>'+
                 '</div>');
         });
     });
