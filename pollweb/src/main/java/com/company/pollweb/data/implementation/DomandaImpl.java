@@ -190,11 +190,10 @@ public class DomandaImpl implements Domanda {
     }
 
     public List<String> getChoosesArrayList() {
-        JSONArray arr = new JSONArray(this.getChooses());
+        JSONArray arr =  this.getChooses();
         List<String> list = new ArrayList<String>();
         for(int index = 0; index < arr.length(); index++){
-            list.add(arr.getJSONObject(index).toString());
-            System.out.println(arr.getJSONObject(index));
+            list.add(arr.getString(index));
         }
         return list;
     }

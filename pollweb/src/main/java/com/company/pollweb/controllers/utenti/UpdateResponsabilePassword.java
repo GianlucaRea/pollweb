@@ -28,7 +28,7 @@ public class UpdateResponsabilePassword extends PollWebBaseController {
             action_redirect(request, response);
         }
     }
-    
+
     private void action_update_password(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws TemplateManagerException {
         try {
             Utente utente = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
