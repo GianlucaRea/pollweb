@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class UtenteDao_MySQL extends DAO implements UtenteDao {
 
 
-    private PreparedStatement utenteById,utenteByLogin,utenteByEmail,inserimentoUtente;
+    private PreparedStatement utenteById,utenteByLogin,utenteByEmail,inserimentoUtente,update_utente_password;
 
     public UtenteDao_MySQL(DataLayer d) {
         super(d);
@@ -31,6 +31,7 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
             utenteByLogin = connection.prepareStatement("SELECT * FROM utente where email = ? AND password = ?;");
             utenteByEmail = connection.prepareStatement("SELECT * FROM utente where email = ?;");
             inserimentoUtente = connection.prepareStatement("INSERT INTO Utente (email,nome,cognome,password,ruolo_id) VALUES (?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
+            update_utente_password = connection.prepareStatement("UPDATE Utente SET password = ? WHERE id =?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer pollweb", ex);
         }
@@ -43,6 +44,7 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
             utenteByLogin.close();
             utenteByEmail.close();
             inserimentoUtente.close();
+            update_utente_password.close();
         } catch (SQLException ex){
             Logger.getLogger(UtenteDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -107,6 +109,20 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
 
         } catch (SQLException ex) {
             throw new DataException("Impossibile aggiornare/inserire l'utente", ex);
+        }
+    }
+
+    @Override
+    public void updatePassword(Utente utente) throws DataException {
+        try{
+            if (utente instanceof UtenteProxy && !((UtenteProxy) utente).isDirty()) {
+                return;
+            }
+            update_utente_password.setString(1, utente.getPassword());
+            update_utente_password.setInt(2,utente.getId());
+            update_utente_password.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
