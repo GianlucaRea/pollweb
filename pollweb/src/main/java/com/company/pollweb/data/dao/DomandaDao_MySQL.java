@@ -30,7 +30,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
         try {
             super.init();
             inserimento_domanda = connection.prepareStatement("INSERT INTO Domanda (sondaggio_id, testo, nota, obbligo, tipologia, vincoli, ordine) VALUES (?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
-            domande_by_sondaggioID = connection.prepareStatement("SELECT * from Domanda where sondaggio_id=?;");
+            domande_by_sondaggioID = connection.prepareStatement("SELECT * from Domanda where sondaggio_id=? ORDER BY ordine ASC;");
             domanda_by_id= connection.prepareStatement("SELECT * FROM Domanda WHERE ID=?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
