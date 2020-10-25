@@ -9,6 +9,7 @@ import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.result.SplitSlashesFmkExt;
 import com.company.pollweb.framework.result.TemplateManagerException;
 import com.company.pollweb.framework.result.TemplateResult;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -69,10 +70,44 @@ public class CompilazioneSondaggio extends PollWebBaseController {
                     request.setAttribute("domande["+i+"][obbligo]",domanda.getObbligo());
                     request.setAttribute("domande["+i+"][ordine]",domanda.getOrdine());
                     request.setAttribute("domande["+i+"][tipologia]",domanda.getTipologia());
+                    String type = domanda.getTipologia();
+                    switch(type) {
+                        case "testo_breve":
+                            JSONObject tbJSON = domanda.getVincoli();
+                            request.setAttribute("domande["+i+"][max_length]",tbJSON.getInt("max_length"));
+                            request.setAttribute("domande["+i+"][pattern]",tbJSON.getString("pattern"));
+                            break;
+                        case "testo_lungo":
+                            JSONObject tlJSON = domanda.getVincoli();
+                            request.setAttribute("domande["+i+"][max_length]",tlJSON.getInt("max_length"));
+                            request.setAttribute("domande["+i+"][min_length]",tlJSON.getInt("min_length"));
+                            request.setAttribute("domande["+i+"][pattern]",tlJSON.getString("pattern"));
+                            break;
+                        case "numero":
+                            JSONObject nJSON = domanda.getVincoli();
+                            request.setAttribute("domande["+i+"][max_num]",nJSON.getInt("max_num"));
+                            request.setAttribute("domande["+i+"][min_num]",nJSON.getInt("min_num"));
+                            break;
+                        case "data":
+                            JSONObject dJSON = domanda.getVincoli();
+                            request.setAttribute("domande["+i+"][data]",dJSON.getInt("date"));
+                            break;
+                        case "scelta_singola":
+                            JSONObject ssJSON = domanda.getVincoli();
+                            request.setAttribute("domande["+i+"][chooses]",ssJSON.getJSONArray("chooses"));
+                            break;
+                        case "scelta_multipla":
+                            JSONObject smJSON = domanda.getVincoli();
+                            request.setAttribute("domande["+i+"][chooses]",smJSON.getJSONArray("chooses"));
+                            request.setAttribute("domande["+i+"][max_chooses]",smJSON.getInt("max_chooses"));
+                            request.setAttribute("domande["+i+"][min_chooses]",smJSON.getInt("min_chooses"));
+                            break;
+                    }
+
                 }
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-                res.activate("compilazione.ftl", request, response);
+                res.activate("sondaggi/compilazione.ftl", request, response);
             } else {
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
