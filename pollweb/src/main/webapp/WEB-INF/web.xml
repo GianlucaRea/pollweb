@@ -59,7 +59,7 @@
     </servlet>
     <servlet>
         <servlet-name>CompilazioneSondaggio</servlet-name>
-        <servlet-class>com.company.pollweb.controllers.sondaggi.CompilazioneSondaggio</servlet-class>
+        <servlet-class>com.company.pollweb.controllers.compilazione.MostraCompilazione</servlet-class>
         <init-param>
             <param-name>sondaggio_id</param-name>
             <param-value>sondaggio_id</param-value>

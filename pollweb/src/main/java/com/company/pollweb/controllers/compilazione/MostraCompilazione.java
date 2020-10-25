@@ -1,29 +1,23 @@
-package com.company.pollweb.controllers.sondaggi;
+package com.company.pollweb.controllers.compilazione;
 
 import com.company.pollweb.controllers.PollWebBaseController;
 import com.company.pollweb.data.dao.PollwebDataLayer;
 import com.company.pollweb.data.models.Domanda;
 import com.company.pollweb.data.models.Sondaggio;
-import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.result.SplitSlashesFmkExt;
 import com.company.pollweb.framework.result.TemplateManagerException;
 import com.company.pollweb.framework.result.TemplateResult;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
-
-public class CompilazioneSondaggio extends PollWebBaseController {
+public class MostraCompilazione extends PollWebBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DataException {
         try {
             if(request.getParameter("id") == null) {
