@@ -38,7 +38,7 @@ public class MostraCompilazione extends PollWebBaseController {
         }
     }
 
-    private void action_compila_sondaggio(HttpServletRequest request, HttpServletResponse response) throws DataException, SQLException {
+    private void action_compila_sondaggio(HttpServletRequest request, HttpServletResponse response) throws DataException, SQLException, TemplateManagerException {
         try {
             int sondaggioId = Integer.parseInt(request.getParameter("id"));
 
@@ -92,22 +92,16 @@ public class MostraCompilazione extends PollWebBaseController {
             } else {
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-                request.setAttribute("error", "Non siamo capaci di caricare il sondaggio");
+                request.setAttribute("error", "Il sondaggio non esiste");
                 res.activate("/error.ftl", request, response);
                 return ;
             }
         } catch (DataException ex) {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            request.setAttribute("error", "Questo è il catch");
-            try {
-                res.activate("/error.ftl", request, response);
-            } catch (TemplateManagerException e) {
-                e.printStackTrace();
-            }
+            request.setAttribute("error", "Non è possibile caricare il sondaggio");
+            res.activate("/error.ftl", request, response);
             return ;
-        } catch (TemplateManagerException e) {
-            e.printStackTrace();
         }
     }
 }

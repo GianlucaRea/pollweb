@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
 
 
-    private PreparedStatement inserimento_sondaggio;
+    private PreparedStatement inserimento_sondaggio , modifica_sondaggio;
 
     public SondaggioDao_MySQL(DataLayer d) {
         super(d);
@@ -30,6 +30,7 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
             super.init();
 
             inserimento_sondaggio = connection.prepareStatement("INSERT INTO Sondaggio (utente_id, titolo, testoiniziale, testofinale, created_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP);",Statement.RETURN_GENERATED_KEYS);
+            modifica_sondaggio = connection.prepareStatement("UPDATE Sondaggio SET utente_id=?,titolo=?,testoiniziale=?,testofinale=?, create_at=CURRENT_TIMESTAMP WHERE id=?;");
 
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
@@ -41,6 +42,7 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
 
         try {
             inserimento_sondaggio.close();
+            modifica_sondaggio.close();
         } catch (SQLException ex) {
             Logger.getLogger(SondaggioDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,19 +72,24 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
 
     public void salvaSondaggio(Sondaggio p) throws DataException {
         int id = p.getId();
-        try (PreparedStatement ps = inserimento_sondaggio ) {
+        try {
             if (p.getId() > 0) {
                 if (p instanceof SondaggioProxy && ((SondaggioProxy) p).isDirty()) {
                     return;
                 }
-                // TODO Qui ci va la modifica del sondaggio o meglio se un sondaggio esiste già si può modificare qui
+                modifica_sondaggio.setInt(1, p.getUtenteId());
+                modifica_sondaggio.setString(2, p.getTitolo());
+                modifica_sondaggio.setString(3, p.getTestoiniziale());
+                modifica_sondaggio.setString(4, p.getTestofinale());
+                modifica_sondaggio.setInt(5,p.getId());
+                modifica_sondaggio.executeUpdate();
             } else {
-                ps.setInt(1, p.getUtenteId());
-                ps.setString(2, p.getTitolo());
-                ps.setString(3, p.getTestoiniziale());
-                ps.setString(4, p.getTestofinale());
-                if (ps.executeUpdate() == 1) {
-                    try (ResultSet rs = ps.getGeneratedKeys()) {
+                inserimento_sondaggio.setInt(1, p.getUtenteId());
+                inserimento_sondaggio.setString(2, p.getTitolo());
+                inserimento_sondaggio.setString(3, p.getTestoiniziale());
+                inserimento_sondaggio.setString(4, p.getTestofinale());
+                if (inserimento_sondaggio.executeUpdate() == 1) {
+                    try (ResultSet rs = inserimento_sondaggio.getGeneratedKeys()) {
                         if (rs.next()) {
                             id = rs.getInt(1);
                         }

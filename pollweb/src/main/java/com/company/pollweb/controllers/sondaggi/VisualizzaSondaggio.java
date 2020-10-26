@@ -1,5 +1,6 @@
-package com.company.pollweb.controllers;
+package com.company.pollweb.controllers.sondaggi;
 
+import com.company.pollweb.controllers.PollWebBaseController;
 import com.company.pollweb.data.dao.PollwebDataLayer;
 import com.company.pollweb.data.dao.SondaggioDao;
 import com.company.pollweb.data.models.Sondaggio;

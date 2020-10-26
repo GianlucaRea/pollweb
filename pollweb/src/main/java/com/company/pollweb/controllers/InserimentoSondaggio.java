@@ -51,7 +51,7 @@ public class InserimentoSondaggio extends PollWebBaseController {
                     p.setTitolo(request.getParameter("titolo"));
                     p.setTestoiniziale(request.getParameter("testoiniziale"));
                     p.setTestofinale(request.getParameter("testofinale"));
-                    p.setUtenteId(user.getId()); //TODO MANCA CHECK SE UTENTE ABILITATO
+                    p.setUtenteId(user.getId());
                     ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().salvaSondaggio(p);
                 }
                 else {
@@ -95,7 +95,7 @@ public class InserimentoSondaggio extends PollWebBaseController {
                                 d.setVincoli(Vincoli);
                                 break;
                             case "data":
-                                data = 1;
+                                data = Integer.parseInt(request.getParameter("domande["+i+"][dataSuccessivaOdierna]"));
                                 Vincoli = Serializer.dataToJSON(data);
                                 d.setVincoli(Vincoli);
                                 break;

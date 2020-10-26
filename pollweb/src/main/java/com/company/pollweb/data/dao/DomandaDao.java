@@ -6,12 +6,10 @@
 package com.company.pollweb.data.dao;
 
 import com.company.pollweb.data.models.Domanda;
-import com.company.pollweb.data.models.Sondaggio;
 import com.company.pollweb.data.proxy.DomandaProxy;
 import com.company.pollweb.framework.data.DataException;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -20,13 +18,15 @@ import java.util.List;
  */
 public interface DomandaDao {
 
-  public DomandaProxy creazioneDomanda(ResultSet rs) throws DataException;
+  DomandaProxy creazioneDomanda(ResultSet rs) throws DataException;
 
-  public DomandaProxy creazioneDomanda();
+  DomandaProxy creazioneDomanda();
 
   void salvaDomanda(Domanda d) throws DataException;
 
   Domanda getDomandaByID(int domanda_id) throws DataException;
 
   List<Domanda> getDomandeBySondaggioID(int sondaggioId) throws DataException;
+
+  List<Integer> getDomandeIdsBySondaggioID(int sondaggioId) throws DataException;
 }

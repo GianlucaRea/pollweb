@@ -2,11 +2,9 @@ package com.company.pollweb.data.dao;
 
 import com.company.pollweb.data.models.Domanda;
 import com.company.pollweb.data.proxy.DomandaProxy;
-import com.company.pollweb.data.proxy.SondaggioProxy;
 import com.company.pollweb.framework.data.DAO;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.data.DataLayer;
-import com.company.pollweb.utility.Database;
 import org.json.JSONObject;
 
 import java.sql.*;
@@ -19,7 +17,7 @@ import static com.company.pollweb.utility.Serializer.StringToJSON;
 
 public class DomandaDao_MySQL extends DAO implements DomandaDao{
 
-    private PreparedStatement inserimento_domanda , domande_by_sondaggioID ,domanda_by_id;
+    private PreparedStatement inserimento_domanda , domande_by_sondaggioID ,domanda_by_id , domande_ids_by_sondaggoID , modifica_domanda ;
 
     public DomandaDao_MySQL(DataLayer d) {
         super(d);
@@ -30,8 +28,10 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
         try {
             super.init();
             inserimento_domanda = connection.prepareStatement("INSERT INTO Domanda (sondaggio_id, testo, nota, obbligo, tipologia, vincoli, ordine) VALUES (?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
-            domande_by_sondaggioID = connection.prepareStatement("SELECT * from Domanda where sondaggio_id=? ORDER BY ordine ASC;");
+            domande_by_sondaggioID = connection.prepareStatement("SELECT * FROM Domanda WHERE sondaggio_id=? ORDER BY ordine ASC;");
             domanda_by_id= connection.prepareStatement("SELECT * FROM Domanda WHERE ID=?;");
+            domande_ids_by_sondaggoID = connection.prepareStatement("SELECT id FROM DOMANDA WHERE sondaggio_id=?;");
+            modifica_domanda = connection.prepareStatement("UPDATE Domanda SET sondaggio_id=?,testo=?,nota=?,obbligo=?,tipologia=?,vincoli=?,ordine=? WHERE id=?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
         }
@@ -42,6 +42,8 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             inserimento_domanda.close();
             domande_by_sondaggioID.close();
             domanda_by_id.close();
+            domande_ids_by_sondaggoID.close();
+            modifica_domanda.close();
         } catch (SQLException ex) {
             Logger.getLogger(SondaggioDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -72,34 +74,42 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
     @Override
     public void salvaDomanda(Domanda d) throws DataException {
         int id = d.getId();
-        try (PreparedStatement ps = inserimento_domanda ) {
+        try {
             if (d.getId() > 0) {
                 if (d instanceof DomandaProxy && ((DomandaProxy) d).isDirty()) {
                     return;
                 }
-                // TODO Qui ci va la modifica del sondaggio o meglio se un sondaggio esiste già si può modificare qui
-            } else {
-                ps.setInt(1, d.getSondaggio_id());
-                ps.setString(2, d.getTesto());
-                ps.setString(3, d.getNota());
-                ps.setInt(4, d.getObbligo());
-                ps.setString(5, d.getTipologia());
+                modifica_domanda.setInt(1, d.getSondaggio_id());
+                modifica_domanda.setString(2, d.getTesto());
+                modifica_domanda.setString(3, d.getNota());
+                modifica_domanda.setInt(4, d.getObbligo());
+                modifica_domanda.setString(5, d.getTipologia());
                 String stringToBeInserted = JSONObject.valueToString(d.getVincoli());
-                ps.setString(6,stringToBeInserted);
-                ps.setInt(7,d.getOrdine());
-                // Set int ordine
-                if (ps.executeUpdate() == 1) {
-                    try (ResultSet rs = ps.getGeneratedKeys()) {
+                modifica_domanda.setString(6,stringToBeInserted);
+                modifica_domanda.setInt(7,d.getOrdine());
+                modifica_domanda.setInt(8,d.getId());
+                modifica_domanda.executeUpdate();
+            } else {
+                inserimento_domanda.setInt(1, d.getSondaggio_id());
+                inserimento_domanda.setString(2, d.getTesto());
+                inserimento_domanda.setString(3, d.getNota());
+                inserimento_domanda.setInt(4, d.getObbligo());
+                inserimento_domanda.setString(5, d.getTipologia());
+                String stringToBeInserted = JSONObject.valueToString(d.getVincoli());
+                inserimento_domanda.setString(6,stringToBeInserted);
+                inserimento_domanda.setInt(7,d.getOrdine());
+                if (inserimento_domanda.executeUpdate() == 1) {
+                    try (ResultSet rs = inserimento_domanda.getGeneratedKeys()) {
                         if (rs.next()) {
                             id = rs.getInt(1);
                         }
                     }
                     d.setId(id);
                 }
-                ps.close();
+                // inserimento_domanda.close();
             }
-            inserimento_domanda.close();
-            this.destroy();
+           // inserimento_domanda.close();
+           // this.destroy();
         } catch (SQLException ex) {
             ex.printStackTrace();
             throw new DataException("Impossibile inserire o modificare la Domanda", ex);
@@ -121,6 +131,22 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             throw new DataException("Impossibile caricare le Domande By Sondaggio", ex);
         }
         return domande;
+    }
+
+    @Override
+    public List<Integer> getDomandeIdsBySondaggioID(int sondaggioId) throws DataException {
+        List<Integer> list = new ArrayList();
+        try{
+            domande_ids_by_sondaggoID.setInt(1,sondaggioId);
+            try(ResultSet rs = domande_ids_by_sondaggoID.executeQuery()){
+                while(rs.next()) {
+                    list.add(rs.getInt("id"));
+                }
+            }
+        }catch (SQLException ex){
+            throw new DataException("Impossibile caricare gli id delle Domande by Sondaggio",ex);
+        }
+        return list;
     }
 
     @Override
