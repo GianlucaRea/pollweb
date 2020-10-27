@@ -40,6 +40,10 @@
         <servlet-class>com.company.pollweb.controllers.utenti.NuovoResponsabile</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>InserisciCompilazione</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.compilazione.InserisciCompilazione</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>InvitaUtentiSondaggio</servlet-name>
         <servlet-class>com.company.pollweb.controllers.sondaggi.InvitaUtentiSondaggio</servlet-class>
         <multipart-config>
@@ -132,6 +136,10 @@
     <servlet-mapping>
         <servlet-name>InvitaUtentiSondaggio</servlet-name>
         <url-pattern>/sondaggi/invita_utenti</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserisciCompilazione</servlet-name>
+        <url-pattern>/sondaggi/inserisci_compilazione</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

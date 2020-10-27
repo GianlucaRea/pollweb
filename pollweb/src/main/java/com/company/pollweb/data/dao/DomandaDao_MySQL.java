@@ -59,6 +59,9 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
     public DomandaProxy creazioneDomanda(ResultSet rs) throws DataException {
         try {
             DomandaProxy a = creazioneDomanda();
+            if(rs.getInt("id") > 0) {
+                a.setId(rs.getInt("id"));
+            }
             a.setTesto(rs.getString("testo"));
             a.setNota(rs.getString("nota"));
             a.setObbligo(rs.getInt("obbligo"));

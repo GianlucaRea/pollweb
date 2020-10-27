@@ -35,7 +35,6 @@ public class DomandaImpl implements Domanda {
     //manca vincoli che è in json
 
     public DomandaImpl(){
-        this.id = -1;
        this.nota = "";
        this.testo = "";
        this.obbligo = 0;
