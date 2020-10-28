@@ -1,10 +1,13 @@
 package com.company.pollweb.data.implementation;
 
 import com.company.pollweb.data.models.Compilazione;
+import com.company.pollweb.data.models.Domanda;
+
+import java.util.ArrayList;
 
 public class CompilazioneImpl implements Compilazione {
 
-    protected int id_compilazione , id_sondaggio;
+    protected int id, id_sondaggio;
     protected String email;
 
     public CompilazioneImpl(){
@@ -25,11 +28,11 @@ public class CompilazioneImpl implements Compilazione {
     }
 
     public void setId(int id) {
-        this.id_compilazione = id;
+        this.id = id;
     }
 
     public int getId() {
-        return id_compilazione;
+        return id;
     }
 
     public int getSondaggioId() {
@@ -39,4 +42,5 @@ public class CompilazioneImpl implements Compilazione {
     public void setSondaggioId(int sondaggioId) {
         this.id_sondaggio = sondaggioId;
     }
+
 }

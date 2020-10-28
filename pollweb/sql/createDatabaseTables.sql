@@ -56,7 +56,7 @@ UNIQUE(sondaggio_id, ordine)
 CREATE TABLE Compilazione (
 id BIGINT auto_increment PRIMARY KEY,
 sondaggio_id BIGINT NOT NULL,
-email varchar(255) NOT NULL,
+email varchar(255),
 FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade,
 UNIQUE(sondaggio_id, email)
 );
