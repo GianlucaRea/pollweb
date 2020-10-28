@@ -125,4 +125,25 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
 
     }
 
+    public Compilazione getCompilazione(int sondaggioId, String email) throws SQLException {
+        System.out.println(sondaggioId);
+        System.out.println(email);
+        CompilazioneProxy c = creazioneCompilazione();
+        String getCompilazioneSQL = "SELECT * FROM Compilazione WHERE sondaggio_id=? AND email=?";
+        PreparedStatement getCompilazioneQuery = connection.prepareStatement(getCompilazioneSQL);
+        getCompilazioneQuery.setInt(1, sondaggioId);
+        getCompilazioneQuery.setString(2, email);
+        try (ResultSet rs = getCompilazioneQuery.executeQuery()) {
+            System.out.println("ENTRO IN TRY");
+            if (rs.next()) {
+                System.out.println("ENTRO IN NEXT");
+                System.out.println(rs.getInt("id"));
+                return creazioneCompilazione(rs);
+            }
+        } catch (DataException e) {
+            e.printStackTrace();
+        }
+        return c;
+    }
+
 }

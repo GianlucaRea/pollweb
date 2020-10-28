@@ -58,13 +58,10 @@ public class InserisciCompilazione extends PollWebBaseController {
             ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().salvaCompilazione(c);
         } else {
             //sondaggio privato
-            c.setSondaggioId(sondaggio.getId());
-            c.setEmail(request.getParameter("email"));
-            ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().salvaCompilazione(c);
+            c = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getCompilazione(sondaggio.getId(), request.getParameter("email"));
         }
 
-        //se sondaggio privato
-        //prendi id compilazione
+        System.out.println(c.getId());
 
 
 

@@ -102,6 +102,7 @@ public class MostraCompilazione extends PollWebBaseController {
 
     private void action_compila_sondaggio(HttpServletRequest request, HttpServletResponse response) throws DataException, SQLException, TemplateManagerException {
         try {
+            //TODO verifica che se il sondaggio è privato, allora solo chi non ha già compilato può compilare
             int sondaggioId = Integer.parseInt(request.getParameter("id"));
 
             ((PollwebDataLayer) request.getAttribute("datalayer")).init();

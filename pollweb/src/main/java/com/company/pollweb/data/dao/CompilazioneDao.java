@@ -16,6 +16,6 @@ public interface CompilazioneDao {
     public CompilazioneProxy creazioneCompilazione(ResultSet rs) throws DataException;
     public void salvaCompilazione(Compilazione c) throws DataException;
     public void salvaCompilazione(int compilazioneId, Map<Integer, JSONArray> risposte) throws DataException, SQLException;
-
+    public Compilazione getCompilazione(int sondaggioId, String email) throws SQLException;
 
 }
