@@ -152,7 +152,13 @@ and open the template in the editor.
                 );
                 break;
             case "data":
-                vincoliSelect.html();
+                vincoliSelect.html('<div class="domanda mt-3 mb-3" id="vincoloDomanda' + numeroDomanda + '">' +
+                    '<div class="form-group">' +
+                    '<input id="dataSuccessivaOdierna' + numeroDomanda + '" type="checkbox" name="domande[' + numeroDomanda + '][dataSuccessivaOdierna]" required>' +
+                    '<label for="dataSuccessivaOdierna' + numeroDomanda + '">Accetta solamente date successive a quella odierna</label>' +
+                    '</div>' +
+                    '</div>'
+                );
                 break;
             case "scelta_singola":
                 text = "Inserisci le varie opzioni separate dalla virgola";
