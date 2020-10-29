@@ -9,13 +9,21 @@ import org.json.JSONArray;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 public interface CompilazioneDao {
-    public CompilazioneProxy creazioneCompilazione();
-    public CompilazioneProxy creazioneCompilazione(ResultSet rs) throws DataException;
-    public void salvaCompilazione(Compilazione c) throws DataException;
-    public void salvaCompilazione(int compilazioneId, Map<Integer, JSONArray> risposte) throws DataException, SQLException;
-    public Compilazione getCompilazione(int sondaggioId, String email) throws SQLException;
+    CompilazioneProxy creazioneCompilazione();
 
+    CompilazioneProxy creazioneCompilazione(ResultSet rs) throws DataException;
+
+    void salvaCompilazione(Compilazione c) throws DataException;
+
+    void salvaCompilazione(int compilazioneId, Map<Integer, JSONArray> risposte) throws DataException, SQLException;
+
+    Compilazione getCompilazione(int sondaggioId, String email) throws SQLException;
+
+    List<String> getUserList(int sondaggioId) throws  DataException;
+
+    List<String> getRisposteByDomandaId(int domandaId) throws DataException;
 }

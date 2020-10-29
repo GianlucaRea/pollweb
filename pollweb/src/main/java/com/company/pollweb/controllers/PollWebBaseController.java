@@ -13,13 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public abstract class PollWebBaseController extends HttpServlet {
 
     @Resource(name = "jdbc/pollweb")
     private DataSource ds;
 
-    protected abstract void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, TemplateManagerException, DataException;
+    protected abstract void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, TemplateManagerException, DataException, SQLException;
 
     private void processBaseRequest(HttpServletRequest request, HttpServletResponse response) {
         try (PollwebDataLayer datalayer = new PollwebDataLayer(ds)) {
