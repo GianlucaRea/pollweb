@@ -5,6 +5,7 @@ import com.company.pollweb.data.proxy.CompilazioneProxy;
 import com.company.pollweb.framework.data.DAO;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.data.DataLayer;
+import com.company.pollweb.utility.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
 
 public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
 
-    private PreparedStatement inserimento_compilazione , getUserList , get_risposte;
+    private PreparedStatement inserimento_compilazione , getUserList , get_risposte , get_compilazione_id;
 
     public CompilazioneDao_MySQL(DataLayer d) {
         super(d);
@@ -32,8 +33,9 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
         try {
             super.init();
             inserimento_compilazione = connection.prepareStatement("INSERT INTO Compilazione (sondaggio_id, email) VALUES (?, ?);", Statement.RETURN_GENERATED_KEYS);
-            getUserList = connection.prepareStatement("SELECT email FROM Compilazione WHERE sondaggio_id=?");
-            get_risposte = connection.prepareStatement("SELECT risposta FROM CompilazioneDomanda WHERE domanda_id=?");
+            getUserList = connection.prepareStatement("SELECT email FROM Compilazione WHERE sondaggio_id=?;");
+            get_risposte = connection.prepareStatement("SELECT risposta FROM CompilazioneDomanda WHERE domanda_id=?;");
+            get_compilazione_id = connection.prepareStatement("SELECT risposta,email FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE domanda_id = ?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
         }
@@ -44,6 +46,7 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             inserimento_compilazione.close();
             getUserList.close();
             get_risposte.close();
+            get_compilazione_id.close();
         } catch (SQLException ex) {
             Logger.getLogger(SondaggioDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -175,6 +178,27 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             try(ResultSet rs = get_risposte.executeQuery()){
                 while(rs.next()) {
                     list.add(rs.getString("risposta"));
+                }
+            }
+        }catch (SQLException ex){
+            throw new DataException("Impossibile caricare la lista delle risposte alla domanda", ex);
+        }
+        return list;
+    }
+
+    public ArrayList<Pair>  getEmailByDomandaId(int domandaId) throws DataException {
+
+        ArrayList<Pair> list = new ArrayList<Pair>();
+
+        try {
+            get_compilazione_id.setInt(1, domandaId);
+            try(ResultSet rs = get_compilazione_id.executeQuery()){
+                int i = 0;
+                while(rs.next()) {
+                    String b = rs.getString("risposta");
+                    String a = rs.getString("email");
+                    list.add(i,new Pair(a,b));
+                    i++;
                 }
             }
         }catch (SQLException ex){

@@ -5,10 +5,12 @@ import com.company.pollweb.data.models.Domanda;
 import com.company.pollweb.data.proxy.CompilazioneProxy;
 import com.company.pollweb.data.proxy.DomandaProxy;
 import com.company.pollweb.framework.data.DataException;
+import com.company.pollweb.utility.Pair;
 import org.json.JSONArray;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,4 +28,6 @@ public interface CompilazioneDao {
     List<String> getUserList(int sondaggioId) throws  DataException;
 
     List<String> getRisposteByDomandaId(int domandaId) throws DataException;
+
+    ArrayList<Pair> getEmailByDomandaId(int domandaId) throws DataException;
 }

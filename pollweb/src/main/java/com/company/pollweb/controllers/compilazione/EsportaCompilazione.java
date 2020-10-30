@@ -10,7 +10,9 @@ import com.company.pollweb.framework.result.SplitSlashesFmkExt;
 import com.company.pollweb.framework.result.TemplateManagerException;
 import com.company.pollweb.framework.result.TemplateResult;
 import com.company.pollweb.utility.GeneratoreCSV;
+import com.company.pollweb.utility.Pair;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,12 +49,12 @@ public class EsportaCompilazione extends PollWebBaseController {
             Sondaggio sondaggio = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getSondaggio(sondaggioId);
             List<Domanda> domande = ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().getDomandeBySondaggioID(sondaggio.getId());
             if (utente != null && sondaggio != null && domande != null && utente.getId() == sondaggio.getUtenteId()) {
-                // Creazione di una lista di lista di stringhe: domanda, risposta
-                List<List<String>> risultati = new ArrayList<List<String>>();
+                if (sondaggio.getVisibilita() == 1){
+                    // Creazione di una lista di lista di stringhe: domanda, risposta
+                    List<List<String>> risultati = new ArrayList<List<String>>();
                 for (Domanda d : domande) {
                     List<String> rList = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getRisposteByDomandaId(d.getId());
                     for (String r : rList) {
-                        System.out.println(r);
                         List<String> Stringrispota = new ArrayList<>();
                         Stringrispota.add(d.getTesto());
                         Stringrispota.add(r);
@@ -75,6 +77,34 @@ public class EsportaCompilazione extends PollWebBaseController {
                     request.setAttribute("error", "Il csv non è esportato per mancanze di domande");
                     res.activate("/error.ftl", request, response);
                 }
+            }else{
+                    List<List<String>> risultati = new ArrayList<List<String>>();
+                    for (Domanda d : domande) {
+                        ArrayList<Pair>  eList = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getEmailByDomandaId(d.getId());
+                        for (Pair r : eList) {
+                            List<String> Stringrispota = new ArrayList<>();
+                            Stringrispota.add(r.getL());
+                            Stringrispota.add(d.getTesto());
+                            Stringrispota.add(r.getR());
+                            risultati.add(Stringrispota);
+                        }
+                    }
+                    if (!risultati.isEmpty()) {
+                        response.setContentType("text/csv");
+                        response.setHeader("Content-Disposition", "attachment; filename=\"" + sondaggio.getTitolo() + ".csv\"");
+                        OutputStream outputStream = response.getOutputStream();
+                        String outputResult = GeneratoreCSV.nuovaStringaPrivatoCSV(risultati);
+                        outputStream.write(outputResult.getBytes());
+                        outputStream.flush();
+                        outputStream.close();
+                        action_write(request, response);
+                    } else {
+                        TemplateResult res = new TemplateResult(getServletContext());
+                        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                        request.setAttribute("error", "Il csv non è esportato per mancanze di domande");
+                        res.activate("/error.ftl", request, response);
+                    }
+            }
             } else {
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -86,6 +116,7 @@ public class EsportaCompilazione extends PollWebBaseController {
         }
     }
 
-    private void action_write(HttpServletRequest request, HttpServletResponse response) {
+    private void action_write(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+        response.sendRedirect("/dashboard");
     }
 }
