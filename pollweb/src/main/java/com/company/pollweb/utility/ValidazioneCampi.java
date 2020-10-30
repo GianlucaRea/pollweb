@@ -5,6 +5,10 @@
  */
 package com.company.pollweb.utility;
 
+import com.company.pollweb.data.models.Domanda;
+import org.json.JSONArray;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,4 +23,121 @@ public class ValidazioneCampi {
         Matcher matcher = emailPattern.matcher(email);
         return matcher.matches();
     }
+
+    public static boolean checkCampoCompilazione(Domanda domanda, JSONArray risposta) {
+        switch(domanda.getTipologia()) {
+            case "testo_breve":
+                return checkTestoBreve(domanda, risposta);
+            case "testo_lungo":
+                return checkTestoLungo(domanda, risposta);
+            case "numero":
+                return checkNumero(domanda, risposta);
+            case "data":
+                return checkData(domanda, risposta);
+            case "scelta_singola":
+                return checkSceltaSingola(domanda, risposta);
+            case "scelta_multipla":
+                return checkSceltaMultipla(domanda, risposta);
+        }
+        return true;
+    }
+
+    public static boolean checkTestoBreve(Domanda domanda, JSONArray risposta) {
+        return checkTesto(domanda, risposta);
+    }
+
+    public static boolean checkTestoLungo(Domanda domanda, JSONArray risposta) {
+
+        return checkTesto(domanda, risposta);
+    }
+
+    private static boolean checkTesto(Domanda domanda, JSONArray risposta) {
+        AtomicBoolean valido = new AtomicBoolean(true);
+        int min_length = domanda.getMin_length();
+        int max_length = domanda.getMax_length();
+        String pattern = domanda.getPattern();
+
+        risposta.forEach(valore -> {
+            String valoreStringa = valore.toString();
+
+            //controllo lunghezza minima
+            if(min_length >= 0) {
+                if(valoreStringa.length() < min_length) {
+                    valido.set(false);
+                }
+            }
+
+            //controllo lunghezza massima
+            if(max_length >= 0) {
+                if(valoreStringa.length() > max_length) {
+                    valido.set(false);
+                }
+            }
+
+            //controllo pattern
+            if(pattern != null) {
+                Pattern testoPattern = Pattern.compile(pattern);
+                Matcher matcher = testoPattern.matcher(valoreStringa);
+                if(!matcher.matches()) {
+                    valido.set(false);
+                }
+            }
+
+        });
+        return valido.get();
+    }
+
+    public static boolean checkNumero(Domanda domanda, JSONArray risposta) {
+        AtomicBoolean valido = new AtomicBoolean(true);
+        int min_num = domanda.getMin_num();
+        int max_num = domanda.getMax_num();
+        risposta.forEach(valore -> {
+            int valoreIntero = Integer.parseInt(valore.toString());
+
+            if(min_num >= 0) {
+                if(valoreIntero < min_num) {
+                    valido.set(false);
+                }
+            }
+
+            if(max_num >= 0) {
+                if(valoreIntero > max_num) {
+                    valido.set(false);
+                }
+            }
+
+
+        });
+        return valido.get();
+    }
+
+    public static boolean checkData(Domanda domanda, JSONArray risposta) {
+        return true;
+    }
+
+    public static boolean checkSceltaSingola(Domanda domanda, JSONArray risposta) {
+        //TODO conviene fare un check se quell'elemento che è stato inserito fa parte delle possibili scelte?
+        return true;
+    }
+
+    public static boolean checkSceltaMultipla(Domanda domanda, JSONArray risposta) {
+        //TODO conviene fare un check se quell'elemento che è stato inserito fa parte delle possibili scelte?
+        AtomicBoolean valido = new AtomicBoolean(true);
+        int min_chooses = domanda.getMin_chooses();
+        int max_chooses = domanda.getMax_chooses();
+        if(min_chooses >= 0) {
+            if(risposta.length() < min_chooses){
+                valido.set(false);
+            }
+        }
+
+        if(max_chooses >= 0) {
+            if(domanda.getMax_chooses() > max_chooses) {
+                valido.set(false);
+            }
+        }
+
+        return valido.get();
+    }
+
 }

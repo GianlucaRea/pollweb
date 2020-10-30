@@ -104,7 +104,6 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
     }
 
     public void salvaCompilazione(int compilazioneId, Map<Integer, JSONArray> risposte) throws SQLException {
-        //TODO INSERIMENTO DELLE RISPOSTE
         String inserisciRispostaSQL = "INSERT INTO CompilazioneDomanda(compilazione_id, domanda_id, risposta) VALUES ";
         for(int i=0; i <risposte.size(); i++) {
             inserisciRispostaSQL = inserisciRispostaSQL + "(?,?,?),";
