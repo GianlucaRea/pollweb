@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Enumeration;
@@ -76,8 +77,10 @@ public class InserisciCompilazione extends PollWebBaseController {
                 JSONArray risposta = new JSONArray();
                 for (String paramValue : paramValues) {
                     risposta.put(paramValue);
+                    System.out.println(risposta);
                 }
                 risposte.put(Integer.valueOf(paramName.replace("domande[","").replace("]", "")), risposta);
+                System.out.println(risposte);
             }
         }
 

@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS `Domanda`;
 DROP TABLE IF EXISTS `Sondaggio`;
 DROP TABLE IF EXISTS `Utente`;
 DROP TABLE IF EXISTS `Ruolo`;
-
+DROP TABLE IF EXISTS `CompilazioneDomanda`;
 
 CREATE TABLE Ruolo(
 id INT auto_increment PRIMARY KEY,

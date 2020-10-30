@@ -70,6 +70,14 @@
         </init-param>
     </servlet>
     <servlet>
+        <servlet-name>EsportaCompilazione</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.compilazione.EsportaCompilazione</servlet-class>
+        <init-param>
+            <param-name>sondaggio_id</param-name>
+            <param-value>sondaggio_id</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
         <servlet-name>CompilazioneSondaggio</servlet-name>
         <servlet-class>com.company.pollweb.controllers.compilazione.MostraCompilazione</servlet-class>
         <init-param>
@@ -116,6 +124,10 @@
     <servlet-mapping>
         <servlet-name>CompilazioneSondaggio</servlet-name>
         <url-pattern>/sondaggi/compilazione</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EsportaCompilazione</servlet-name>
+        <url-pattern>/sondaggi/esportazione</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RiepilogoSondaggio</servlet-name>

@@ -55,7 +55,7 @@ public class RiepilogoSondaggio extends PollWebBaseController {
         Utente utente = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
         ((PollwebDataLayer) request.getAttribute("datalayer")).init();
         Sondaggio sondaggio = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getSondaggio(sondaggioId);
-        List invitati = ((PollwebDataLayer) request.getAttribute("datalaye")).getCompilazioneDAO().getUserList(sondaggioId);
+        //List invitati = ((PollwebDataLayer) request.getAttribute("datalaye")).getCompilazioneDAO().getUserList(sondaggioId);
         if(sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
             ((PollwebDataLayer) request.getAttribute("datalayer")).init();
             ArrayList<Domanda> domande = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getDomande(sondaggio.getId());
@@ -63,9 +63,9 @@ public class RiepilogoSondaggio extends PollWebBaseController {
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("sondaggio", sondaggio);
             request.setAttribute("domande", domande);
-            if(invitati.size() != 0){
+          /*  if(invitati.size() != 0){
                 request.setAttribute("invitati",invitati);
-            }
+            } */
             res.activate("sondaggi/riepilogo.ftl", request, response);
         } else {
             TemplateResult res = new TemplateResult(getServletContext());

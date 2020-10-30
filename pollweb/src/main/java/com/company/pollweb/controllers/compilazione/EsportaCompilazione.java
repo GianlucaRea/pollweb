@@ -9,12 +9,14 @@ import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.result.SplitSlashesFmkExt;
 import com.company.pollweb.framework.result.TemplateManagerException;
 import com.company.pollweb.framework.result.TemplateResult;
+import com.company.pollweb.utility.GeneratoreCSV;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
  */
 public class EsportaCompilazione extends PollWebBaseController {
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, DataException, SQLException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, DataException, SQLException, IOException {
         HttpSession s = checkSession(request);
         if (s != null && request.getParameter("id") != null) {
             action_esporta(request, response, s);
@@ -38,30 +40,52 @@ public class EsportaCompilazione extends PollWebBaseController {
         }
     }
 
-    private void action_esporta(HttpServletRequest request, HttpServletResponse response, HttpSession s)throws DataException , SQLException {
-        try{
+    private void action_esporta(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws DataException, SQLException, IOException, TemplateManagerException {
+        try {
             int sondaggioId = Integer.parseInt(request.getParameter("id"));
             Utente utente = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
             Sondaggio sondaggio = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getSondaggio(sondaggioId);
             List<Domanda> domande = ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().getDomandeBySondaggioID(sondaggio.getId());
-            if (utente != null && sondaggio != null && domande != null && utente.getId() == sondaggio.getUtenteId()){
-                    // Creazione di una lista di lista di stringhe: domanda, risposta
-                    List<List<String>> result = new ArrayList<List<String>>();
-                    for (Domanda d : domande) {
-                        List<String> rList = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getRisposteByDomandaId(d.getId());
-                        for (String r: rList) {
-                            System.out.println(r);
-                            List<String> Stringrispota = new ArrayList<>();
-                            Stringrispota.add(d.getTesto());
-                            Stringrispota.add(r);
-                            result.add(answerString);
-                        }
+            if (utente != null && sondaggio != null && domande != null && utente.getId() == sondaggio.getUtenteId()) {
+                // Creazione di una lista di lista di stringhe: domanda, risposta
+                List<List<String>> risultati = new ArrayList<List<String>>();
+                for (Domanda d : domande) {
+                    List<String> rList = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getRisposteByDomandaId(d.getId());
+                    for (String r : rList) {
+                        System.out.println(r);
+                        List<String> Stringrispota = new ArrayList<>();
+                        Stringrispota.add(d.getTesto());
+                        Stringrispota.add(r);
+                        risultati.add(Stringrispota);
                     }
-            }
-        }catch(){
+                }
 
+                if (!risultati.isEmpty()) {
+                    response.setContentType("text/csv");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" + sondaggio.getTitolo() + ".csv\"");
+                    OutputStream outputStream = response.getOutputStream();
+                    String outputResult = GeneratoreCSV.nuovaStringaCSV(risultati);
+                    outputStream.write(outputResult.getBytes());
+                    outputStream.flush();
+                    outputStream.close();
+                    action_write(request, response);
+                } else {
+                    TemplateResult res = new TemplateResult(getServletContext());
+                    request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                    request.setAttribute("error", "Il csv non è esportato per mancanze di domande");
+                    res.activate("/error.ftl", request, response);
+                }
+            } else {
+                TemplateResult res = new TemplateResult(getServletContext());
+                request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                request.setAttribute("error", "Permesso negato");
+                res.activate("/error.ftl", request, response);
         }
-
+        } catch (DataException e) {
+            e.printStackTrace();
+        }
     }
-}
+
+    private void action_write(HttpServletRequest request, HttpServletResponse response) {
+    }
 }
