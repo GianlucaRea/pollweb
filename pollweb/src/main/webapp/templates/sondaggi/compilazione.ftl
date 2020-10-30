@@ -17,6 +17,9 @@ and open the template in the editor.
 <@globalTemplate.navbar />
 <div class="bg-light pt-5 pb-5">
     <div class="container" id="creationForm">
+        <#if error ??>
+            <div class="alert alert-danger">Si è verificato un errore con l'inserimento della compilazione. I campi non sono stati compilati correttamente.</div>
+        </#if>
         <h2 class="text-primary">${sondaggio.getTitolo()}</h2>
         <p class="lead">${sondaggio.getTestoiniziale()}</p>
         <form id="creationForm" method="post" action="/sondaggi/inserisci_compilazione">

@@ -32,12 +32,13 @@ public class MostraCompilazione extends PollWebBaseController {
             int sondaggioId =  Integer.parseInt(request.getParameter("id"));
             SondaggioDao sondaggioDao = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO();
             Sondaggio sondaggio = sondaggioDao.getSondaggio(sondaggioId);
+
             if(sondaggio.getStato() == 0 || sondaggio.getStato() == 2) {
                 //verifica se il sondaggio è attivo
                 action_check_is_active(request, response, sondaggio);
-            } else {
-                //verifica se il sondaggio è visibile
-                action_check_visibility(request, response, sondaggio, sondaggioDao);
+            }
+            if(action_check_visibility(request, response, sondaggio, sondaggioDao)){
+                action_compila_sondaggio(request, response);
             }
 
         } catch (TemplateManagerException | SQLException e) {
@@ -63,16 +64,17 @@ public class MostraCompilazione extends PollWebBaseController {
         }
     }
 
-    private void action_check_visibility(HttpServletRequest request, HttpServletResponse response, Sondaggio sondaggio, SondaggioDao sondaggioDao) throws TemplateManagerException, SQLException, DataException {
+    private boolean action_check_visibility(HttpServletRequest request, HttpServletResponse response, Sondaggio sondaggio, SondaggioDao sondaggioDao) throws TemplateManagerException, SQLException, DataException {
         if(sondaggio.getId() == -1) {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("error", "Questo sondaggio non esiste oppure non è più disponibile");
             res.activate("/error.ftl", request, response);
-            return ;
+            return false;
         }
         if(sondaggio.getVisibilita() == 1)  {
-            action_compila_sondaggio(request, response);
+            return true;
+
         } else {
             // verifica se è stata inserita l'email e l'utente può accedervi
             String email = request.getParameter("email");
@@ -80,13 +82,14 @@ public class MostraCompilazione extends PollWebBaseController {
             if(email != null) { //email abilitata alla compilazione
                 if(sondaggioDao.isEmailAbilitataAllaCompilazione(sondaggio, email)) {
                     request.setAttribute("email", email);
-                    action_compila_sondaggio(request, response);
+                    return true;
                 } else {
                     TemplateResult res = new TemplateResult(getServletContext());
                     request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                     request.setAttribute("sondaggioId", sondaggio.getId());
                     request.setAttribute("error", "Questa email non è abilitata alla compilazione del sondaggio");
                     res.activate("sondaggi/formSondaggioPrivato.ftl", request, response);
+                    return false;
                 }
 
             } else { // altrimenti, rimanda al form di inserimento email per verificare che sia stato invitato
@@ -94,6 +97,7 @@ public class MostraCompilazione extends PollWebBaseController {
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("sondaggioId", sondaggio.getId());
                 res.activate("sondaggi/formSondaggioPrivato.ftl", request, response);
+                return false;
             }
 
 
