@@ -117,59 +117,6 @@ public class MostraCompilazione extends PollWebBaseController {
                 for(int i = 0; i < domande.size(); i++)
                 {
                     Domanda domanda = domande.get(i);
-                    String type = domanda.getTipologia();
-                    switch(type) {
-                        case "testo_breve":
-                            JSONObject tbJSON = domanda.getVincoli();
-                            if(tbJSON.has("max_length")){
-                                domanda.setMax_length(tbJSON.getInt("max_length"));
-                            }
-                            if(tbJSON.has("pattern")) {
-                                domanda.setPattern(tbJSON.getString("pattern"));
-                            }
-                            break;
-                        case "testo_lungo":
-                            JSONObject tlJSON = domanda.getVincoli();
-                            if(tlJSON.has("min_length")) {
-                                domanda.setMin_length(tlJSON.getInt("min_length"));
-                            }
-                            if(tlJSON.has("max_length")) {
-                                domanda.setMax_length(tlJSON.getInt("max_length"));
-                            }
-                            if(tlJSON.has("pattern")) {
-                                domanda.setPattern(tlJSON.getString("pattern"));
-                            }
-                            break;
-                        case "numero":
-                            JSONObject nJSON = domanda.getVincoli();
-                            if(nJSON.has("min_num")){
-                                domanda.setMin_num(nJSON.getInt("min_num"));
-                            }
-                            if(nJSON.has("max_num")) {
-                                domanda.setMax_num(nJSON.getInt("max_num"));
-                            }
-                            break;
-                        case "data":
-                            JSONObject dJSON = domanda.getVincoli();
-                            if(dJSON.has("date")) {
-                                domanda.setDataSuccessivaOdierna(dJSON.getInt("date"));
-                            }
-                            break;
-                        case "scelta_singola":
-                            JSONObject ssJSON = domanda.getVincoli();
-                            domanda.setChooses(ssJSON.getJSONArray("chooses"));
-                            break;
-                        case "scelta_multipla":
-                            JSONObject smJSON = domanda.getVincoli();
-                            domanda.setChooses(smJSON.getJSONArray("chooses"));
-                            if(smJSON.has("min_chooses")) {
-                                domanda.setMin_chooses(smJSON.getInt("min_chooses"));
-                            }
-                            if(smJSON.has("max_chooses")) {
-                                domanda.setMax_chooses(smJSON.getInt("max_chooses"));
-                            }
-                            break;
-                    }
 
                 }
                 request.setAttribute("domande", domande);

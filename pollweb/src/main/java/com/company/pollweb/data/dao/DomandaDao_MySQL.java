@@ -68,6 +68,61 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             a.setTipologia(rs.getString("tipologia"));
             a.setVincoli(StringToJSON(rs.getString("vincoli")));
             a.setOrdine(rs.getInt("ordine"));
+
+            String type = a.getTipologia();
+            switch(type) {
+                case "testo_breve":
+                    JSONObject tbJSON = a.getVincoli();
+                    if(tbJSON.has("max_length")){
+                        a.setMax_length(tbJSON.getInt("max_length"));
+                    }
+                    if(tbJSON.has("pattern")) {
+                        a.setPattern(tbJSON.getString("pattern"));
+                    }
+                    break;
+                case "testo_lungo":
+                    JSONObject tlJSON = a.getVincoli();
+                    if(tlJSON.has("min_length")) {
+                        a.setMin_length(tlJSON.getInt("min_length"));
+                    }
+                    if(tlJSON.has("max_length")) {
+                        a.setMax_length(tlJSON.getInt("max_length"));
+                    }
+                    if(tlJSON.has("pattern")) {
+                        a.setPattern(tlJSON.getString("pattern"));
+                    }
+                    break;
+                case "numero":
+                    JSONObject nJSON = a.getVincoli();
+                    if(nJSON.has("min_num")){
+                        a.setMin_num(nJSON.getInt("min_num"));
+                    }
+                    if(nJSON.has("max_num")) {
+                        a.setMax_num(nJSON.getInt("max_num"));
+                    }
+                    break;
+                case "data":
+                    JSONObject dJSON = a.getVincoli();
+                    if(dJSON.has("date")) {
+                        a.setDataSuccessivaOdierna(dJSON.getInt("date"));
+                    }
+                    break;
+                case "scelta_singola":
+                    JSONObject ssJSON = a.getVincoli();
+                    a.setChooses(ssJSON.getJSONArray("chooses"));
+                    break;
+                case "scelta_multipla":
+                    JSONObject smJSON = a.getVincoli();
+                    a.setChooses(smJSON.getJSONArray("chooses"));
+                    if(smJSON.has("min_chooses")) {
+                        a.setMin_chooses(smJSON.getInt("min_chooses"));
+                    }
+                    if(smJSON.has("max_chooses")) {
+                        a.setMax_chooses(smJSON.getInt("max_chooses"));
+                    }
+                    break;
+            }
+
             return a;
         } catch (SQLException ex) {
             throw new DataException("Incapace di creare domanda dal ResultSet", ex);
