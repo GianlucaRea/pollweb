@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
 
@@ -57,15 +58,36 @@ public class MostraRisultatiSondaggio extends PollWebBaseController {
         int sondaggioId = Integer.parseInt(request.getParameter("id"));
         Utente utente = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
         Sondaggio sondaggio = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getSondaggio(sondaggioId);
-        if(sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
-            request.setAttribute("sondaggio", sondaggio);
-
-            TemplateResult res = new TemplateResult(getServletContext());
-            res.activate("sondaggi/pubblicato.ftl", request, response);
+        if(sondaggio != null) {
+            if (sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
+                request.setAttribute("sondaggio", sondaggio);
+                List<String> emails = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getUserList(sondaggioId);
+                if(emails != null) {
+                    for (String email : emails) {
+                        List<String> risposte = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getRisposteBySondaggioAndEmail(sondaggioId, email);
+                        request.setAttribute("email", email);
+                        request.setAttribute("risposta", risposte);
+                        System.out.println(email);
+                        System.out.println(risposte);
+                    }
+                    TemplateResult res = new TemplateResult(getServletContext());
+                    res.activate("sondaggi/visualizzaRisultato.ftl", request, response);
+                }else{
+                    TemplateResult res = new TemplateResult(getServletContext());
+                    request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                    request.setAttribute("error", "Il sondaggio non è stato compilato da nessuno");
+                    res.activate("/error.ftl", request, response);
+                }
+            } else {
+                TemplateResult res = new TemplateResult(getServletContext());
+                request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                request.setAttribute("error", "Permesso negato");
+                res.activate("/error.ftl", request, response);
+            }
         } else {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            request.setAttribute("error", "Permesso negato");
+            request.setAttribute("error", "Il sondaggio non esiste");
             res.activate("/error.ftl", request, response);
         }
     }

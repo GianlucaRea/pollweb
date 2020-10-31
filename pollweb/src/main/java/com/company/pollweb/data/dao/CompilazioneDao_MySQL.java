@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
 
-    private PreparedStatement inserimento_compilazione , getUserList , get_risposte , get_compilazione_id;
+    private PreparedStatement inserimento_compilazione , getUserList , get_risposte , get_compilazione_id , get_risposte_bySondaggioAndEmail;
 
     public CompilazioneDao_MySQL(DataLayer d) {
         super(d);
@@ -36,6 +36,7 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             getUserList = connection.prepareStatement("SELECT email FROM Compilazione WHERE sondaggio_id=?;");
             get_risposte = connection.prepareStatement("SELECT risposta FROM CompilazioneDomanda WHERE domanda_id=?;");
             get_compilazione_id = connection.prepareStatement("SELECT risposta,email FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE domanda_id = ?;");
+            get_risposte_bySondaggioAndEmail = connection.prepareStatement("SELECT risposta FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE sondaggio_id = ? && email = ?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
         }
@@ -47,6 +48,7 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             getUserList.close();
             get_risposte.close();
             get_compilazione_id.close();
+            get_risposte_bySondaggioAndEmail.close();
         } catch (SQLException ex) {
             Logger.getLogger(SondaggioDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -134,18 +136,13 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
     }
 
     public Compilazione getCompilazione(int sondaggioId, String email) throws SQLException {
-        System.out.println(sondaggioId);
-        System.out.println(email);
         CompilazioneProxy c = creazioneCompilazione();
         String getCompilazioneSQL = "SELECT * FROM Compilazione WHERE sondaggio_id=? AND email=?";
         PreparedStatement getCompilazioneQuery = connection.prepareStatement(getCompilazioneSQL);
         getCompilazioneQuery.setInt(1, sondaggioId);
         getCompilazioneQuery.setString(2, email);
         try (ResultSet rs = getCompilazioneQuery.executeQuery()) {
-            System.out.println("ENTRO IN TRY");
             if (rs.next()) {
-                System.out.println("ENTRO IN NEXT");
-                System.out.println(rs.getInt("id"));
                 return creazioneCompilazione(rs);
             }
         } catch (DataException e) {
@@ -181,15 +178,13 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
                 }
             }
         }catch (SQLException ex){
-            throw new DataException("Impossibile caricare la lista delle risposte alla domanda", ex);
+            throw new DataException("Impossibile caricare la lista delle risposte dal id della domanda", ex);
         }
         return list;
     }
 
     public ArrayList<Pair>  getEmailByDomandaId(int domandaId) throws DataException {
-
         ArrayList<Pair> list = new ArrayList<Pair>();
-
         try {
             get_compilazione_id.setInt(1, domandaId);
             try(ResultSet rs = get_compilazione_id.executeQuery()){
@@ -206,5 +201,23 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
         }
         return list;
     }
+
+    public List<String> getRisposteBySondaggioAndEmail(int sondaggioid , String email) throws DataException {
+        List<String> list = new ArrayList();
+        try{
+            get_risposte_bySondaggioAndEmail.setInt(1,sondaggioid);
+            get_risposte_bySondaggioAndEmail.setString(2,email);
+            try(ResultSet rs = get_risposte_bySondaggioAndEmail.executeQuery()){
+                while(rs.next()){
+                    list.add(rs.getString("risposta"));
+                }
+            }
+        }catch(SQLException ex){
+            throw new DataException("Impossibile caricare la lista delle risposte dall'email di colui che ha compilato", ex);
+        }
+        return list;
+    }
+
+
 
 }
