@@ -1,9 +1,7 @@
 package com.company.pollweb.data.dao;
 
 import com.company.pollweb.data.models.Compilazione;
-import com.company.pollweb.data.models.Domanda;
 import com.company.pollweb.data.proxy.CompilazioneProxy;
-import com.company.pollweb.data.proxy.DomandaProxy;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.utility.Pair;
 import org.json.JSONArray;
@@ -30,4 +28,6 @@ public interface CompilazioneDao {
     List<String> getRisposteByDomandaId(int domandaId) throws DataException;
 
     ArrayList<Pair> getEmailByDomandaId(int domandaId) throws DataException;
+
+    List<String> getRisposteBySondaggioAndEmail(int sondaggioid , String email) throws DataException;
 }

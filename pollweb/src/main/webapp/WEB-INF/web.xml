@@ -62,6 +62,14 @@
         </init-param>
     </servlet>
     <servlet>
+        <servlet-name>MostraRisultatiSondaggio</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.sondaggi.MostraRisultatiSondaggio</servlet-class>
+        <init-param>
+            <param-name>sondaggio_id</param-name>
+            <param-value>sondaggio_id</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
         <servlet-name>ModificaSondaggio</servlet-name>
         <servlet-class>com.company.pollweb.controllers.sondaggi.MostraModificaSondaggio</servlet-class>
         <init-param>
@@ -112,6 +120,10 @@
     <servlet-mapping>
         <servlet-name>VisualizzaSondaggio</servlet-name>
         <url-pattern>/sondaggi/visualizza</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MostraRisultatiSondaggio</servlet-name>
+        <url-pattern>/sondaggi/risulato</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ModificaSondaggio</servlet-name>
