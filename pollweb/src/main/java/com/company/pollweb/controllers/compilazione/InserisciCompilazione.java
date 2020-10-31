@@ -55,7 +55,7 @@ public class InserisciCompilazione extends PollWebBaseController {
             ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().salvaCompilazione(c);
         } else {
             //sondaggio privato
-            c = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getCompilazione(sondaggio.getId(), request.getParameter("email"));
+            c = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getCompilazione(sondaggio.getId(), 1 /*request.getParameter("email")*/); //Il probelma ale è qui
         }
         return c;
     }

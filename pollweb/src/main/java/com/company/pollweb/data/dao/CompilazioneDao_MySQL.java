@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
 
-    private PreparedStatement inserimento_compilazione , getUserList , get_risposte , get_compilazione_id , get_risposte_bySondaggioAndEmail;
+    private PreparedStatement inserimento_compilazione , getUserList , get_risposte , get_compilazione_id , get_risposte_bySondaggioAndUtente ,get_compilazione;
 
     public CompilazioneDao_MySQL(DataLayer d) {
         super(d);
@@ -36,7 +36,8 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             getUserList = connection.prepareStatement("SELECT utente_id FROM Compilazione WHERE sondaggio_id=?;");
             get_risposte = connection.prepareStatement("SELECT risposta FROM CompilazioneDomanda WHERE domanda_id=?;");
             get_compilazione_id = connection.prepareStatement("SELECT risposta,utente_id FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE domanda_id = ?;");
-            get_risposte_bySondaggioAndEmail = connection.prepareStatement("SELECT risposta FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE sondaggio_id = ? && email = ?;");
+            get_risposte_bySondaggioAndUtente = connection.prepareStatement("SELECT risposta FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE sondaggio_id = ? && utente_id = ?;");
+            get_compilazione = connection.prepareStatement("SELECT * FROM Compilazione WHERE sondaggio_id=? AND utente_id=?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
         }
@@ -48,7 +49,8 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             getUserList.close();
             get_risposte.close();
             get_compilazione_id.close();
-            get_risposte_bySondaggioAndEmail.close();
+            get_risposte_bySondaggioAndUtente.close();
+            get_compilazione.close();
         } catch (SQLException ex) {
             Logger.getLogger(SondaggioDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -68,7 +70,7 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
                 a.setId(rs.getInt("id"));
             }
             a.setSondaggioId(rs.getInt("sondaggio_id"));
-            a.setEmail(rs.getString("email"));
+            a.setUserId(rs.getInt("utente_id"));
             return a;
         } catch (SQLException ex) {
             throw new DataException("Incapace di creare domanda dal ResultSet", ex);
@@ -86,7 +88,7 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
                 // TODO Qui ci va la modifica del sondaggio o meglio se un sondaggio esiste già si può modificare qui
             } else {
                 ps.setInt(1, c.getSondaggioId());
-                ps.setString(2, c.getEmail());
+                ps.setInt(2, c.getUserId());
 
                 // Set int ordine
                 if (ps.executeUpdate() == 1) {
@@ -135,13 +137,11 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
 
     }
 
-    public Compilazione getCompilazione(int sondaggioId, String email) throws SQLException {
+    public Compilazione getCompilazione(int sondaggioId, int utenteid) throws SQLException {
         CompilazioneProxy c = creazioneCompilazione();
-        String getCompilazioneSQL = "SELECT * FROM Compilazione WHERE sondaggio_id=? AND email=?";
-        PreparedStatement getCompilazioneQuery = connection.prepareStatement(getCompilazioneSQL);
-        getCompilazioneQuery.setInt(1, sondaggioId);
-        getCompilazioneQuery.setString(2, email);
-        try (ResultSet rs = getCompilazioneQuery.executeQuery()) {
+        get_compilazione.setInt(1, sondaggioId);
+        get_compilazione.setInt(2, utenteid);
+        try (ResultSet rs = get_compilazione.executeQuery()) {
             if (rs.next()) {
                 return creazioneCompilazione(rs);
             }
@@ -190,9 +190,9 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             try(ResultSet rs = get_compilazione_id.executeQuery()){
                 int i = 0;
                 while(rs.next()) {
+                    int a = rs.getInt("utente_id");
                     String b = rs.getString("risposta");
-                    String a = rs.getString("email");
-                    list.add(i,new Pair(a,b));
+                    list.add(i , new Pair(a,b));
                     i++;
                 }
             }
@@ -202,12 +202,12 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
         return list;
     }
 
-    public List<String> getRisposteBySondaggioAndEmail(int sondaggioid , Integer email) throws DataException {
+    public List<String> getRisposteBySondaggioAndUtente(int sondaggioid , int utenteid) throws DataException {
         List<String> list = new ArrayList();
         try{
-            get_risposte_bySondaggioAndEmail.setInt(1,sondaggioid);
-            get_risposte_bySondaggioAndEmail.setInt(2,email);
-            try(ResultSet rs = get_risposte_bySondaggioAndEmail.executeQuery()){
+            get_risposte_bySondaggioAndUtente.setInt(1,sondaggioid);
+            get_risposte_bySondaggioAndUtente.setInt(2,utenteid);
+            try(ResultSet rs = get_risposte_bySondaggioAndUtente.executeQuery()){
                 while(rs.next()){
                     list.add(rs.getString("risposta"));
                 }

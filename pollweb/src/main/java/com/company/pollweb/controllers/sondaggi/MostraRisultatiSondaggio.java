@@ -61,14 +61,14 @@ public class MostraRisultatiSondaggio extends PollWebBaseController {
         if(sondaggio != null) {
             if (sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
                 request.setAttribute("sondaggio", sondaggio);
-                List<Integer> emails = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getUserList(sondaggioId);
-                if(emails != null) {
-                    for (Integer email : emails) {
-                        List<String> risposte = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getRisposteBySondaggioAndEmail(sondaggioId, email);
+                List<Integer> users_id = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getUserList(sondaggioId);
+                if(users_id != null) {
+                    for (Integer user_id : users_id) {
+                        List<String> risposte = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getRisposteBySondaggioAndUtente(sondaggioId, user_id);
+                        Utente u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(user_id);
+                        String email = u.getEmail();
                         request.setAttribute("email", email);
                         request.setAttribute("risposta", risposte);
-                        System.out.println(email);
-                        System.out.println(risposte);
                     }
                     TemplateResult res = new TemplateResult(getServletContext());
                     res.activate("sondaggi/visualizzaRisultato.ftl", request, response);

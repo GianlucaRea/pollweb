@@ -123,7 +123,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MostraRisultatiSondaggio</servlet-name>
-        <url-pattern>/sondaggi/risulato</url-pattern>
+        <url-pattern>/sondaggi/risultato</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ModificaSondaggio</servlet-name>

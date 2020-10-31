@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CompilazioneDao {
+
     CompilazioneProxy creazioneCompilazione();
 
     CompilazioneProxy creazioneCompilazione(ResultSet rs) throws DataException;
@@ -21,7 +22,7 @@ public interface CompilazioneDao {
 
     void salvaCompilazione(int compilazioneId, Map<Integer, JSONArray> risposte) throws DataException, SQLException;
 
-    Compilazione getCompilazione(int sondaggioId, String email) throws SQLException;
+    Compilazione getCompilazione(int sondaggioId, int utenteid) throws SQLException;
 
     List<Integer> getUserList(int sondaggioId) throws  DataException;
 
@@ -29,5 +30,5 @@ public interface CompilazioneDao {
 
     ArrayList<Pair> getEmailByDomandaId(int domandaId) throws DataException;
 
-    List<String> getRisposteBySondaggioAndEmail(int sondaggioid , Integer email) throws DataException;
+    List<String> getRisposteBySondaggioAndUtente(int sondaggioid , int utenteid) throws DataException;
 }

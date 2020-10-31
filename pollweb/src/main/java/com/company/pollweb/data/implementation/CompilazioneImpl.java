@@ -7,40 +7,29 @@ import java.util.ArrayList;
 
 public class CompilazioneImpl implements Compilazione {
 
-    protected int id, id_sondaggio;
-    protected String email;
+    protected int id, id_sondaggio ,id_utente;
 
     public CompilazioneImpl(){
 
     }
 
-    public CompilazioneImpl(int id_sondaggio, String email){
+    public CompilazioneImpl(int id_sondaggio, int id_utente){
         this.id_sondaggio = id_sondaggio;
-        this.email = email;
+        this.id_utente = id_utente;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    @Override
+    public void setUserId(int id_utente) {this.id_utente = id_utente;}
 
-    public String getEmail() {
-        return email;
-    }
+    @Override
+    public int getUserId() {return this.id_utente;}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) {this.id = id;}
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
 
-    public int getSondaggioId() {
-        return id_sondaggio;
-    }
+    public int getSondaggioId() { return id_sondaggio; }
 
-    public void setSondaggioId(int sondaggioId) {
-        this.id_sondaggio = sondaggioId;
-    }
+    public void setSondaggioId(int sondaggioId) { this.id_sondaggio = sondaggioId; }
 
 }

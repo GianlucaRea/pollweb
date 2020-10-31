@@ -2,9 +2,9 @@ package com.company.pollweb.data.models;
 
 public interface Compilazione  {
 
-    public void setEmail(String email);
+    public void setUserId(int id_utente);
 
-    public String getEmail();
+    public int getUserId();
 
     public void setId(int id_compilazione);
 

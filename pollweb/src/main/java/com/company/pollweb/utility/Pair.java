@@ -2,19 +2,19 @@ package com.company.pollweb.utility;
 
 public class Pair {
 
-    private String l;
+    private int l;
     private String r;
 
-    public Pair(String l, String r){
+    public Pair(int l, String r){
         this.l = l;
         this.r = r;
     }
 
-    public String getL(){ return l; }
+    public int getL(){ return l; }
 
     public String getR(){ return r; }
 
-    public void setL(String l){ this.l = l; }
+    public void setL(int l){ this.l = l; }
 
     public void setR(String r){ this.r = r; }
 }

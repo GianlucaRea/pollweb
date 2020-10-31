@@ -83,7 +83,9 @@ public class EsportaCompilazione extends PollWebBaseController {
                         ArrayList<Pair>  eList = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getEmailByDomandaId(d.getId());
                         for (Pair r : eList) {
                             List<String> Stringrispota = new ArrayList<>();
-                            Stringrispota.add(r.getL());
+                            Utente utenteEmail = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(r.getL());
+                            String email = utenteEmail.getEmail();
+                            Stringrispota.add(email);
                             Stringrispota.add(d.getTesto());
                             Stringrispota.add(r.getR());
                             risultati.add(Stringrispota);
