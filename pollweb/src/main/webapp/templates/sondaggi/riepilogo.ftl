@@ -43,11 +43,18 @@ and open the template in the editor.
                                 <input type="file" id="invitaTramiteCSV" name="invitatiCSV" class="btn btn-secondary float-right form-control">
                             </div>
                         </div>
+
+                        <h3>Lista utenti invitati</h3>
                         <div class="row" id="listaInvitati">
+
+                        </div>
+                        <div class="row">
                             <#list invitati as invitato>
-                                <div class="col-md-4 mt-2">
-                                    <input type="text" class="form-control" value="${invitato}" disabled/>
-                                </div>
+                                <#if invitato != "">
+                                    <div class="col-md-4 mt-2">
+                                        <input type="text" class="form-control" value="${invitato}" disabled/>
+                                    </div>
+                                </#if>
                             </#list>
                         </div>
                     </div>
@@ -107,8 +114,14 @@ and open the template in the editor.
     function aggiungiInvitato() {
         countNuoviInvitati++;
         $("#listaInvitati").append('' +
+            '<div class="col-md-4 mt-2" id="nuovoInvitatoNome' + countNuoviInvitati + '">' +
+            '<input type="text" name="nuovoInvitato[' + countNuoviInvitati + '][nome]" class="form-control" placeholder="Nome utente" />' +
+            '</div>' +
             '<div class="col-md-4 mt-2" id="nuovoInvitato' + countNuoviInvitati + '">' +
-            '<input type="text" name="nuovoInvitato" class="form-control" placeholder="esempio@email.it" />' +
+            '<input type="email" name="nuovoInvitato[' + countNuoviInvitati + '][email]" class="form-control" placeholder="esempio@email.it" />' +
+            '</div>' +
+            '<div class="col-md-4 mt-2" id="nuovoInvitato' + countNuoviInvitati + '">' +
+            '<input type="password" name="nuovoInvitato[' + countNuoviInvitati + '][password]" class="form-control" placeholder="Password" />' +
             '</div>' +
             '');
     }

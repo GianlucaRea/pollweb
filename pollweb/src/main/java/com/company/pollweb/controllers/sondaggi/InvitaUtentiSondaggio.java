@@ -2,6 +2,7 @@ package com.company.pollweb.controllers.sondaggi;
 
 import com.company.pollweb.controllers.PollWebBaseController;
 import com.company.pollweb.data.dao.PollwebDataLayer;
+import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.framework.data.DataException;
 
 import javax.servlet.RequestDispatcher;
@@ -15,6 +16,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
 
@@ -35,19 +39,54 @@ public class InvitaUtentiSondaggio extends PollWebBaseController {
     }
 
     private void action_invite(HttpServletRequest request, HttpServletResponse response, HttpSession s, int sondaggioId) throws SQLException, IOException, ServletException, DataException {
-        String[] listaInvitati = request.getParameterValues("nuovoInvitato");
-        if(listaInvitati != null) {
-            ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().invitaUtenti(sondaggioId, listaInvitati);
+
+        List<Utente> utenti = new ArrayList<Utente>();
+        Utente u;
+        for(int i = 1 ;request.getParameter("nuovoInvitato["+i+"][nome]") != null ; i++){
+
+            System.out.println(request.getParameter("nuovoInvitato["+i+"][email]"));
+            ((PollwebDataLayer) request.getAttribute("datalayer")).init();
+            u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().creaUtente();
+            u.setEmail(request.getParameter("nuovoInvitato["+i+"][email]"));
+            u.setNome(request.getParameter("nuovoInvitato["+i+"][nome]"));
+            u.setPassword(request.getParameter("nuovoInvitato["+i+"][password]"));
+            u.setCognome("");
+            u.setRuolo(1);
+            ((PollwebDataLayer) request.getAttribute("datalayer")).init();
+            ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().salvaUtente(u);
+            utenti.add(u);
         }
 
         //input da file
         Part csvPart = request.getPart("invitatiCSV");
         InputStream csv = csvPart.getInputStream();
-        String result = convertStreamToString(csv);
-        listaInvitati = result.replace("\n", "").replace("\r", "").replace(" ","").split("\\;", -1);
-        if(listaInvitati.length > 0) {
+        BufferedReader br = new BufferedReader(new InputStreamReader(csv));
+        List<String> utentiPerRiga = br.lines().collect(Collectors.toList());
+        for(String utentePerRiga: utentiPerRiga) {
+            String[] datiUtente = utentePerRiga.split(";");
+            System.out.println(datiUtente[1]);
+            if(!datiUtente[1].equals("") && datiUtente[1] != null) {
+                ((PollwebDataLayer) request.getAttribute("datalayer")).init();
+                u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().creaUtente();
+
+                u.setNome(datiUtente[0]);
+                u.setEmail(datiUtente[1]);
+                u.setPassword(datiUtente[2]);
+                u.setCognome("");
+                u.setRuolo(1);
+
+                ((PollwebDataLayer) request.getAttribute("datalayer")).init();
+                ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().salvaUtente(u);
+                utenti.add(u);
+            }
+
+
+        }
+
+
+        if(utenti.size() > 0) {
             ((PollwebDataLayer) request.getAttribute("datalayer")).init();
-            ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().invitaUtenti(sondaggioId, listaInvitati);
+            ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().invitaUtenti(sondaggioId, utenti);
         }
         int nuovaVisibilita = Integer.parseInt(request.getParameter("visibilitaSondaggio"));
         ((PollwebDataLayer) request.getAttribute("datalayer")).init();

@@ -2,11 +2,13 @@ package com.company.pollweb.data.dao;
 
 import com.company.pollweb.data.models.Domanda;
 import com.company.pollweb.data.models.Sondaggio;
+import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.framework.data.DataException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface SondaggioDao {
 
@@ -30,7 +32,7 @@ public interface SondaggioDao {
 
     public boolean isEmailAbilitataAllaCompilazione(Sondaggio sondaggio, String email) throws SQLException;
 
-    public boolean invitaUtenti(int sondaggioId, String[] utenti) throws SQLException;
+    public boolean invitaUtenti(int sondaggioId, List<Utente> utenti) throws SQLException;
 
     public int modificaVisibilita(int sondaggioId, int nuovoValore) throws SQLException;
 

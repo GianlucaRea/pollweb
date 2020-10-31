@@ -32,10 +32,10 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
 
         try {
             super.init();
-            inserimento_compilazione = connection.prepareStatement("INSERT INTO Compilazione (sondaggio_id, email) VALUES (?, ?);", Statement.RETURN_GENERATED_KEYS);
-            getUserList = connection.prepareStatement("SELECT email FROM Compilazione WHERE sondaggio_id=?;");
+            inserimento_compilazione = connection.prepareStatement("INSERT INTO Compilazione (sondaggio_id, utente_id) VALUES (?, ?);", Statement.RETURN_GENERATED_KEYS);
+            getUserList = connection.prepareStatement("SELECT utente_id FROM Compilazione WHERE sondaggio_id=?;");
             get_risposte = connection.prepareStatement("SELECT risposta FROM CompilazioneDomanda WHERE domanda_id=?;");
-            get_compilazione_id = connection.prepareStatement("SELECT risposta,email FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE domanda_id = ?;");
+            get_compilazione_id = connection.prepareStatement("SELECT risposta,utente_id FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE domanda_id = ?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
         }
@@ -155,13 +155,13 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
     }
 
     @Override
-    public List<String> getUserList(int sondaggioId) throws DataException {
-        List<String> list = new ArrayList();
+    public List<Integer> getUserList(int sondaggioId) throws DataException {
+        List<Integer> list = new ArrayList();
          try {
              getUserList.setInt(1, sondaggioId);
              try(ResultSet rs = getUserList.executeQuery()){
                  while(rs.next()) {
-                     list.add(rs.getString("email"));
+                     list.add(rs.getInt("utente_id"));
                  }
              }
          }catch (SQLException ex){

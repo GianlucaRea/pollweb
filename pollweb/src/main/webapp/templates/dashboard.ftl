@@ -25,6 +25,17 @@
                             <h5 class="card-title">${sondaggio.getTitolo()}</h5>
                             <p><i class="fad fa-eye fa-fw"></i> ${sondaggio.getNomeVisibilita()}</p>
                             <p><i class="fad fa-toggle-on fa-fw"></i> ${sondaggio.getNomeStato()}</p>
+                            <p>
+                                <#if sondaggio.getStato() == 0>
+                                    <a href="/sondaggi/riepilogo?id=${sondaggio.getId()}" class="btn btn-primary">Attiva</a>
+                                </#if>
+                                <#if sondaggio.getStato() == 1>
+                                    <a href="/sondaggi/chiudi?id=${sondaggio.getId()}" class="btn btn-primary">Chiudi</a>
+                                </#if>
+                                <#if sondaggio.getStato() == 2>
+                                    <a href="#" class="btn btn-primary">Visualizza risultati</a>
+                                </#if>
+                            </p>
                         </div>
                     </div>
                 </div>

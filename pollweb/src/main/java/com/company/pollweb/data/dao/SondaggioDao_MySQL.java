@@ -4,6 +4,7 @@ import com.company.pollweb.data.implementation.DomandaImpl;
 import com.company.pollweb.data.implementation.SondaggioImpl;
 import com.company.pollweb.data.models.Domanda;
 import com.company.pollweb.data.models.Sondaggio;
+import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.framework.data.DAO;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.data.DataLayer;
@@ -11,6 +12,7 @@ import com.company.pollweb.data.proxy.SondaggioProxy;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -171,6 +173,7 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
         Sondaggio s;
         while(rs.next()) {
             s = new SondaggioImpl();
+            s.setId(rs.getInt("id"));
             s.setUtenteId(rs.getInt("utente_id"));
             s.setTitolo(rs.getString("titolo"));
             s.setTestoiniziale(rs.getString("testoiniziale"));
@@ -210,11 +213,11 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
         return pubblicaSondaggioQuery.executeUpdate() == 1;
     }
 
-    public boolean invitaUtenti(int sondaggioId, String[] utenti) throws SQLException {
-        String aggiungiUtentiSQL = "INSERT INTO Compilazione (sondaggio_id, email) VALUES ";
+    public boolean invitaUtenti(int sondaggioId, List<Utente> utenti) throws SQLException {
+        String aggiungiUtentiSQL = "INSERT INTO Compilazione (sondaggio_id, utente_id) VALUES ";
         boolean execute = false;
-        for(String utente: utenti) {
-            if(utente.length() > 0) {
+        for(Utente utente: utenti) {
+            if(utente.getEmail().length() > 0) {
                 aggiungiUtentiSQL = aggiungiUtentiSQL + "(?, ?),";
             }
         }
@@ -222,11 +225,11 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
         aggiungiUtentiSQL = aggiungiUtentiSQL + ";";
         PreparedStatement aggiungiUtentiQuery = connection.prepareStatement(aggiungiUtentiSQL);
         System.out.println(aggiungiUtentiSQL);
-        for(int i=0;i< utenti.length; i++) {
-            System.out.println(utenti[i]);
-            if(utenti[i].length() > 0){
+        for(int i=0;i< utenti.size(); i++) {
+            System.out.println(utenti.get(i));
+            if(utenti.get(i).getEmail().length() > 0){
                 aggiungiUtentiQuery.setInt((2*i)+1, sondaggioId);
-                aggiungiUtentiQuery.setString((2*i)+2, utenti[i]);
+                aggiungiUtentiQuery.setInt((2*i)+2, utenti.get(i).getId());
                 execute = true;
             }
         }

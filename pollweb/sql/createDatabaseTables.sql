@@ -20,7 +20,7 @@ CREATE TABLE Utente (
 id BIGINT auto_increment NOT NULL PRIMARY KEY,
 email VARCHAR(255)NOT NULL,
 nome VARCHAR(255) NOT NULL,
-cognome VARCHAR(255) NOT NULL,
+cognome VARCHAR(255),
 ruolo_id INT NOT NULL,
 password VARCHAR(255) NOT NULL,
 FOREIGN KEY (ruolo_id) REFERENCES Ruolo(id) on update cascade on delete cascade
@@ -56,9 +56,10 @@ UNIQUE(sondaggio_id, ordine)
 CREATE TABLE Compilazione (
 id BIGINT auto_increment PRIMARY KEY,
 sondaggio_id BIGINT NOT NULL,
-email varchar(255),
+utente_id BIGINT,
 FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade,
-UNIQUE(sondaggio_id, email)
+FOREIGN KEY(utente_id) REFERENCES Utente(id) on update cascade on delete cascade,
+UNIQUE(sondaggio_id, utente_id)
 );
 
 CREATE TABLE CompilazioneDomanda (

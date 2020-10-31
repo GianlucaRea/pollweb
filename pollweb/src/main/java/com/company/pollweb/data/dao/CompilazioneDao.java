@@ -25,7 +25,7 @@ public interface CompilazioneDao {
 
     Compilazione getCompilazione(int sondaggioId, String email) throws SQLException;
 
-    List<String> getUserList(int sondaggioId) throws  DataException;
+    List<Integer> getUserList(int sondaggioId) throws  DataException;
 
     List<String> getRisposteByDomandaId(int domandaId) throws DataException;
 

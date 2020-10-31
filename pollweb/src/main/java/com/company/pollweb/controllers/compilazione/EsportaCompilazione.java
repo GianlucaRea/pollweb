@@ -117,6 +117,6 @@ public class EsportaCompilazione extends PollWebBaseController {
     }
 
     private void action_write(HttpServletRequest request, HttpServletResponse response) throws  IOException {
-        response.sendRedirect("/dashboard");
+        response.sendRedirect("/home");
     }
 }
