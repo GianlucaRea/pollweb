@@ -129,7 +129,7 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
         if(sondaggio.getVisibilita() == 1) {
             return true;
         } else {
-            PreparedStatement emailCompilazioneQuery = connection.prepareStatement("SELECT COUNT(*) AS rowcount FROM Compilazione WHERE sondaggio_id=? AND email=?");
+            PreparedStatement emailCompilazioneQuery = connection.prepareStatement("SELECT COUNT(*) AS rowcount FROM Compilazione c, Utente u WHERE c.sondaggio_id=? AND  AND u.email=?");
             emailCompilazioneQuery.setInt(1, sondaggio.getId());
             emailCompilazioneQuery.setString(2, email);
             ResultSet rs = emailCompilazioneQuery.executeQuery();

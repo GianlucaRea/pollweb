@@ -29,5 +29,5 @@ public interface CompilazioneDao {
 
     ArrayList<Pair> getEmailByDomandaId(int domandaId) throws DataException;
 
-    List<String> getRisposteBySondaggioAndEmail(int sondaggioid , String email) throws DataException;
+    List<String> getRisposteBySondaggioAndEmail(int sondaggioid , Integer email) throws DataException;
 }
