@@ -12,17 +12,15 @@ import com.company.pollweb.framework.result.TemplateManagerException;
 import com.company.pollweb.framework.result.TemplateResult;
 import com.company.pollweb.utility.ValidazioneCampi;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InserisciCompilazione extends PollWebBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DataException {
@@ -72,10 +70,8 @@ public class InserisciCompilazione extends PollWebBaseController {
                 JSONArray risposta = new JSONArray();
                 for (String paramValue : paramValues) {
                     risposta.put(paramValue);
-                    System.out.println(risposta);
                 }
                 risposte.put(Integer.valueOf(paramName.replace("domande[","").replace("]", "")), risposta);
-                System.out.println(risposte);
             }
         }
         return risposte;
@@ -84,19 +80,24 @@ public class InserisciCompilazione extends PollWebBaseController {
     protected boolean action_valida_compilazione(HttpServletRequest request, HttpServletResponse response, Sondaggio sondaggio, Map<Integer, JSONArray> risposte) throws SQLException, DataException {
         //PRENDI TUTTE LE DOMANDE DAL DB
         ((PollwebDataLayer) request.getAttribute("datalayer")).init();
-        ArrayList<Domanda> domande = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getDomande(sondaggio.getId());
-
+        List<Domanda> domande = ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().getDomandeBySondaggioID(sondaggio.getId());
+        AtomicBoolean valido = new AtomicBoolean(true);
         risposte.forEach((domandaId, risposta) -> {
             for(Domanda domanda : domande) {
                 if(domandaId == domanda.getId()) {
                     if(!ValidazioneCampi.checkCampoCompilazione(domanda, risposta)) {
                         //SI È VERIFICATO UN ERRORE
                         try {
-                            if(sondaggio.getVisibilita() == 2) {
-                                response.sendRedirect("/sondaggi/compilazione?id=" + sondaggio.getId() + "&?error=1&email=" + request.getParameter("email"));
-                            } else {
-                                response.sendRedirect("/sondaggi/compilazione?id=" + sondaggio.getId() + "&?error=1");
+                            if(valido.get()) {
+                                if(sondaggio.getVisibilita() == 2) {
+                                    response.sendRedirect("/sondaggi/compilazione?id=" + sondaggio.getId() + "&?error=1&email=" + request.getParameter("email"));
+                                    valido.set(false);
+                                } else {
+                                    response.sendRedirect("/sondaggi/compilazione?id=" + sondaggio.getId() + "&?error=1");
+                                    valido.set(false);
+                                }
                             }
+
 
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -105,7 +106,7 @@ public class InserisciCompilazione extends PollWebBaseController {
                 }
             }
         });
-        return true;
+        return valido.get();
     }
 
     protected void action_inserisci_compilazione(HttpServletRequest request, HttpServletResponse response, Sondaggio sondaggio, Compilazione c, Map<Integer, JSONArray> risposte) throws DataException, SQLException {

@@ -7,6 +7,7 @@ package com.company.pollweb.utility;
 
 import com.company.pollweb.data.models.Domanda;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
@@ -47,7 +48,6 @@ public class ValidazioneCampi {
     }
 
     public static boolean checkTestoLungo(Domanda domanda, JSONArray risposta) {
-
         return checkTesto(domanda, risposta);
     }
 
@@ -56,26 +56,25 @@ public class ValidazioneCampi {
         int min_length = domanda.getMin_length();
         int max_length = domanda.getMax_length();
         String pattern = domanda.getPattern();
-
         risposta.forEach(valore -> {
             String valoreStringa = valore.toString();
 
             //controllo lunghezza minima
-            if(min_length >= 0) {
+            if(domanda.getVincoli().has("min_length")) {
                 if(valoreStringa.length() < min_length) {
                     valido.set(false);
                 }
             }
 
             //controllo lunghezza massima
-            if(max_length >= 0) {
+            if(domanda.getVincoli().has("max_length")) {
                 if(valoreStringa.length() > max_length) {
                     valido.set(false);
                 }
             }
 
             //controllo pattern
-            if(pattern != null) {
+            if(domanda.getVincoli().has("pattern") && pattern.length() > 0) {
                 Pattern testoPattern = Pattern.compile(pattern);
                 Matcher matcher = testoPattern.matcher(valoreStringa);
                 if(!matcher.matches()) {
@@ -94,13 +93,13 @@ public class ValidazioneCampi {
         risposta.forEach(valore -> {
             int valoreIntero = Integer.parseInt(valore.toString());
 
-            if(min_num >= 0) {
+            if(domanda.getVincoli().has("min_num")) {
                 if(valoreIntero < min_num) {
                     valido.set(false);
                 }
             }
 
-            if(max_num >= 0) {
+            if(domanda.getVincoli().has("max_num")) {
                 if(valoreIntero > max_num) {
                     valido.set(false);
                 }
@@ -125,14 +124,14 @@ public class ValidazioneCampi {
         AtomicBoolean valido = new AtomicBoolean(true);
         int min_chooses = domanda.getMin_chooses();
         int max_chooses = domanda.getMax_chooses();
-        if(min_chooses >= 0) {
+        if(min_chooses > 0) {
             if(risposta.length() < min_chooses){
                 valido.set(false);
             }
         }
 
-        if(max_chooses >= 0) {
-            if(domanda.getMax_chooses() > max_chooses) {
+        if(max_chooses > 0) {
+            if(risposta.length() > max_chooses) {
                 valido.set(false);
             }
         }
