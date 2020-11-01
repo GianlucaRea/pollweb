@@ -125,13 +125,13 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
 
     }
 
-    public boolean isEmailAbilitataAllaCompilazione(Sondaggio sondaggio, String email) throws SQLException {
+    public boolean isUtenteAbilitatoAllaCompilazione(Sondaggio sondaggio, int utente_id) throws SQLException {
         if(sondaggio.getVisibilita() == 1) {
             return true;
         } else {
-            PreparedStatement emailCompilazioneQuery = connection.prepareStatement("SELECT COUNT(*) AS rowcount FROM Compilazione c, Utente u WHERE c.sondaggio_id=? AND  AND u.email=?");
+            PreparedStatement emailCompilazioneQuery = connection.prepareStatement("SELECT COUNT(*) AS rowcount FROM Compilazione c, Utente u WHERE c.sondaggio_id=? AND c.utente_id=u.id AND u.id=?");
             emailCompilazioneQuery.setInt(1, sondaggio.getId());
-            emailCompilazioneQuery.setString(2, email);
+            emailCompilazioneQuery.setInt(2, utente_id);
             ResultSet rs = emailCompilazioneQuery.executeQuery();
             rs.next();
             return rs.getInt("rowcount")==1;

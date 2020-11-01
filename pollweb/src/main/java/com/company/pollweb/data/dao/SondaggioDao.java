@@ -30,7 +30,7 @@ public interface SondaggioDao {
 
     public ArrayList<Sondaggio> listaSondaggiResponsabile(int utenteId) throws SQLException;
 
-    public boolean isEmailAbilitataAllaCompilazione(Sondaggio sondaggio, String email) throws SQLException;
+    public boolean isUtenteAbilitatoAllaCompilazione(Sondaggio sondaggio, int utente_id) throws SQLException;
 
     public boolean invitaUtenti(int sondaggioId, List<Utente> utenti) throws SQLException;
 

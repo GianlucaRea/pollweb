@@ -63,11 +63,11 @@ public class MostraRisultatiSondaggio extends PollWebBaseController {
         if(sondaggio != null) {
             if (sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
                 request.setAttribute("sondaggio", sondaggio);
-                List<Integer> users_id = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getUserList(sondaggioId);
+                List<Utente> users_id = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getUserList(sondaggioId);
                 if(users_id != null) {
-                    for (Integer user_id : users_id) {
-                        List<String> risposte = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getRisposteBySondaggioAndUtente(sondaggioId, user_id);
-                        Utente u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(user_id);
+                    for (Utente user : users_id) {
+                        List<String> risposte = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getRisposteBySondaggioAndUtente(sondaggioId, user.getId());
+                        Utente u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(user.getId());
                         String email = u.getEmail();
                         risposte.add(0,email);
                         request.setAttribute("email", email);

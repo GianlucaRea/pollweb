@@ -1,6 +1,7 @@
 package com.company.pollweb.data.dao;
 
 import com.company.pollweb.data.models.Compilazione;
+import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.data.proxy.CompilazioneProxy;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.utility.Pair;
@@ -24,7 +25,7 @@ public interface CompilazioneDao {
 
     Compilazione getCompilazione(int sondaggioId, int utenteid) throws SQLException;
 
-    List<Integer> getUserList(int sondaggioId) throws  DataException;
+    List<Utente> getUserList(int sondaggioId) throws  DataException;
 
     List<String> getRisposteByDomandaId(int domandaId) throws DataException;
 

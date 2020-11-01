@@ -44,15 +44,17 @@ and open the template in the editor.
                             </div>
                         </div>
 
-                        <h3>Lista utenti invitati</h3>
                         <div class="row" id="listaInvitati">
 
                         </div>
-                        <div class="row">
+
+                        <h5>Lista utenti già invitati</h5>
+
+                        <div class="row mt-2">
                             <#list invitati as invitato>
-                                <#if invitato != "">
+                                <#if invitato.getNome() != "">
                                     <div class="col-md-4 mt-2">
-                                        <input type="text" class="form-control" value="${invitato}" disabled/>
+                                        <p class="lead"><i class="fad fa-user"></i> ${invitato.getNome()} (${invitato.getEmail()})</p>
                                     </div>
                                 </#if>
                             </#list>

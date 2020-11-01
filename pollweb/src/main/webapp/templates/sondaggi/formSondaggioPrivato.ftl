@@ -37,6 +37,10 @@
                                     <label for="inputEmail"><strong>Indirizzo email</strong></label>
                                     <input type="email" name="email" id="inputEmail" class="form-control" placeholder="mario.rossi@email.it" />
                                 </div>
+                                <div class="form-group">
+                                    <label for="inputPassword"><strong>Password</strong></label>
+                                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
+                                </div>
                                 <button type="submit" class="btn btn-primary">Accedi al sondaggio</button>
                             </form>
                         </div>

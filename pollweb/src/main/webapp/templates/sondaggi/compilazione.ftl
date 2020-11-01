@@ -25,7 +25,7 @@ and open the template in the editor.
         <form id="creationForm" method="post" action="/sondaggi/inserisci_compilazione">
             <input type="hidden" name="sondaggioId" value="${sondaggio.getId()}">
             <#if email ??>
-                <input type="hidden" name="email" value="${email}">
+                <input type="hidden" name="utente_id" value="${utente_id}">
             </#if>
             <#list domande as domanda>
                 <div class="card mb-3">

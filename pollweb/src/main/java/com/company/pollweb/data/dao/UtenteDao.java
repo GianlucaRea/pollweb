@@ -22,7 +22,7 @@ public interface UtenteDao {
 
     Utente getUtenteByEmail(String email) throws DataException;
 
-    Utente getUtente(String email, String password) throws DataException;
+    Utente getUtentePerCompilazione(String email, String password, int sondaggio_id) throws DataException;
 
     Utente  creaUtente() throws DataException;
 

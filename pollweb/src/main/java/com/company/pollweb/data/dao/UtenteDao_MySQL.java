@@ -156,10 +156,10 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
         return null;
     }
 
-    @Override
-    public Utente getUtente(String email, String password) throws DataException {
+    public Utente getUtentePerCompilazione(String email, String password, int sondaggio_id) throws DataException {
+        //prendi compilazione per l'utente SELECT u.* FROM Compilazione c, Utente u WHERE c.utente_id = u.id AND c.sondaggio_id=? AND u.email = ?
         try {
-            utenteByLogin.setString(1, email);
+            utenteByEmail.setString(1, email);
             utenteByLogin.setString(2, password);
             try (ResultSet rs = utenteByLogin.executeQuery()) {
                 if (rs.next()) {

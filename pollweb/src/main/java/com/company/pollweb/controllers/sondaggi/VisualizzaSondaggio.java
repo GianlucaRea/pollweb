@@ -5,7 +5,6 @@ import com.company.pollweb.data.dao.PollwebDataLayer;
 import com.company.pollweb.data.dao.SondaggioDao;
 import com.company.pollweb.data.models.Sondaggio;
 import com.company.pollweb.framework.data.DataException;
-import com.company.pollweb.framework.result.FailureResult;
 import com.company.pollweb.framework.result.SplitSlashesFmkExt;
 import com.company.pollweb.framework.result.TemplateManagerException;
 import com.company.pollweb.framework.result.TemplateResult;
@@ -80,9 +79,9 @@ public class VisualizzaSondaggio extends PollWebBaseController {
             res.activate("sondaggi/compilazione.ftl", request, response);
         } else {
             // verifica se è stata inserita l'email e l'utente può accedervi
-            String email = request.getParameter("email");
+            int utente_id = Integer.parseInt(request.getParameter("utente_id"));
             //TODO controllo se email rispetta il pattern
-            if(email != null && sondaggioDao.isEmailAbilitataAllaCompilazione(sondaggio, email)) { //email abilitata alla compilazione
+            if(utente_id > 0 && sondaggioDao.isUtenteAbilitatoAllaCompilazione(sondaggio, utente_id)) { //email abilitata alla compilazione
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 res.activate("sondaggi/compilazione.ftl", request, response);
