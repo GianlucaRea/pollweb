@@ -56,23 +56,30 @@ public class RiepilogoSondaggio extends PollWebBaseController {
         ((PollwebDataLayer) request.getAttribute("datalayer")).init();
         Sondaggio sondaggio = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getSondaggio(sondaggioId);
         List invitati = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getUserList(sondaggioId);
-        if(sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
-            ((PollwebDataLayer) request.getAttribute("datalayer")).init();
-            ArrayList<Domanda> domande = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getDomande(sondaggio.getId());
-            TemplateResult res = new TemplateResult(getServletContext());
-            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            request.setAttribute("sondaggio", sondaggio);
-            request.setAttribute("domande", domande);
-            if(invitati.size() != 0){
-                request.setAttribute("invitati",invitati);
+        if(sondaggio != null){
+            if(sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
+                ((PollwebDataLayer) request.getAttribute("datalayer")).init();
+                ArrayList<Domanda> domande = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getDomande(sondaggio.getId());
+                TemplateResult res = new TemplateResult(getServletContext());
+                request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                request.setAttribute("sondaggio", sondaggio);
+                request.setAttribute("domande", domande);
+                if(invitati.size() != 0){
+                    request.setAttribute("invitati",invitati);
+                }
+                res.activate("sondaggi/riepilogo.ftl", request, response);
+            } else {
+                TemplateResult res = new TemplateResult(getServletContext());
+                request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                request.setAttribute("error", "Permesso negato");
+                res.activate("/error.ftl", request, response);
             }
-            res.activate("sondaggi/riepilogo.ftl", request, response);
         } else {
-            TemplateResult res = new TemplateResult(getServletContext());
-            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            request.setAttribute("error", "Permesso negato");
-            res.activate("/error.ftl", request, response);
-        }
+                TemplateResult res = new TemplateResult(getServletContext());
+                request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                request.setAttribute("error", "Il sondaggio non esiste");
+                res.activate("/error.ftl", request, response);
+            }
     }
 
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {

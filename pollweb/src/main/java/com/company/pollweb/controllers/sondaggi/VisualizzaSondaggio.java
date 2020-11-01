@@ -40,6 +40,7 @@ public class VisualizzaSondaggio extends PollWebBaseController {
     }
 
     private void action_check_is_active(HttpServletRequest request, HttpServletResponse response, Sondaggio sondaggio) throws TemplateManagerException {
+        if(sondaggio != null) {
         if(sondaggio.getStato() == 0) {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -55,9 +56,16 @@ public class VisualizzaSondaggio extends PollWebBaseController {
             res.activate("/error.ftl", request, response);
             return ;
         }
+    } else {
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            request.setAttribute("error", "Il sondaggio non esiste");
+            res.activate("/error.ftl", request, response);
+        }
     }
 
     private void action_check_visibility(HttpServletRequest request, HttpServletResponse response, Sondaggio sondaggio, SondaggioDao sondaggioDao) throws TemplateManagerException, SQLException {
+        if(sondaggio != null){
         if(sondaggio.getId() == -1) {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -87,6 +95,12 @@ public class VisualizzaSondaggio extends PollWebBaseController {
             }
 
 
+        }
+    } else {
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            request.setAttribute("error", "Il sondaggio non esiste");
+            res.activate("/error.ftl", request, response);
         }
     }
 }

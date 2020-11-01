@@ -44,7 +44,6 @@ public class InvitaUtentiSondaggio extends PollWebBaseController {
         Utente u;
         for(int i = 1 ;request.getParameter("nuovoInvitato["+i+"][nome]") != null ; i++){
 
-            System.out.println(request.getParameter("nuovoInvitato["+i+"][email]"));
             ((PollwebDataLayer) request.getAttribute("datalayer")).init();
             u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().creaUtente();
             u.setEmail(request.getParameter("nuovoInvitato["+i+"][email]"));
@@ -64,7 +63,6 @@ public class InvitaUtentiSondaggio extends PollWebBaseController {
         List<String> utentiPerRiga = br.lines().collect(Collectors.toList());
         for(String utentePerRiga: utentiPerRiga) {
             String[] datiUtente = utentePerRiga.split(";");
-            System.out.println(datiUtente[1]);
             if(!datiUtente[1].equals("") && datiUtente[1] != null) {
                 ((PollwebDataLayer) request.getAttribute("datalayer")).init();
                 u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().creaUtente();

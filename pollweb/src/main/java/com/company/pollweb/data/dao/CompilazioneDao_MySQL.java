@@ -80,26 +80,23 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
     @Override
     public void salvaCompilazione(Compilazione c) throws DataException {
         int id = c.getId();
-        try (PreparedStatement ps = inserimento_compilazione ) {
+        try  {
             if (c.getId() > 0) {
                 if (c instanceof CompilazioneProxy && ((CompilazioneProxy) c).isDirty()) {
                     return;
                 }
-                // TODO Qui ci va la modifica del sondaggio o meglio se un sondaggio esiste già si può modificare qui
             } else {
-                ps.setInt(1, c.getSondaggioId());
-                ps.setInt(2, c.getUserId());
-
-                // Set int ordine
-                if (ps.executeUpdate() == 1) {
-                    try (ResultSet rs = ps.getGeneratedKeys()) {
+                inserimento_compilazione.setInt(1, c.getSondaggioId());
+                inserimento_compilazione.setInt(2, 3);
+                if (inserimento_compilazione.executeUpdate() == 1) {
+                    try (ResultSet rs = inserimento_compilazione.getGeneratedKeys()) {
                         if (rs.next()) {
                             id = rs.getInt(1);
                         }
                     }
                     c.setId(id);
                 }
-                ps.close();
+                inserimento_compilazione.close();
             }
             inserimento_compilazione.close();
             this.destroy();

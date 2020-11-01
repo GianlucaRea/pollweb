@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
 
@@ -67,6 +69,7 @@ public class MostraRisultatiSondaggio extends PollWebBaseController {
                         List<String> risposte = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getRisposteBySondaggioAndUtente(sondaggioId, user_id);
                         Utente u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(user_id);
                         String email = u.getEmail();
+                        risposte.add(0,email);
                         request.setAttribute("email", email);
                         request.setAttribute("risposta", risposte);
                     }

@@ -51,36 +51,41 @@ public class PubblicaSondaggio extends PollWebBaseController {
         Utente utente = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
         ((PollwebDataLayer) request.getAttribute("datalayer")).init();
         Sondaggio sondaggio = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getSondaggio(sondaggioId);
+        if (sondaggio != null) {
+            if (sondaggio.getStato() == 1) {
+                TemplateResult res = new TemplateResult(getServletContext());
+                request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                request.setAttribute("error", "Il sondaggio è già pubblico");
+                res.activate("/error.ftl", request, response);
+                return;
+            }
 
-        if(sondaggio.getStato() == 1) {
-            TemplateResult res = new TemplateResult(getServletContext());
-            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            request.setAttribute("error", "Il sondaggio è già pubblico");
-            res.activate("/error.ftl", request, response);
-            return ;
-        }
+            if (sondaggio.getStato() == 2) {
+                TemplateResult res = new TemplateResult(getServletContext());
+                request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                request.setAttribute("error", "Il sondaggio è chiuso, non può essere pubblicato nuovamente");
+                res.activate("/error.ftl", request, response);
+                return;
+            }
 
-        if(sondaggio.getStato() == 2){
-            TemplateResult res = new TemplateResult(getServletContext());
-            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            request.setAttribute("error", "Il sondaggio è chiuso, non può essere pubblicato nuovamente");
-            res.activate("/error.ftl", request, response);
-            return ;
-        }
-
-        if(sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
-            ((PollwebDataLayer) request.getAttribute("datalayer")).init();
-            ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().pubblicaSondaggio(sondaggio.getId());
-            TemplateResult res = new TemplateResult(getServletContext());
-            res.activate("sondaggi/pubblicato.ftl", request, response);
+            if (sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
+                ((PollwebDataLayer) request.getAttribute("datalayer")).init();
+                ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().pubblicaSondaggio(sondaggio.getId());
+                TemplateResult res = new TemplateResult(getServletContext());
+                res.activate("sondaggi/pubblicato.ftl", request, response);
+            } else {
+                TemplateResult res = new TemplateResult(getServletContext());
+                request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                request.setAttribute("error", "Permesso negato");
+                res.activate("/error.ftl", request, response);
+            }
         } else {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            request.setAttribute("error", "Permesso negato");
+            request.setAttribute("error", "Il sondaggio non esiste");
             res.activate("/error.ftl", request, response);
         }
     }
-
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         try {
             request.setAttribute("urlrequest", request.getRequestURL());
