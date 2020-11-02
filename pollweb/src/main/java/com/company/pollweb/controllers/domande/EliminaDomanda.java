@@ -34,23 +34,29 @@ public class EliminaDomanda extends PollWebBaseController {
 
     private void action_elimina(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws DataException, TemplateManagerException {
         try {
+            int sondaggioId = Integer.parseInt(request.getParameter("id"));
             int domandaId = Integer.parseInt(request.getParameter("id_domanda"));
             PollwebDataLayer pd = ((PollwebDataLayer) request.getAttribute("datalayer"));
             Domanda d = pd.getDomandaDAO().getDomandaByID(domandaId);
             if (d != null) {
                 pd.getDomandaDAO().eliminaDomanda(domandaId);
+                action_write(request,response,sondaggioId);
             } else {
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("error", "La domanda non esiste");
                 res.activate("/error.ftl", request, response);
             }
-        }catch (TemplateManagerException e){
+        }catch (TemplateManagerException | IOException e){
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("error", "Errore Modifica Sondaggio");
             res.activate("/error.ftl", request, response);
         }
+    }
+
+    private void action_write(HttpServletRequest request, HttpServletResponse response, int sondaggioId) throws IOException {
+        response.sendRedirect("/sondaggi/riepilogo?id=" + sondaggioId);
     }
 
 

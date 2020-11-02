@@ -77,6 +77,7 @@
             <param-value>sondaggio_id</param-value>
         </init-param>
     </servlet>
+
     <servlet>
         <servlet-name>EsportaCompilazione</servlet-name>
         <servlet-class>com.company.pollweb.controllers.compilazione.EsportaCompilazione</servlet-class>
@@ -91,6 +92,18 @@
         <init-param>
             <param-name>sondaggio_id</param-name>
             <param-value>sondaggio_id</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>EliminaDomanda</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.domande.EliminaDomanda</servlet-class>
+        <init-param>
+            <param-name>sondaggio_id</param-name>
+            <param-value>sondaggio_id</param-value>
+        </init-param>
+        <init-param>
+            <param-name>domanda_id</param-name>
+            <param-value>domanda_id</param-value>
         </init-param>
     </servlet>
     <servlet>
@@ -128,6 +141,10 @@
     <servlet-mapping>
         <servlet-name>InserisciDomanda</servlet-name>
         <url-pattern>/inserisci_domanda</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EliminaDomanda</servlet-name>
+        <url-pattern>/sondaggi/elimina_domanda</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>VisualizzaSondaggio</servlet-name>
