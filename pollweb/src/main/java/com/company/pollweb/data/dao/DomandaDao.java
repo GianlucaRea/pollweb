@@ -33,4 +33,5 @@ public interface DomandaDao {
   void eliminaDomanda(int domanda_id) throws DataException;
 
   int prendiOrdine(int sondaggio_id) throws DataException;
+
 }

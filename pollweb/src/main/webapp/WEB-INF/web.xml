@@ -11,11 +11,6 @@
         <servlet-class>com.company.pollweb.controllers.Login</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Home</servlet-name>
-        <servlet-class>com.company.pollweb.controllers.Home</servlet-class>
-    </servlet>
-
-    <servlet>
         <servlet-name>CreaSondaggio</servlet-name>
         <servlet-class>com.company.pollweb.controllers.CreazioneSondaggio</servlet-class>
     </servlet>
@@ -156,7 +151,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MostraRisultatiSondaggio</servlet-name>
-        <url-pattern>/sondaggi/risultato</url-pattern>
+            <url-pattern>/sondaggi/risultato</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ModificaSondaggio</servlet-name>

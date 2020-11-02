@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
 
-    private PreparedStatement inserimento_compilazione , getUserList , get_risposte , get_compilazione_id , get_risposte_bySondaggioAndUtente ,get_compilazione;
+    private PreparedStatement inserimento_compilazione , getUserList , get_risposte , get_compilazione_id , get_risposte_bySondaggioAndUtente ,get_compilazione , getUserListIds;
 
     public CompilazioneDao_MySQL(DataLayer d) {
         super(d);
@@ -40,6 +40,7 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             get_compilazione_id = connection.prepareStatement("SELECT risposta,utente_id FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE domanda_id = ?;");
             get_risposte_bySondaggioAndUtente = connection.prepareStatement("SELECT risposta FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE sondaggio_id = ? AND utente_id = ?;");
             get_compilazione = connection.prepareStatement("SELECT * FROM Compilazione WHERE sondaggio_id=? AND utente_id=?;");
+            getUserListIds = connection.prepareStatement("SELECT utente_id FROM Compilazione WHERE sondaggio_id = ?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
         }
@@ -53,6 +54,7 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             get_compilazione_id.close();
             get_risposte_bySondaggioAndUtente.close();
             get_compilazione.close();
+            getUserListIds.close();
         } catch (SQLException ex) {
             Logger.getLogger(SondaggioDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -152,7 +154,7 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
 
     @Override
     public List<Utente> getUserList(int sondaggioId) throws DataException {
-        List<Utente> list = new ArrayList<Utente>();
+        List<Utente> list = new ArrayList();
          try {
              getUserList.setInt(1, sondaggioId);
              try(ResultSet rs = getUserList.executeQuery()){
@@ -211,15 +213,27 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             get_risposte_bySondaggioAndUtente.setInt(2,utenteid);
             try(ResultSet rs = get_risposte_bySondaggioAndUtente.executeQuery()){
                 while(rs.next()){
-                    list.add(rs.getString("risposta"));
+                    list.add(JSONObject.valueToString(rs.getObject("risposta")));
                 }
+                return list;
             }
         }catch(SQLException ex){
             throw new DataException("Impossibile caricare la lista delle risposte dall'email di colui che ha compilato", ex);
         }
-        return list;
     }
 
-
-
+    public List<Integer> getUserListIds(int sondaggioId) throws DataException {
+        List<Integer> list = new ArrayList();
+        try {
+            getUserListIds.setInt(1, sondaggioId);
+            try(ResultSet rs = getUserListIds.executeQuery()){
+                while(rs.next()) {
+                    list.add(rs.getInt("utente_id"));
+                }
+            }
+        }catch (SQLException ex){
+            throw new DataException("Impossibile caricare la lista di id", ex);
+        }
+        return list;
+    }
 }

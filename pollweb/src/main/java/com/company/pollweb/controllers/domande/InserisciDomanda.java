@@ -54,6 +54,7 @@ public class InserisciDomanda extends PollWebBaseController {
                             d.setObbligo(0);
                         }
                         d.setTipologia(request.getParameter("tipologia"));
+                        d.setOrdine(pd.getDomandaDAO().prendiOrdine(sondaggioId));
                         type = request.getParameter("tipologia");
                         switch(type) {
                             case "testo_breve":
@@ -152,7 +153,8 @@ public class InserisciDomanda extends PollWebBaseController {
                                     if(min_chooses != -10000) {
                                         Vincoli = Serializer.sceltaMultiplaToJSONNM(chooses,min_chooses);
                                     }else{
-                                        Vincoli = Serializer.sceltaSingolaToJSON(chooses);                                    }
+                                        Vincoli = Serializer.sceltaSingolaToJSON(chooses);
+                                    }
                                 }
                                 d.setVincoli(Vincoli);
                                 break;

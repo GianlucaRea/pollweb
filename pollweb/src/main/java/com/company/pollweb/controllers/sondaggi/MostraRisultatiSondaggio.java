@@ -58,20 +58,25 @@ public class MostraRisultatiSondaggio extends PollWebBaseController {
 
     private void action_edit(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws SQLException, DataException, TemplateManagerException {
         int sondaggioId = Integer.parseInt(request.getParameter("id"));
-        Utente utente = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
-        Sondaggio sondaggio = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getSondaggio(sondaggioId);
+        PollwebDataLayer pd = (PollwebDataLayer) request.getAttribute("datalayer");
+        Utente utente = pd.getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
+        Sondaggio sondaggio = pd.getSondaggioDAO().getSondaggio(sondaggioId);
         if(sondaggio != null) {
             if (sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
                 request.setAttribute("sondaggio", sondaggio);
-                List<Utente> users_id = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getUserList(sondaggioId);
-                if(users_id != null) {
-                    for (Utente user : users_id) {
-                        List<String> risposte = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getRisposteBySondaggioAndUtente(sondaggioId, user.getId());
-                        Utente u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(user.getId());
-                        String email = u.getEmail();
-                        risposte.add(0,email);
-                        request.setAttribute("email", email);
-                        request.setAttribute("risposta", risposte);
+                List<Integer> utente_ids = pd.getCompilazioneDAO().getUserListIds(sondaggioId);
+                int i = 1;
+                if(utente_ids != null) {
+                    Map<String,List> risultati = new HashMap<>();
+                    for (int utente_id : utente_ids) {
+                        Utente u = pd.getUtenteDAO().getUtente(utente_id);
+                        List<String> risposte = pd.getCompilazioneDAO().getRisposteBySondaggioAndUtente(sondaggioId, u.getId());
+                        risultati.put(u.getEmail(),risposte);
+                    }
+                    for (String email : risultati.keySet()){
+                        request.setAttribute("email["+i+"]",email);
+                        request.setAttribute("risposte["+i+"]",risultati.get(email));
+                        i++;
                     }
                     TemplateResult res = new TemplateResult(getServletContext());
                     res.activate("sondaggi/visualizzaRisultato.ftl", request, response);

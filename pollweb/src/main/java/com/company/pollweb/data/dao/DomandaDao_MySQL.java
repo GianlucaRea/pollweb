@@ -224,7 +224,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
     @Override
     public int prendiOrdine(int sondaggio_id) throws DataException {
         try{
-            int i = 0;
+            int i = 1;
             max_ordine.setInt(1,sondaggio_id);
             try (ResultSet rs = max_ordine.executeQuery()){
                 if (rs.next()){
