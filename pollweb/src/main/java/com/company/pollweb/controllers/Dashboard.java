@@ -66,7 +66,17 @@ public class Dashboard extends PollWebBaseController{
 
             request.setAttribute("sondaggi", sondaggi);
             if(request.getParameter("success") != null) {
-                request.setAttribute("success", "Operazione completata");
+                String successMessage = "Operazione completata";
+                switch(request.getParameter("success")) {
+                    case "100": successMessage = "Sondaggio pubblicato";
+                        break;
+                    case "101": successMessage = "Sondaggio chiuso";
+                        break;
+                    case "102": successMessage = "Download in corso";
+                        break;
+
+                }
+                request.setAttribute("success", successMessage);
             }
             if(request.getParameter("error") != null) {
                 request.setAttribute("error", "Si è verificato un errore");

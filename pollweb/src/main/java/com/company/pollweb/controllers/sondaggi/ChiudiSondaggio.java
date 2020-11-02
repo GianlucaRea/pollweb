@@ -69,7 +69,7 @@ public class ChiudiSondaggio extends PollWebBaseController {
                 ((PollwebDataLayer) request.getAttribute("datalayer")).init();
                 ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().chiudiSondaggio(sondaggio.getId());
 
-                response.sendRedirect("/home?success=1");
+                response.sendRedirect("/home?success=101");
             } else {
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());

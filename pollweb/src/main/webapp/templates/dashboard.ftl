@@ -50,6 +50,7 @@
                                 </#if>
                                 <#if sondaggio.getStato() == 2>
                                     <a href="#" class="btn btn-primary">Visualizza risultati</a>
+                                    <a href="/sondaggi/esportazione?id=${sondaggio.getId()}" class="btn btn-secondary">CSV</a>
                                 </#if>
                             </p>
                         </div>

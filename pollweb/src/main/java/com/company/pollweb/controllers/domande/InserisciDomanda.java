@@ -3,23 +3,18 @@ package com.company.pollweb.controllers.domande;
 import com.company.pollweb.controllers.PollWebBaseController;
 import com.company.pollweb.data.dao.PollwebDataLayer;
 import com.company.pollweb.data.models.Domanda;
-import com.company.pollweb.data.models.Sondaggio;
-import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.result.FailureResult;
-import com.company.pollweb.framework.result.SplitSlashesFmkExt;
-import com.company.pollweb.framework.result.TemplateManagerException;
-import com.company.pollweb.framework.result.TemplateResult;
 import com.company.pollweb.utility.Serializer;
 import org.json.JSONObject;
 
-import javax.servlet.RequestDispatcher;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
+
 
 import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
 
@@ -42,9 +37,11 @@ public class InserisciDomanda extends PollWebBaseController {
             try {
                 if (request.getParameterMap() != null) {
                     PollwebDataLayer pd = ((PollwebDataLayer) request.getAttribute("datalayer"));
+                    pd.init();
                     Domanda d = pd.getDomandaDAO().creazioneDomanda();
                     int sondaggioId = Integer.parseInt(request.getParameter("id"));
                     if (d != null) {
+                        System.out.println("ENTRO");
                         d.setSondaggio_id(sondaggioId);
                         d.setTesto(request.getParameter("testo"));
                         d.setNota(request.getParameter("nota"));
@@ -159,7 +156,7 @@ public class InserisciDomanda extends PollWebBaseController {
                                 d.setVincoli(Vincoli);
                                 break;
                         }
-                     pd.getDomandaDAO().salvaDomanda(d);
+                        pd.getDomandaDAO().salvaDomanda(d);
                     } else {
                         request.setAttribute("message", "Errore creazione Domanda");
                         action_error(request, response);

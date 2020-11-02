@@ -34,7 +34,7 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
 
         try {
             super.init();
-            inserimento_compilazione = connection.prepareStatement("INSERT INTO Compilazione (sondaggio_id, utente_id) VALUES (?, ?);", Statement.RETURN_GENERATED_KEYS);
+            inserimento_compilazione = connection.prepareStatement("INSERT INTO Compilazione (sondaggio_id) VALUES (?);", Statement.RETURN_GENERATED_KEYS);
             getUserList = connection.prepareStatement("SELECT * FROM Compilazione c, Utente u WHERE c.sondaggio_id=? AND c.utente_id = u.id;");
             get_risposte = connection.prepareStatement("SELECT risposta FROM CompilazioneDomanda WHERE domanda_id=?;");
             get_compilazione_id = connection.prepareStatement("SELECT risposta,utente_id FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE domanda_id = ?;");
@@ -91,7 +91,6 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
                 }
             } else {
                 inserimento_compilazione.setInt(1, c.getSondaggioId());
-                inserimento_compilazione.setInt(2, 3);
                 if (inserimento_compilazione.executeUpdate() == 1) {
                     try (ResultSet rs = inserimento_compilazione.getGeneratedKeys()) {
                         if (rs.next()) {

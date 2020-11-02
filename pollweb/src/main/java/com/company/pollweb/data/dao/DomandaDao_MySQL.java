@@ -30,10 +30,10 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             inserimento_domanda = connection.prepareStatement("INSERT INTO Domanda (sondaggio_id, testo, nota, obbligo, tipologia, vincoli, ordine) VALUES (?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             domande_by_sondaggioID = connection.prepareStatement("SELECT * FROM Domanda WHERE sondaggio_id=? ORDER BY ordine ASC;");
             domanda_by_id= connection.prepareStatement("SELECT * FROM Domanda WHERE ID=?;");
-            domande_ids_by_sondaggoID = connection.prepareStatement("SELECT id FROM DOMANDA WHERE sondaggio_id=?;");
+            domande_ids_by_sondaggoID = connection.prepareStatement("SELECT id FROM Domanda WHERE sondaggio_id=?;");
             modifica_domanda = connection.prepareStatement("UPDATE Domanda SET sondaggio_id=?,testo=?,nota=?,obbligo=?,tipologia=?,vincoli=?,ordine=? WHERE id=?;");
             elimina_domanda = connection.prepareStatement("DELETE FROM Domanda WHERE id=?;");
-            max_ordine = connection.prepareStatement("SELECT max(ordine) FROM domanda WHERE sondaggio_id = ?;");
+            max_ordine = connection.prepareStatement("SELECT max(ordine) AS max_ordine FROM Domanda WHERE sondaggio_id = ?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
         }
@@ -228,8 +228,8 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             max_ordine.setInt(1,sondaggio_id);
             try (ResultSet rs = max_ordine.executeQuery()){
                 if (rs.next()){
-                    i = rs.getInt("ordine");
-                    return i;
+                    i = rs.getInt("max_ordine");
+                    return i+1;
                 }else {
                     return i;
                 }

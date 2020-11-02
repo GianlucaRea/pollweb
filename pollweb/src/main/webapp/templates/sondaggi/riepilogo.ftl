@@ -61,7 +61,7 @@ and open the template in the editor.
 
                             <div class="clearfix"></div>
                             <div class="float-right mt-2">
-                                <button type="submit" class="btn btn-primary btn-lg">Salva modifiche</button>
+                                <button type="submit" class="btn btn-success">Salva modifiche <i class="fas fa-save"></i></button>
                             </div>
                         </form>
 
@@ -115,7 +115,7 @@ and open the template in the editor.
                             <p class="small">Ogni utente deve essere nella forma "nome;email;password"</p>
 
                             <div class="float-right">
-                                <button type="submit" class="btn btn-primary btn-lg">Salva modifiche</button>
+                                <button type="submit" class="btn btn-success">Salva modifiche <i class="fas fa-save"></i></button>
                             </div>
 
                         </form>
@@ -179,12 +179,11 @@ and open the template in the editor.
             </div>
         </div>
 
-
         <div class="row mt-2">
             <div class="col-md-6 offset-md-6">
                 <div class="float-right">
-                    <a href="/sondaggi/pubblica?id=${sondaggio.getId()}" class="btn btn-success btn.lg">
-                        <i class="fas fa-save"></i> Attiva sondaggio
+                    <a href="/sondaggi/pubblica?id=${sondaggio.getId()}" class="btn btn-success btn-lg">
+                        Attiva sondaggio <i class="fas fa-globe-europe"></i>
                     </a>
                 </div>
             </div>

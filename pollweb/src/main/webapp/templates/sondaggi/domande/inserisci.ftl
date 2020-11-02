@@ -22,7 +22,7 @@ and open the template in the editor.
             <div class=" rowDomanda" id="rowDomanda">
                 <div class="domanda mt-3 mb-3 card" id="domanda">
                     <div class="card-body">
-                        <h2 class="text-primary" id="titoloDomanda">Domanda</h2>
+                        <h2 id="titoloDomanda">Domanda</h2>
                         <div class="collapse show" id="collapseDomanda">
                             <div class="row">
                                 <div class="col-md-6">
@@ -59,11 +59,11 @@ and open the template in the editor.
             </div>
         <div class="row">
             <div class="col-md-6">
-                <a href="/sondaggi/riepilogo?id=${sondaggio.getId()}" class="btn btn-danger">Torna indietro</a>
+                <a href="/sondaggi/riepilogo?id=${sondaggio.getId()}" class="btn btn-secondary">Torna indietro</a>
             </div>
             <div class="col-md-6">
                 <div class="float-right">
-                    <button type="submit" class="btn btn-success">Inserisci domanda</button>
+                    <button type="submit" class="btn btn-success">Salva domanda <i class="fas fa-plus"></i></button>
                 </div>
             </div>
         </div>
@@ -87,11 +87,11 @@ and open the template in the editor.
                 vincoliSelect.html('<div class="domanda" id="vincoloDomanda">' +
                     '<div class="form-group">' +
                     '<label for="LunghezzaMassimaTestoBreve">Lunghezza Massima Testo Breve</label>' +
-                    '<input id="LunghezzaMassimaTestoBreve" type="number" name="LunghezzaMassimaTestoBreve" class="form-control" placeholder="250" required>' +
+                    '<input id="LunghezzaMassimaTestoBreve" type="number" name="LunghezzaMassimaTestoBreve" class="form-control" placeholder="250">' +
                     '</div>' +
                     '<div class="form-group">' +
                     '<label for="PatternTestoBreve">PatternTestoBreve</label>' +
-                    '<input id="PatternTestoBreve" type="text" name="PatternTestoBreve" class="form-control" placeholder="Pattern" required>' +
+                    '<input id="PatternTestoBreve" type="text" name="PatternTestoBreve" class="form-control" placeholder="Pattern">' +
                     '</div>' +
                     '</div>'
                 );
@@ -100,15 +100,15 @@ and open the template in the editor.
                 vincoliSelect.html('<div class="domanda" id="vincoloDomanda">' +
                     '<div class="form-group">' +
                     '<label for="LunghezzaMassimaTestoLungo">Lunghezza Massima Testo Lungo</label>' +
-                    '<input id="LunghezzaMassimaTestoLungo" type="number" name="dLunghezzaMassimaTestoLungo" class="form-control" placeholder="Lunghezza Massima Testo Lungo" required>' +
+                    '<input id="LunghezzaMassimaTestoLungo" type="number" name="LunghezzaMassimaTestoLungo" class="form-control" placeholder="Lunghezza Massima Testo Lungo">' +
                     '</div>' +
                     '<div class="form-group">' +
                     '<label for="LunghezzaMinimaTestoLungo">Lunghezza Minima Testo Lungo</label>' +
-                    '<input id="LunghezzaMinimaTestoLungo" type="number" name="LunghezzaMinimaTestoLungo" class="form-control" placeholder="Lunghezza Minima Testo Lungo" required>' +
+                    '<input id="LunghezzaMinimaTestoLungo" type="number" name="LunghezzaMinimaTestoLungo" class="form-control" placeholder="Lunghezza Minima Testo Lungo">' +
                     '</div>' +
                     '<div class="form-group">' +
                     '<label for="PatternTestoLungo">Pattern Testo Lungo</label>' +
-                    '<input id="PatternTestoLungo" type="text" name="PatternTestoLungo" class="form-control" placeholder="Pattern Testo Lungo" required>' +
+                    '<input id="PatternTestoLungo" type="text" name="PatternTestoLungo" class="form-control" placeholder="Pattern Testo Lungo">' +
                     '</div>' +
                     '</div>'
                 );
@@ -117,11 +117,11 @@ and open the template in the editor.
                 vincoliSelect.html('<div class="domanda" id="vincoloDomanda">' +
                     '<div class="form-group">' +
                     '<label for="Numerominimo">Numero minimo</label>' +
-                    '<input id="Numerominimo" type="number" name="Numerominimo" class="form-control" placeholder="Numero Minimo" required>' +
+                    '<input id="Numerominimo" type="number" name="Numerominimo" class="form-control" placeholder="Numero Minimo">' +
                     '</div>' +
                     '<div class="form-group">' +
                     '<label for="Numeromassimo">Numero massimo</label>' +
-                    '<input id="Numeromassimo" type="number" name="Numeromassimo" class="form-control" placeholder="Numero Massimo" required>' +
+                    '<input id="Numeromassimo" type="number" name="Numeromassimo" class="form-control" placeholder="Numero Massimo">' +
                     '</div>' +
                     '</div>'
                 );
@@ -129,7 +129,7 @@ and open the template in the editor.
             case "data":
                 vincoliSelect.html('<div class="domanda mt-3 mb-3" id="vincoloDomanda">' +
                     '<div class="form-group">' +
-                    '<input id="dataSuccessivaOdierna" type="checkbox" name="dataSuccessivaOdierna" required>' +
+                    '<input id="dataSuccessivaOdierna" type="checkbox" name="dataSuccessivaOdierna">' +
                     '<label for="dataSuccessivaOdierna">Accetta solamente date successive a quella odierna</label>' +
                     '</div>' +
                     '</div>'
@@ -140,7 +140,7 @@ and open the template in the editor.
                 vincoliSelect.html('<div class="domanda" id="vincoloDomanda">' +
                     '<div class="form-group">' +
                     '<label for="sceltasingola">Scelta Singola</label>' +
-                    '<input id="sceltasingola" type="text" name="sceltasingola" class="form-control" placeholder="Opzione1,Opzione2,..." required>' +
+                    '<input id="sceltasingola" type="text" name="sceltasingola" class="form-control" placeholder="Opzione1,Opzione2,...">' +
                     '</div>' +
                     '</div>'
                 );
@@ -150,15 +150,15 @@ and open the template in the editor.
                 vincoliSelect.html('<div class="domanda" id="vincoloDomanda">' +
                     '<div class="form-group">' +
                     '<label for="sceltamultipla">Scelta Multipla</label>' +
-                    '<input id="sceltamultipla" type="text" name="sceltamultipla" class="form-control" placeholder="Opzione1,Opzione2,..." required>' +
+                    '<input id="sceltamultipla" type="text" name="sceltamultipla" class="form-control" placeholder="Opzione1,Opzione2,...">' +
                     '</div>' +
                     '<div class="form-group">' +
                     '<label for="Numerominimoscelte">Numero minimo</label>' +
-                    '<input id="Numerominimoscelte" type="number" name="Numerominimoscelte" class="form-control" placeholder="es.1" required>' +
+                    '<input id="Numerominimoscelte" type="number" name="Numerominimoscelte" class="form-control" placeholder="es.1">' +
                     '</div>' +
                     '<div class="form-group">' +
                     '<label for="Numeromassimoscelte">Numero massimo</label>' +
-                    '<input id="Numeromassimoscelte" type="number" name="Numeromassimoscelte" class="form-control" placeholder="es.4" required>' +
+                    '<input id="Numeromassimoscelte" type="number" name="Numeromassimoscelte" class="form-control" placeholder="es.4">' +
                     '</div>' +
                     '</div>'
                 );

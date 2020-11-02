@@ -45,7 +45,7 @@ public class PubblicaSondaggio extends PollWebBaseController {
         }
     }
 
-    private void action_pubblica_sondaggio(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws DataException, SQLException, TemplateManagerException {
+    private void action_pubblica_sondaggio(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws DataException, SQLException, TemplateManagerException, IOException {
         int sondaggioId = Integer.parseInt(request.getParameter("id"));
         ((PollwebDataLayer) request.getAttribute("datalayer")).init();
         Utente utente = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
@@ -71,8 +71,7 @@ public class PubblicaSondaggio extends PollWebBaseController {
             if (sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
                 ((PollwebDataLayer) request.getAttribute("datalayer")).init();
                 ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().pubblicaSondaggio(sondaggio.getId());
-                TemplateResult res = new TemplateResult(getServletContext());
-                res.activate("sondaggi/pubblicato.ftl", request, response);
+                response.sendRedirect("/home?success=100");
             } else {
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());

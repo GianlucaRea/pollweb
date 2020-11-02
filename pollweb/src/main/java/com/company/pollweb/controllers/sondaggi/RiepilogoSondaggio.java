@@ -67,6 +67,13 @@ public class RiepilogoSondaggio extends PollWebBaseController {
                 if(invitati.size() != 0){
                     request.setAttribute("invitati",invitati);
                 }
+
+                if(request.getParameter("success") != null) {
+                    request.setAttribute("success", "Operazione completata");
+                }
+                if(request.getParameter("error") != null) {
+                    request.setAttribute("error", "Si è verificato un errore");
+                }
                 res.activate("sondaggi/riepilogo.ftl", request, response);
             } else {
                 TemplateResult res = new TemplateResult(getServletContext());
