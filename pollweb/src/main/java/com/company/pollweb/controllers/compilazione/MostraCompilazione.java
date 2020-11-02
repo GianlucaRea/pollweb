@@ -19,7 +19,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class MostraCompilazione extends PollWebBaseController {
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DataException {
         try {
             if(request.getParameter("id") == null) {
