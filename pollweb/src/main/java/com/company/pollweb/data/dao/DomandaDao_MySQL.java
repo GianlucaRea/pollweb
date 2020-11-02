@@ -17,7 +17,7 @@ import static com.company.pollweb.utility.Serializer.StringToJSON;
 
 public class DomandaDao_MySQL extends DAO implements DomandaDao{
 
-    private PreparedStatement inserimento_domanda , domande_by_sondaggioID ,domanda_by_id , domande_ids_by_sondaggoID , modifica_domanda , elimina_domanda;
+    private PreparedStatement inserimento_domanda , domande_by_sondaggioID ,domanda_by_id , domande_ids_by_sondaggoID , modifica_domanda , elimina_domanda , max_ordine;
 
     public DomandaDao_MySQL(DataLayer d) {
         super(d);
@@ -33,6 +33,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             domande_ids_by_sondaggoID = connection.prepareStatement("SELECT id FROM DOMANDA WHERE sondaggio_id=?;");
             modifica_domanda = connection.prepareStatement("UPDATE Domanda SET sondaggio_id=?,testo=?,nota=?,obbligo=?,tipologia=?,vincoli=?,ordine=? WHERE id=?;");
             elimina_domanda = connection.prepareStatement("DELETE FROM Domanda WHERE id=?;");
+            max_ordine = connection.prepareStatement("SELECT max(ordine) FROM domanda WHERE sondaggio_id = ?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
         }
@@ -46,6 +47,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             domande_ids_by_sondaggoID.close();
             modifica_domanda.close();
             elimina_domanda.close();
+            max_ordine.close();
         } catch (SQLException ex) {
             Logger.getLogger(SondaggioDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -223,6 +225,24 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
     }
 
     @Override
+    public int prendiOrdine(int sondaggio_id) throws DataException {
+        try{
+            int i = 0;
+            max_ordine.setInt(1,sondaggio_id);
+            try (ResultSet rs = max_ordine.executeQuery()){
+                if (rs.next()){
+                    i = rs.getInt("ordine");
+                    return i;
+                }else {
+                    return i;
+                }
+            }
+        }catch (SQLException ex){
+            throw new DataException("Impossibile prende il massimo ordine in Domande By SondaggioID",ex);
+        }
+    }
+
+    @Override
     public Domanda getDomandaByID(int domanda_id) throws DataException {
         try {
             domanda_by_id.setInt(1, domanda_id);
@@ -236,4 +256,6 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
         }
         return null;
     }
+
+
 }

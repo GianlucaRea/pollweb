@@ -54,6 +54,7 @@ public class InserisciDomanda extends PollWebBaseController {
                             d.setObbligo(0);
                         }
                         d.setTipologia(request.getParameter("tipologiaDomanda"));
+                        d.setOrdine(pd.getDomandaDAO().prendiOrdine(sondaggioId));
                         type = request.getParameter("tipologiaDomanda");
                         switch(type) {
                             case "testo_breve":
