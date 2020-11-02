@@ -88,6 +88,10 @@
     <servlet>
         <servlet-name>InserisciDomanda</servlet-name>
         <servlet-class>com.company.pollweb.controllers.domande.InserisciDomanda</servlet-class>
+        <init-param>
+            <param-name>sondaggio_id</param-name>
+            <param-value>sondaggio_id</param-value>
+        </init-param>
     </servlet>
     <servlet>
         <servlet-name>CompilazioneSondaggio</servlet-name>
@@ -120,6 +124,10 @@
     <servlet-mapping>
         <servlet-name>InserimentoSondaggio</servlet-name>
         <url-pattern>/inserisci_sondaggio</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserisciDomanda</servlet-name>
+        <url-pattern>/inserisci_domanda</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>VisualizzaSondaggio</servlet-name>
