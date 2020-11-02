@@ -33,7 +33,7 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
             utenteByEmail = connection.prepareStatement("SELECT * FROM utente where email = ?;");
             inserimentoUtente = connection.prepareStatement("INSERT INTO Utente (email,nome,cognome,password,ruolo_id) VALUES (?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
             update_utente_password = connection.prepareStatement("UPDATE Utente SET password = ? WHERE id =?;");
-            utenteByCompilazione = connection.prepareStatement("SELECT u.* FROM Compilazione c Join Utente u on  c.utente_id = u.id WHERE c.sondaggio_id= ? AND u.email = ? AND u.password = ?;");
+            utenteByCompilazione = connection.prepareStatement("SELECT u.* FROM Compilazione c Join Utente u on  c.utente_id = u.id WHERE c.sondaggio_id= ? AND u.email = ?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer pollweb", ex);
         }
@@ -162,13 +162,17 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
     public Utente getUtentePerCompilazione(String email, String password, int sondaggio_id) throws DataException {
         try {
             BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
-            String encryptedPassword = passwordEncryptor.encryptPassword(password);
             utenteByCompilazione.setInt(1, sondaggio_id);
             utenteByCompilazione.setString(2, email);
-            utenteByCompilazione.setString(3,encryptedPassword);
             try (ResultSet rs = utenteByCompilazione.executeQuery()) {
                 if (rs.next()) {
-                    return creaUtente(rs);
+                    Utente u = creaUtente(rs);
+                    boolean i = passwordEncryptor.checkPassword(u.getPassword(),password);
+                    if(i == true){
+                        return u;
+                    }else{
+                        return null;
+                    }
                 }
             }
         } catch (SQLException ex) {

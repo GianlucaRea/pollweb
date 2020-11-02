@@ -31,4 +31,6 @@ public interface DomandaDao {
   List<Integer> getDomandeIdsBySondaggioID(int sondaggioId) throws DataException;
 
   void eliminaDomanda(int domanda_id) throws DataException;
+
+  int prendiOrdine(int sondaggio_id) throws DataException;
 }
