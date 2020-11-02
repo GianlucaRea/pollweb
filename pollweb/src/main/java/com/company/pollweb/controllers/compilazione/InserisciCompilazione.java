@@ -49,14 +49,21 @@ public class InserisciCompilazione extends PollWebBaseController {
 
     protected Compilazione action_ottieni_compilazione(HttpServletRequest request, HttpServletResponse response, Sondaggio sondaggio) throws DataException, SQLException {
         Compilazione c = new CompilazioneImpl();
+        System.out.println("PROVA");
+        System.out.println(sondaggio.getVisibilita());
         if(sondaggio.getVisibilita() == 1) {
             //sondaggio pubblico
+            System.out.println("ENTRO1");
             c.setSondaggioId(sondaggio.getId());
             ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().salvaCompilazione(c);
         } else {
             //sondaggio privato
-            c = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getCompilazione(sondaggio.getId(), 3 /*request.getParameter("email")*/); //Il probelma ale è qui
+            System.out.println("ENTRO2");
+            c = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getCompilazione(sondaggio.getId(), Integer.parseInt(request.getParameter("utente_id"))); //Il probelma ale è qui
         }
+        System.out.println("COMPILAZIONE");
+        System.out.println(c.getSondaggioId());
+        System.out.println(c.getUserId());
         return c;
     }
 
@@ -109,9 +116,14 @@ public class InserisciCompilazione extends PollWebBaseController {
         return valido.get();
     }
 
-    protected void action_inserisci_compilazione(HttpServletRequest request, HttpServletResponse response, Sondaggio sondaggio, Compilazione c, Map<Integer, JSONArray> risposte) throws DataException, SQLException {
+    protected void action_inserisci_compilazione(HttpServletRequest request, HttpServletResponse response, Sondaggio sondaggio, Compilazione c, Map<Integer, JSONArray> risposte) throws DataException, SQLException, TemplateManagerException {
         //inserisci risposte in compilazione
         ((PollwebDataLayer) request.getAttribute("datalayer")).init();
         ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().salvaCompilazione(c.getId(), risposte);
+
+        TemplateResult res = new TemplateResult(getServletContext());
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("sondaggioId", sondaggio.getId());
+        res.activate("sondaggi/compilazione/terminata.ftl", request, response);
     }
 }

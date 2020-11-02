@@ -42,9 +42,11 @@ public class InserisciDomanda extends PollWebBaseController {
             try {
                 if (request.getParameterMap() != null) {
                     PollwebDataLayer pd = ((PollwebDataLayer) request.getAttribute("datalayer"));
+                    pd.init();
                     Domanda d = pd.getDomandaDAO().creazioneDomanda();
                     int sondaggioId = Integer.parseInt(request.getParameter("id"));
                     if (d != null) {
+                        System.out.println("ENTRO");
                         d.setSondaggio_id(sondaggioId);
                         d.setTesto(request.getParameter("testo"));
                         d.setNota(request.getParameter("nota"));
@@ -53,8 +55,16 @@ public class InserisciDomanda extends PollWebBaseController {
                         }else{
                             d.setObbligo(0);
                         }
+                        System.out.println("ENTROo");
+
                         d.setTipologia(request.getParameter("tipologia"));
+                        pd.init();
+                        System.out.println("ENTROs");
+
+                        int ordine = pd.getDomandaDAO().prendiOrdine(sondaggioId);
+                        d.setOrdine(pd.getDomandaDAO().prendiOrdine(sondaggioId));
                         type = request.getParameter("tipologia");
+                        System.out.println(type);
                         switch(type) {
                             case "testo_breve":
                                 max_length = Integer.parseInt(request.getParameter("LunghezzaMassimaTestoBreve"));
@@ -157,7 +167,12 @@ public class InserisciDomanda extends PollWebBaseController {
                                 d.setVincoli(Vincoli);
                                 break;
                         }
-                     pd.getDomandaDAO().salvaDomanda(d);
+                        System.out.println("ENTROk");
+
+                        pd.init();
+                        System.out.println("ENTROq");
+
+                        pd.getDomandaDAO().salvaDomanda(d);
                     } else {
                         request.setAttribute("message", "Errore creazione Domanda");
                         action_error(request, response);
@@ -167,6 +182,7 @@ public class InserisciDomanda extends PollWebBaseController {
 
             } catch (DataException e) {
                 request.setAttribute("message", "Errore creazione del sondaggio");
+                System.out.println(e.getMessage());
                 action_error(request, response);
             }
         }

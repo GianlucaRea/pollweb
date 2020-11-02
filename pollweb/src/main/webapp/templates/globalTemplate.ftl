@@ -11,7 +11,7 @@
     
 <#macro navbar>
     <nav class="navbar navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/home">
           <img src="/img/logo_icona.png" width="30" height="30" class="d-inline-block align-top" alt="Pollweb logo" />
           Pollweb
         </a>

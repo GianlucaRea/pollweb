@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class Home extends PollWebBaseController{
+public class Home extends PollWebBaseController {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
@@ -23,14 +23,9 @@ public class Home extends PollWebBaseController{
 
     private void action_home(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
-            if(0 == 0){
-                TemplateResult res = new TemplateResult(getServletContext());
-                request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-                res.activate("/home.ftl", request, response);
-            } else {
-                request.setAttribute("message", "Impossibile caricare la Home");
-                action_error(request, response);
-            }
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            res.activate("/home.ftl", request, response);
         } catch (TemplateManagerException e) {
             e.printStackTrace();
         }

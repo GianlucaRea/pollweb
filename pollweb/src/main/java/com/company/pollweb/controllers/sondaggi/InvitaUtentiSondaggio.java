@@ -90,6 +90,8 @@ public class InvitaUtentiSondaggio extends PollWebBaseController {
         int nuovaVisibilita = Integer.parseInt(request.getParameter("visibilitaSondaggio"));
         ((PollwebDataLayer) request.getAttribute("datalayer")).init();
         ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().modificaVisibilita(sondaggioId, nuovaVisibilita);
+
+        response.sendRedirect("/sondaggi/riepilogo?id=" + sondaggioId + "&success=1");
     }
 
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
