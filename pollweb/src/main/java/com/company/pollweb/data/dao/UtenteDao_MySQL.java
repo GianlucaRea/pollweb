@@ -6,6 +6,7 @@ import com.company.pollweb.data.proxy.UtenteProxy;
 import com.company.pollweb.framework.data.DAO;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.data.DataLayer;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
 public class UtenteDao_MySQL extends DAO implements UtenteDao {
 
 
-    private PreparedStatement utenteById,utenteByLogin,utenteByEmail,inserimentoUtente,update_utente_password;
+    private PreparedStatement utenteById,utenteByLogin,utenteByEmail,inserimentoUtente,update_utente_password , utenteByCompilazione;
 
     public UtenteDao_MySQL(DataLayer d) {
         super(d);
@@ -32,6 +33,7 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
             utenteByEmail = connection.prepareStatement("SELECT * FROM utente where email = ?;");
             inserimentoUtente = connection.prepareStatement("INSERT INTO Utente (email,nome,cognome,password,ruolo_id) VALUES (?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
             update_utente_password = connection.prepareStatement("UPDATE Utente SET password = ? WHERE id =?;");
+            utenteByCompilazione = connection.prepareStatement("SELECT u.* FROM Compilazione c Join Utente u on  c.utente_id = u.id WHERE c.sondaggio_id= ? AND u.email = ? AND u.password = ?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer pollweb", ex);
         }
@@ -45,6 +47,7 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
             utenteByEmail.close();
             inserimentoUtente.close();
             update_utente_password.close();
+            utenteByCompilazione.close();
         } catch (SQLException ex){
             Logger.getLogger(UtenteDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -157,11 +160,13 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
     }
 
     public Utente getUtentePerCompilazione(String email, String password, int sondaggio_id) throws DataException {
-        //prendi compilazione per l'utente SELECT u.* FROM Compilazione c, Utente u WHERE c.utente_id = u.id AND c.sondaggio_id=? AND u.email = ?
         try {
-            utenteByEmail.setString(1, email);
-            utenteByLogin.setString(2, password);
-            try (ResultSet rs = utenteByLogin.executeQuery()) {
+            BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
+            String encryptedPassword = passwordEncryptor.encryptPassword(password);
+            utenteByCompilazione.setInt(1, sondaggio_id);
+            utenteByCompilazione.setString(2, email);
+            utenteByCompilazione.setString(3,encryptedPassword);
+            try (ResultSet rs = utenteByCompilazione.executeQuery()) {
                 if (rs.next()) {
                     return creaUtente(rs);
                 }
