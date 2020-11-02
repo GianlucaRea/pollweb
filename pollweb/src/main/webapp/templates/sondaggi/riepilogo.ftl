@@ -75,15 +75,30 @@ and open the template in the editor.
 
         </div>
         <h2>Domande</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/sondaggi/domande/inserisci?sondaggio_id=${sondaggio.getId()}" class="btn btn-primary">Nuova domanda</a>
+            </div>
+        </div>
         <#list domande as domanda>
-            <div class="card mb-2">
+            <div class="card mb-2 rowDomanda" id="rowDomanda${domanda.getId()}" data-numero-domanda="${domanda.getId()}">
+                <input type="hidden" id="domandaOrdine${domanda.getId()}" name="domanda[${domanda.getId()}][ordine]" value="${domanda.getOrdine()}">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-8">
                             <h5 class="card-title"><strong>${domanda.getTesto()}</strong></h5>
                         </div>
                         <div class="col-md-4">
-                            <p><strong>Ordine</strong>: ${domanda.getOrdine()}</p>
+                            <p>
+                                <a href="/sondaggi/domande/modifica?id=${domanda.getId()}" class="btn btn-primary">Modifica</a>
+                            </p>
+                            <p>
+                                <a href="/sondaggi/domande/rimuovi?id=${domanda.getId()}" class="btn btn-primary">Rimuovi</a>
+                            </p>
+                            <p>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="spostaDomanda(${domanda.getId()}, 'sopra')"><i class="fas fa-arrow-up"></i></button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="spostaDomanda(${domanda.getId()}, 'sotto')"><i class="fas fa-arrow-down"></i></button>
+                            </p>
                         </div>
                     </div>
                     <p class="text-muted mb-0"><i class="fad fa-edit fa-fw"></i> ${domanda.getTipologia()} | <i
@@ -136,6 +151,39 @@ and open the template in the editor.
         if($visibilitaSondaggio.val() == 2) {
             $("#invitoSondaggioPrivato").hide();
         }
+    }
+
+    function spostaDomanda(numeroDomanda, direzione) {
+        let rowAttuale = $("#rowDomanda" + numeroDomanda);
+        let rowScambio;
+        console.log(direzione);
+        if(direzione == 'sopra') {
+            rowScambio = rowAttuale.prev();
+        }
+        if(direzione == 'sotto') {
+            rowScambio = rowAttuale.next();
+        }
+
+        if(rowScambio.hasClass("rowDomanda")) {
+            let appRowAttuale = rowAttuale.clone();
+            let appRowScambio = rowScambio.clone();
+
+            let idRowAttuale = rowAttuale.data("numero-domanda");
+            let idRowScambio = rowScambio.data("numero-domanda");
+
+            rowScambio.replaceWith(appRowAttuale);
+            rowAttuale.replaceWith(appRowScambio);
+
+            //modifica ordine
+            let valOrdineRowAttuale = $("#domandaOrdine"+idRowAttuale).val();
+            let valOrdineRowScambio = $("#domandaOrdine"+idRowScambio).val();
+
+
+            //swap valore ordine input hidden
+            $("input[id=domandaOrdine" + idRowAttuale + "]").val(valOrdineRowScambio);
+            $("input[id=domandaOrdine" + idRowScambio + "]").val(valOrdineRowAttuale);
+        }
+
     }
 </script>
 </body>
