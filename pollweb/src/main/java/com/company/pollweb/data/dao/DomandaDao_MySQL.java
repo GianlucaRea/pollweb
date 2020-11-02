@@ -17,7 +17,7 @@ import static com.company.pollweb.utility.Serializer.StringToJSON;
 
 public class DomandaDao_MySQL extends DAO implements DomandaDao{
 
-    private PreparedStatement inserimento_domanda , domande_by_sondaggioID ,domanda_by_id , domande_ids_by_sondaggoID , modifica_domanda ;
+    private PreparedStatement inserimento_domanda , domande_by_sondaggioID ,domanda_by_id , domande_ids_by_sondaggoID , modifica_domanda , elimina_domanda;
 
     public DomandaDao_MySQL(DataLayer d) {
         super(d);
@@ -32,6 +32,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             domanda_by_id= connection.prepareStatement("SELECT * FROM Domanda WHERE ID=?;");
             domande_ids_by_sondaggoID = connection.prepareStatement("SELECT id FROM DOMANDA WHERE sondaggio_id=?;");
             modifica_domanda = connection.prepareStatement("UPDATE Domanda SET sondaggio_id=?,testo=?,nota=?,obbligo=?,tipologia=?,vincoli=?,ordine=? WHERE id=?;");
+            elimina_domanda = connection.prepareStatement("DELETE FROM Domanda WHERE id=?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
         }
@@ -44,6 +45,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             domanda_by_id.close();
             domande_ids_by_sondaggoID.close();
             modifica_domanda.close();
+            elimina_domanda.close();
         } catch (SQLException ex) {
             Logger.getLogger(SondaggioDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -205,6 +207,19 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             throw new DataException("Impossibile caricare gli id delle Domande by Sondaggio",ex);
         }
         return list;
+    }
+
+    @Override
+    public void eliminaDomanda(int domanda_id) throws DataException {
+        try {
+            elimina_domanda.setInt(1, domanda_id);
+            try (ResultSet rs = elimina_domanda.executeQuery()) {
+                if (rs.next()) {
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile eliminare Domande By ID", ex);
+        }
     }
 
     @Override

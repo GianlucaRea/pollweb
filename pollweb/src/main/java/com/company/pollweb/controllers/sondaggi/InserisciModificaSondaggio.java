@@ -49,84 +49,15 @@ public class InserisciModificaSondaggio extends PollWebBaseController {
         try {
             if (request.getParameterMap() != null) {
                 int sondaggioId = Integer.parseInt(request.getParameter("id"));
-                Domanda d ;
-                Sondaggio p = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getSondaggio(sondaggioId);
-                Utente user = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
+                PollwebDataLayer pd = ((PollwebDataLayer) request.getAttribute("datalayer"));
+                Sondaggio p = pd.getSondaggioDAO().getSondaggio(sondaggioId);
+                Utente user = pd.getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
                 if (p != null) {
                     p.setTitolo(request.getParameter("titolo"));
                     p.setTestoiniziale(request.getParameter("testoiniziale"));
                     p.setTestofinale(request.getParameter("testofinale"));
                     p.setUtenteId(user.getId());
-                    ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().salvaSondaggio(p);
-                    List<Integer> idsD = ((PollwebDataLayer)request.getAttribute("datalayer")).getDomandaDAO().getDomandeIdsBySondaggioID(sondaggioId);
-                    for(int i = 1 ;request.getParameter("domande["+i+"][testo]") != null ; i++){
-                        ((PollwebDataLayer) request.getAttribute("datalayer")).init();
-                        if(i <= idsD.size()) {
-                            d = ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().getDomandaByID(idsD.get(i-1));
-                        }else{
-                            d = ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().creazioneDomanda();
-                        }
-                        if (d != null) {
-                            d.setSondaggio_id(p.getId());
-                            d.setTesto(request.getParameter("domande["+i+"][testo]"));
-                            d.setNota(request.getParameter("domande["+i+"][nota]"));
-                            System.out.println(request.getParameter("domande["+i+"][ordine]"));
-                            d.setOrdine(Integer.parseInt(request.getParameter("domande["+i+"][ordine]")));
-                            if (request.getParameter("domande["+i+"][obbligo]") != null){
-                                d.setObbligo(1);
-                            }else{
-                                d.setObbligo(0);
-                            }
-                            d.setTipologia(request.getParameter("domande["+i+"][tipologia]"));
-                            String type = request.getParameter("domande["+i+"][tipologia]");
-                            switch(type) {
-                                case "testo_breve":
-                                    max_length = Integer.parseInt(request.getParameter("domande["+i+"][LunghezzaMassimaTestoBreve]"));
-                                    pattern = request.getParameter("domande["+i+"][PatternTestoBreve]");
-                                    Vincoli = Serializer.testobreveToJSON(max_length,pattern);
-                                    d.setVincoli(Vincoli);
-                                    break;
-                                case "testo_lungo":
-                                    max_length = Integer.parseInt(request.getParameter("domande["+i+"][LunghezzaMassimaTestoLungo]"));
-                                    min_length = Integer.parseInt(request.getParameter("domande["+i+"][LunghezzaMinimaTestoLungo]"));
-                                    pattern = request.getParameter("domande["+i+"][PatternTestoLungo]");
-                                    Vincoli = Serializer.testolungoToJSON(max_length, min_length,pattern);
-                                    d.setVincoli(Vincoli);
-                                    break;
-                                case "numero":
-                                    max_num = Integer.parseInt(request.getParameter("domande["+i+"][Numeromassimo]"));
-                                    min_num = Integer.parseInt(request.getParameter("domande["+i+"][Numerominimo]"));
-                                    Vincoli = Serializer.numeroToJSON(max_num,min_num);
-                                    d.setVincoli(Vincoli);
-                                    break;
-                                case "data":
-                                    data = Integer.parseInt(request.getParameter("domande["+i+"][dataSuccessivaOdierna]"));
-                                    Vincoli = Serializer.dataToJSON(data);
-                                    d.setVincoli(Vincoli);
-                                    break;
-                                case "scelta_singola":
-                                    chooses = request.getParameter("domande["+i+"][sceltasingola]");
-                                    Vincoli = Serializer.sceltaSingolaToJSON(chooses);
-                                    d.setVincoli(Vincoli);
-                                    break;
-                                case "scelta_multipla":
-                                    chooses = request.getParameter("domande["+i+"][sceltamultipla]");
-                                    System.out.println(request.getParameter("domande["+i+"][Numerominimoscelte]"));
-                                    System.out.println(request.getParameter("domande["+i+"][Numeromassimoscelte]"));
-                                    min_chooses = Integer.parseInt(request.getParameter("domande["+i+"][Numerominimoscelte]"));
-                                    max_chooses = Integer.parseInt(request.getParameter("domande["+i+"][Numeromassimoscelte]"));
-                                    Vincoli = Serializer.sceltaMultiplaToJSON(chooses,min_chooses,max_chooses);
-                                    d.setVincoli(Vincoli);
-                                    break;
-                            }
-                            ((PollwebDataLayer) request.getAttribute("datalayer")).getDomandaDAO().salvaDomanda(d);
-                        } else {
-                            TemplateResult res = new TemplateResult(getServletContext());
-                            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-                            request.setAttribute("error", "La domanda non esiste");
-                            res.activate("/error.ftl", request, response);
-                        }
-                    }
+                    pd.getSondaggioDAO().salvaSondaggio(p);
                 }else {
                     TemplateResult res = new TemplateResult(getServletContext());
                     request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
