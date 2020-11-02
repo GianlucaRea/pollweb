@@ -65,6 +65,12 @@ public class Dashboard extends PollWebBaseController{
 
 
             request.setAttribute("sondaggi", sondaggi);
+            if(request.getParameter("success") != null) {
+                request.setAttribute("success", "Operazione completata");
+            }
+            if(request.getParameter("error") != null) {
+                request.setAttribute("error", "Si è verificato un errore");
+            }
             res.activate("dashboard.ftl", request, response);
         } catch (TemplateManagerException | DataException | SQLException e) {
             e.printStackTrace();

@@ -33,7 +33,7 @@ public class ChiudiSondaggio extends PollWebBaseController {
             }
 
             if (s != null) {
-                action_pubblica_sondaggio(request, response, s);
+                action_chiudi_sondaggio(request, response, s);
             } else {
                 action_redirect(request, response);
             }
@@ -42,7 +42,7 @@ public class ChiudiSondaggio extends PollWebBaseController {
         }
     }
 
-    private void action_pubblica_sondaggio(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws DataException, SQLException, TemplateManagerException {
+    private void action_chiudi_sondaggio(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws DataException, SQLException, TemplateManagerException, IOException {
         int sondaggioId = Integer.parseInt(request.getParameter("id"));
         ((PollwebDataLayer) request.getAttribute("datalayer")).init();
         Utente utente = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
@@ -68,8 +68,8 @@ public class ChiudiSondaggio extends PollWebBaseController {
             if (sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
                 ((PollwebDataLayer) request.getAttribute("datalayer")).init();
                 ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().chiudiSondaggio(sondaggio.getId());
-                TemplateResult res = new TemplateResult(getServletContext());
-                res.activate("sondaggi/chiuso.ftl", request, response);
+
+                response.sendRedirect("/home?success=1");
             } else {
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());

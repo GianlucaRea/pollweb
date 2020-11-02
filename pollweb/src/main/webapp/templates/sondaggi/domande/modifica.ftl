@@ -19,6 +19,7 @@ and open the template in the editor.
     <div class="container">
         <h1>Nuova domanda</h1>
         <form action="/sondaggi/domande/inserisci?sondaggio_id=${sondaggio.getId()}">
+            <input type="hidden" name="id_domanda" value="${domanda.getId()}">
             <div class=" rowDomanda" id="rowDomanda">
                 <div class="domanda mt-3 mb-3 card" id="domanda">
                     <div class="card-body">

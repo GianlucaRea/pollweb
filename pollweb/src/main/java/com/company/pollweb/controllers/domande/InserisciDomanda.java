@@ -46,15 +46,15 @@ public class InserisciDomanda extends PollWebBaseController {
                     int sondaggioId = Integer.parseInt(request.getParameter("id"));
                     if (d != null) {
                         d.setSondaggio_id(sondaggioId);
-                        d.setTesto(request.getParameter("testoDomanda"));
-                        d.setNota(request.getParameter("notaDomanda"));
+                        d.setTesto(request.getParameter("testo"));
+                        d.setNota(request.getParameter("nota"));
                         if (request.getParameter("obbligo") != null){
                             d.setObbligo(1);
                         }else{
                             d.setObbligo(0);
                         }
-                        d.setTipologia(request.getParameter("tipologiaDomanda"));
-                        type = request.getParameter("tipologiaDomanda");
+                        d.setTipologia(request.getParameter("tipologia"));
+                        type = request.getParameter("tipologia");
                         switch(type) {
                             case "testo_breve":
                                 max_length = Integer.parseInt(request.getParameter("LunghezzaMassimaTestoBreve"));

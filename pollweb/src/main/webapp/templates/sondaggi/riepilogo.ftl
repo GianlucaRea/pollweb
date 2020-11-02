@@ -12,6 +12,7 @@ and open the template in the editor.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <@globalTemplate.style />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
 </head>
 <body class="bg-light">
 <@globalTemplate.navbar />
@@ -20,12 +21,24 @@ and open the template in the editor.
         <h1>Riepilogo "${sondaggio.getTitolo()}"</h1>
         <div class="card">
             <div class="card-body">
-                <label for="visibilitaSondaggio">Visibilità del sondaggio</label>
-                <form action="/sondaggi/invita_utenti?id=${sondaggio.getId()}" method="post"
-                      enctype="multipart/form-data">
+                <label for="visibilitaSondaggio">Impostazioni sondaggio</label>
+                <form action="/sondaggi/modifica?id=${sondaggio.getId()}" method="post">
                     <div class="form-group">
-                        <select name="visibilitaSondaggio" id="visibilitaSondaggio" class="form-control"
-                                onchange="changeVisibility()">
+                        <label for="titolo">Titolo</label>
+                        <input type="text" name="titolo" id="titolo" class="form-control" value="${sondaggio.getTitolo()}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="testoiniziale">Testo iniziale</label>
+                        <input type="text" name="testoiniziale" id="testoiniziale" class="form-control" value="${sondaggio.getTestoiniziale()}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="testofinale">Testo finale</label>
+                        <input type="text" name="testofinale" id="testofinale" class="form-control" value="${sondaggio.getTestofinale()}">
+                    </div>
+                    <div class="form-group">
+                        <select name="visibilitaSondaggio" id="visibilitaSondaggio" class="form-control" onchange="changeVisibility()">
                             <option value="1" <#if sondaggio.getVisibilita()==1>selected</#if> >Privato</option>
                             <option value="2" <#if sondaggio.getVisibilita()==2>selected</#if>>Pubblico</option>
                         </select>
@@ -36,11 +49,7 @@ and open the template in the editor.
                             <div class="col-md-6">
                                 <label for="invitaTramiteEmail">Invita tramite email</label>
                                 <br>
-                                <button type="button" id="invitaTramiteEmail" onclick="aggiungiInvitato()" class="btn btn-primary">Aggiungi email <i class="fad fa-plus"></i></button>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="invitaTramiteCSV">Invita tramite CSV</label>
-                                <input type="file" id="invitaTramiteCSV" name="invitatiCSV" class="btn btn-secondary float-right form-control">
+                                <button type="button" id="invitaTramiteEmail" onclick="aggiungiInvitato()" class="btn btn-primary">Aggiungi utente <i class="fad fa-plus"></i></button>
                             </div>
                         </div>
 
@@ -48,16 +57,18 @@ and open the template in the editor.
 
                         </div>
 
-                        <h5>Lista utenti già invitati</h5>
+                        <div class="mt-2">
+                            <h5>Lista utenti già invitati</h5>
 
-                        <div class="row mt-2">
-                            <#list invitati as invitato>
-                                <#if invitato.getNome() != "">
-                                    <div class="col-md-4 mt-2">
-                                        <p class="lead"><i class="fad fa-user"></i> ${invitato.getNome()} (${invitato.getEmail()})</p>
-                                    </div>
-                                </#if>
-                            </#list>
+                            <div class="row mt-2">
+                                <#list invitati as invitato>
+                                    <#if invitato.getNome() != "">
+                                        <div class="col-md-3 mt-2">
+                                            <p class="small"><i class="fad fa-user"></i> ${invitato.getEmail()}</p>
+                                        </div>
+                                    </#if>
+                                </#list>
+                            </div>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -66,47 +77,70 @@ and open the template in the editor.
                     </div>
                 </form>
                 <div class="clearfix"></div>
-
-                <p class="mb-0"><strong>Testo iniziale</strong></p>
-                <p>${sondaggio.getTestoiniziale()}</p>
-                <p class="mb-0"><strong>Testo finale</strong></p>
-                <p>${sondaggio.getTestofinale()}</p>
-            </div>
-
-        </div>
-        <h2>Domande</h2>
-        <div class="row">
-            <div class="col-md-6">
-                <a href="/sondaggi/domande/inserisci?sondaggio_id=${sondaggio.getId()}" class="btn btn-primary">Nuova domanda</a>
-            </div>
-        </div>
-        <#list domande as domanda>
-            <div class="card mb-2 rowDomanda" id="rowDomanda${domanda.getId()}" data-numero-domanda="${domanda.getId()}">
-                <input type="hidden" id="domandaOrdine${domanda.getId()}" name="domanda[${domanda.getId()}][ordine]" value="${domanda.getOrdine()}">
-                <div class="card-body">
+                <form action="/sondaggi/invita_utenti?id=${sondaggio.getId()}" method="post"
+                      enctype="multipart/form-data">
+                    <label for="invitaTramiteCSV">Puoi invitare una lista di utenti tramite CSV</label>
                     <div class="row">
                         <div class="col-md-8">
-                            <h5 class="card-title"><strong>${domanda.getTesto()}</strong></h5>
+                            <input type="file" id="invitaTramiteCSV" name="invitatiCSV" class="form-file">
                         </div>
                         <div class="col-md-4">
-                            <p>
-                                <a href="/sondaggi/domande/modifica?id=${domanda.getId()}" class="btn btn-primary">Modifica</a>
-                            </p>
-                            <p>
-                                <a href="/sondaggi/domande/rimuovi?id=${domanda.getId()}" class="btn btn-primary">Rimuovi</a>
-                            </p>
-                            <p>
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="spostaDomanda(${domanda.getId()}, 'sopra')"><i class="fas fa-arrow-up"></i></button>
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="spostaDomanda(${domanda.getId()}, 'sotto')"><i class="fas fa-arrow-down"></i></button>
-                            </p>
+                            <button type="submit" class="btn btn-primary">Invia file</button>
                         </div>
                     </div>
-                    <p class="text-muted mb-0"><i class="fad fa-edit fa-fw"></i> ${domanda.getTipologia()} | <i
-                                class="fad fa-exclamation fa-fw"></i> ${domanda.getNomeObbligo()}</p>
-                </div>
+                    <p class="small">Ogni utente deve essere nella forma "nome;email;password"</p>
+
+                </form>
+
             </div>
-        </#list>
-        <div class="row">
+
+        </div>
+        <div class="card mt-2">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Domande</h2>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="float-right">
+                            <a href="/sondaggi/domande/crea?id=${sondaggio.getId()}" class="btn btn-primary"><i class="fas fa-plus"></i> Nuova domanda</a>
+                        </div>
+                    </div>
+                </div>
+                <table class="display hover mt-4" id="datatable">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Tipologia</th>
+                        <th>Obbligatoria</th>
+                        <th>Azioni</th>
+                        <th>Sposta</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#list domande as domanda>
+                        <tr class="rowDomanda" id="rowDomanda${domanda.getId()}" data-numero-domanda="${domanda.getId()}">
+                            <input type="hidden" id="domandaOrdine${domanda.getId()}" name="domanda[${domanda.getId()}][ordine]" value="${domanda.getOrdine()}">
+                            <td><strong>${domanda.getTesto()}</strong></td>
+                            <td>${domanda.getTipologia()}</td>
+                            <td>${domanda.getNomeObbligo()}</td>
+                            <td>
+                                <a href="/sondaggi/domande/modifica?id=${domanda.getId()}" class="btn btn-primary btn-sm">Modifica</a>
+                                <a href="/sondaggi/domande/elimina?id=${sondaggio.getId()}&domanda_id=${domanda.getId()}" class="btn btn-primary btn-sm">Rimuovi</a>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="spostaDomanda(${domanda.getId()}, 'sopra')"><i class="fas fa-arrow-up"></i></button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="spostaDomanda(${domanda.getId()}, 'sotto')"><i class="fas fa-arrow-down"></i></button>
+                            </td>
+                        </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="row mt-2">
             <div class="col-md-6">
                 <a href="/sondaggi/modifica?id=${sondaggio.getId()}" class="btn btn-primary">
                     Modifica sondaggio
@@ -124,9 +158,15 @@ and open the template in the editor.
 </div>
 
 <@globalTemplate.script />
-
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script>
     let countNuoviInvitati = 0;
+
+    $(document).ready(function() {
+       $("#datatable").DataTable({
+           "order": []
+       });
+    });
 
     function aggiungiInvitato() {
         countNuoviInvitati++;

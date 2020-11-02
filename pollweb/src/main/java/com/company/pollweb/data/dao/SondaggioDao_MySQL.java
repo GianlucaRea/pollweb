@@ -32,7 +32,7 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
             super.init();
 
             inserimento_sondaggio = connection.prepareStatement("INSERT INTO Sondaggio (utente_id, titolo, testoiniziale, testofinale, created_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP);",Statement.RETURN_GENERATED_KEYS);
-            modifica_sondaggio = connection.prepareStatement("UPDATE Sondaggio SET utente_id=?,titolo=?,testoiniziale=?,testofinale=?, create_at=CURRENT_TIMESTAMP WHERE id=?;");
+            modifica_sondaggio = connection.prepareStatement("UPDATE Sondaggio SET utente_id=?,titolo=?,testoiniziale=?,testofinale=? WHERE id=?;");
 
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
@@ -140,7 +140,7 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
 
     public ArrayList<Domanda> getDomande(int sondaggioId) throws SQLException {
 
-        PreparedStatement getDomandeQuery = connection.prepareStatement("SELECT * FROM Domanda WHERE sondaggio_id=?");
+        PreparedStatement getDomandeQuery = connection.prepareStatement("SELECT * FROM Domanda WHERE sondaggio_id=? ORDER BY ordine ASC");
         getDomandeQuery.setInt(1, sondaggioId);
         ResultSet rs = getDomandeQuery.executeQuery();
 

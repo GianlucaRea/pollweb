@@ -213,10 +213,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
     public void eliminaDomanda(int domanda_id) throws DataException {
         try {
             elimina_domanda.setInt(1, domanda_id);
-            try (ResultSet rs = elimina_domanda.executeQuery()) {
-                if (rs.next()) {
-                }
-            }
+            elimina_domanda.execute();
         } catch (SQLException ex) {
             throw new DataException("Impossibile eliminare Domande By ID", ex);
         }

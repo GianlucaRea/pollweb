@@ -18,7 +18,7 @@ and open the template in the editor.
 <div class="pt-5 pb-5">
     <div class="container">
         <h1>Nuova domanda</h1>
-        <form action="/sondaggi/domande/inserisci?sondaggio_id=${sondaggio.getId()}">
+        <form action="/sondaggi/domande/inserisci?id=${sondaggio.getId()}" method="post">
             <div class=" rowDomanda" id="rowDomanda">
                 <div class="domanda mt-3 mb-3 card" id="domanda">
                     <div class="card-body">
@@ -35,8 +35,7 @@ and open the template in the editor.
                                     <div class="form-group">
                                         <label for="tipologiaDomanda">Tipologia</label>
                                         <select id="tipologiaDomanda" name="tipologia" class="form-control" onchange="updateVincoli()" required="">
-                                            <option value="null" selected="" disabled="">Seleziona un'opzione...
-                                            </option>
+                                            <option value="null" selected="" disabled="">Seleziona un'opzione...</option>
                                             <option value="testo_breve">Testo breve</option>
                                             <option value="testo_lungo">Testo lungo</option>
                                             <option value="numero">Numero</option>

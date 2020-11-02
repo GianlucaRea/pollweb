@@ -2,6 +2,7 @@ package com.company.pollweb.controllers.domande;
 
 import com.company.pollweb.controllers.PollWebBaseController;
 import com.company.pollweb.data.dao.PollwebDataLayer;
+import com.company.pollweb.data.models.Sondaggio;
 import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.result.FailureResult;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
 
@@ -48,11 +50,14 @@ public class CreazioneDomanda extends PollWebBaseController {
                 request.setAttribute("submessage", "Contatta gli amministratori per diventare responsabile");
                 action_error(request, response);
             } else {
+                int sondaggioId = Integer.parseInt(request.getParameter("id"));
+                Sondaggio sondaggio = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().getSondaggio(sondaggioId);
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-                res.activate("sondaggi/domanda/inserisci.ftl", request, response);
+                request.setAttribute("sondaggio", sondaggio);
+                res.activate("sondaggi/domande/inserisci.ftl", request, response);
             }
-        } catch (TemplateManagerException | DataException e) {
+        } catch (TemplateManagerException | DataException | SQLException e) {
             e.printStackTrace();
         }
     }

@@ -27,7 +27,7 @@
                             <p><i class="fad fa-toggle-on fa-fw"></i> ${sondaggio.getNomeStato()}</p>
                             <p>
                                 <#if sondaggio.getStato() == 0>
-                                    <a href="/sondaggi/riepilogo?id=${sondaggio.getId()}" class="btn btn-primary">Attiva</a>
+                                    <a href="/sondaggi/riepilogo?id=${sondaggio.getId()}" class="btn btn-primary">Vai al riepilogo</a>
                                 </#if>
                                 <#if sondaggio.getStato() == 1>
                                     <a href="/sondaggi/chiudi?id=${sondaggio.getId()}" class="btn btn-primary">Chiudi</a>

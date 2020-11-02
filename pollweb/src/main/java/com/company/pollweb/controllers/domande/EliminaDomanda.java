@@ -35,7 +35,7 @@ public class EliminaDomanda extends PollWebBaseController {
     private void action_elimina(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws DataException, TemplateManagerException {
         try {
             int sondaggioId = Integer.parseInt(request.getParameter("id"));
-            int domandaId = Integer.parseInt(request.getParameter("id_domanda"));
+            int domandaId = Integer.parseInt(request.getParameter("domanda_id"));
             PollwebDataLayer pd = ((PollwebDataLayer) request.getAttribute("datalayer"));
             Domanda d = pd.getDomandaDAO().getDomandaByID(domandaId);
             if (d != null) {
