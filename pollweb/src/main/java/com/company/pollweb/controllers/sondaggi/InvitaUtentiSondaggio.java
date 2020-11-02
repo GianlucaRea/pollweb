@@ -43,6 +43,19 @@ public class InvitaUtentiSondaggio extends PollWebBaseController {
 
         List<Utente> utenti = new ArrayList<Utente>();
         Utente u;
+        for(int i = 1 ;request.getParameter("nuovoInvitato["+i+"][nome]") != null ; i++){
+
+            ((PollwebDataLayer) request.getAttribute("datalayer")).init();
+            u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().creaUtente();
+            u.setEmail(request.getParameter("nuovoInvitato["+i+"][email]"));
+            u.setNome(request.getParameter("nuovoInvitato["+i+"][nome]"));
+            u.setPassword(new BasicPasswordEncryptor().encryptPassword(request.getParameter("nuovoInvitato["+i+"][password]")));
+            u.setCognome("");
+            u.setRuolo(1);
+            ((PollwebDataLayer) request.getAttribute("datalayer")).init();
+            ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().salvaUtente(u);
+            utenti.add(u);
+        }
 
         //input da file
         Part csvPart = request.getPart("invitatiCSV");
@@ -73,6 +86,10 @@ public class InvitaUtentiSondaggio extends PollWebBaseController {
             ((PollwebDataLayer) request.getAttribute("datalayer")).init();
             ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().invitaUtenti(sondaggioId, utenti);
         }
+
+        int nuovaVisibilita = Integer.parseInt(request.getParameter("visibilitaSondaggio"));
+        ((PollwebDataLayer) request.getAttribute("datalayer")).init();
+        ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().modificaVisibilita(sondaggioId, nuovaVisibilita);
     }
 
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {

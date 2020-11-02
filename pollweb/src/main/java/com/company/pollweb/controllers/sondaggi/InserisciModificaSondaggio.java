@@ -74,30 +74,6 @@ public class InserisciModificaSondaggio extends PollWebBaseController {
                         p.setTestofinale(request.getParameter("testofinale"));
                     }
                     pd.getSondaggioDAO().salvaSondaggio(p);
-
-                    List<Utente> utenti = new ArrayList<Utente>();
-                    Utente u;
-                    for(int i = 1 ;request.getParameter("nuovoInvitato["+i+"][nome]") != null ; i++){
-
-                        ((PollwebDataLayer) request.getAttribute("datalayer")).init();
-                        u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().creaUtente();
-                        u.setEmail(request.getParameter("nuovoInvitato["+i+"][email]"));
-                        u.setNome(request.getParameter("nuovoInvitato["+i+"][nome]"));
-                        u.setPassword(new BasicPasswordEncryptor().encryptPassword(request.getParameter("nuovoInvitato["+i+"][password]")));
-                        u.setCognome("");
-                        u.setRuolo(1);
-                        ((PollwebDataLayer) request.getAttribute("datalayer")).init();
-                        ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().salvaUtente(u);
-                        utenti.add(u);
-                    }
-
-                    if(utenti.size() > 0) {
-                        ((PollwebDataLayer) request.getAttribute("datalayer")).init();
-                        ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().invitaUtenti(sondaggioId, utenti);
-                    }
-                    int nuovaVisibilita = Integer.parseInt(request.getParameter("visibilitaSondaggio"));
-                    ((PollwebDataLayer) request.getAttribute("datalayer")).init();
-                    ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().modificaVisibilita(sondaggioId, nuovaVisibilita);
                 }else {
                     TemplateResult res = new TemplateResult(getServletContext());
                     request.setAttribute("strip_slashes", new SplitSlashesFmkExt());

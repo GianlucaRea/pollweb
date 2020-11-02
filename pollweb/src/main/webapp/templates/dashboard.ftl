@@ -16,7 +16,23 @@
 
 <div class="bg-light pt-5 pb-5">
     <div class="container">
-        <h1>Lista sondaggi</h1>
+        <#if success ??>
+            <@globalTemplate.success success />
+        </#if>
+
+        <#if error ??>
+            <@globalTemplate.error error />
+        </#if>
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Lista sondaggi</h1>
+            </div>
+            <div class="col-md-4">
+                <div class="float-right">
+                    <a href="/sondaggi/crea_sondaggio" class="btn btn-primary">Nuovo sondaggio</a>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <#list sondaggi as sondaggio>
                 <div class="col-md-4 mt-2">
