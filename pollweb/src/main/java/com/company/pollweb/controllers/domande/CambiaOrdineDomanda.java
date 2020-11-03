@@ -41,10 +41,8 @@ public class CambiaOrdineDomanda extends PollWebBaseController {
             Domanda d1 = pd.getDomandaDAO().getDomandaByID(domandaId1);
             Domanda d2 = pd.getDomandaDAO().getDomandaByID(domandaId1);
             if (d1 != null && d2 != null ) {
-                int i = d1.getOrdine() + 1;
-                int j = d2.getOrdine() - 1;
-                pd.getDomandaDAO().UpdateOrdine(d1.getId() , i);
-                pd.getDomandaDAO().UpdateOrdine(d2.getId() , j);
+                pd.getDomandaDAO().UpdateOrdine(d1.getId() , d2.getOrdine());
+                pd.getDomandaDAO().UpdateOrdine(d2.getId() , d1.getOrdine());
                 action_write(request,response,sondaggioId);
             } else {
                 TemplateResult res = new TemplateResult(getServletContext());
