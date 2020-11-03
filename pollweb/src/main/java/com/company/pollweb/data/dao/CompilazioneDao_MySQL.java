@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
 
-    private PreparedStatement inserimento_compilazione , getUserList , get_risposte , get_compilazione_id , get_risposte_bySondaggioAndUtente ,get_compilazione , getUserListIds;
+    private PreparedStatement inserimento_compilazione , getUserList , get_risposte , get_compilazione_id , get_risposte_bySondaggioAndUtente ,get_compilazione , getUserListIds, getCompilazioneIds ,getRisposteByCompilazioneId;
 
     public CompilazioneDao_MySQL(DataLayer d) {
         super(d);
@@ -41,6 +41,8 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             get_risposte_bySondaggioAndUtente = connection.prepareStatement("SELECT risposta FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE sondaggio_id = ? AND utente_id = ?;");
             get_compilazione = connection.prepareStatement("SELECT * FROM Compilazione WHERE sondaggio_id=? AND utente_id=?;");
             getUserListIds = connection.prepareStatement("SELECT utente_id FROM Compilazione WHERE sondaggio_id = ?;");
+            getCompilazioneIds = connection.prepareStatement("SELECT id FROM Compilazione WHERE sondaggio_id = ?;");
+            getRisposteByCompilazioneId = connection.prepareStatement("SELECT risposta FROM CompilazioneDomanda WHERE compilazione_id=?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
         }
@@ -55,6 +57,7 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             get_risposte_bySondaggioAndUtente.close();
             get_compilazione.close();
             getUserListIds.close();
+            getCompilazioneIds.close();
         } catch (SQLException ex) {
             Logger.getLogger(SondaggioDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -228,6 +231,40 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             try(ResultSet rs = getUserListIds.executeQuery()){
                 while(rs.next()) {
                     list.add(rs.getInt("utente_id"));
+                }
+            }
+        }catch (SQLException ex){
+            throw new DataException("Impossibile caricare la lista di id", ex);
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> getRisposteByCompilazioneId(int compilazioneId) throws DataException {
+        List<String> list = new ArrayList();
+        try{
+            getRisposteByCompilazioneId.setInt(1,compilazioneId);
+
+            try(ResultSet rs = getRisposteByCompilazioneId.executeQuery()){
+                while(rs.next()){
+                    list.add(JSONObject.valueToString(rs.getObject("risposta")));
+                }
+                return list;
+            }
+        }catch(SQLException ex){
+            throw new DataException("Impossibile caricare la lista delle risposte dalla compilazioneId", ex);
+        }
+    }
+
+
+    @Override
+    public List<Integer> getCompilazioneListIds(int sondaggioId) throws DataException {
+        List<Integer> list = new ArrayList();
+        try {
+            getCompilazioneIds.setInt(1, sondaggioId);
+            try(ResultSet rs = getCompilazioneIds.executeQuery()){
+                while(rs.next()) {
+                    list.add(rs.getInt("id"));
                 }
             }
         }catch (SQLException ex){

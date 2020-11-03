@@ -64,27 +64,51 @@ public class MostraRisultatiSondaggio extends PollWebBaseController {
         if(sondaggio != null) {
             if (sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
                 request.setAttribute("sondaggio", sondaggio);
+                if(sondaggio.getVisibilita() == 2){
                 List<Integer> utente_ids = pd.getCompilazioneDAO().getUserListIds(sondaggioId);
                 int i = 1;
-                if(utente_ids != null) {
-                    Map<String,List> risultati = new HashMap<>();
+                if (utente_ids != null) {
+                    Map<String, List> risultati = new HashMap<>();
                     for (int utente_id : utente_ids) {
                         Utente u = pd.getUtenteDAO().getUtente(utente_id);
                         List<String> risposte = pd.getCompilazioneDAO().getRisposteBySondaggioAndUtente(sondaggioId, u.getId());
-                        risultati.put(u.getEmail(),risposte);
+                        risultati.put(u.getEmail(), risposte);
                     }
-                    for (String email : risultati.keySet()){
-                        request.setAttribute("email["+i+"]",email);
-                        request.setAttribute("risposte["+i+"]",risultati.get(email));
+                    for (String email : risultati.keySet()) {
+                        request.setAttribute("email[" + i + "]", email);
+                        request.setAttribute("risposte[" + i + "]", risultati.get(email));
                         i++;
                     }
                     TemplateResult res = new TemplateResult(getServletContext());
                     res.activate("sondaggi/visualizzaRisultato.ftl", request, response);
-                }else{
+                } else {
                     TemplateResult res = new TemplateResult(getServletContext());
                     request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                     request.setAttribute("error", "Il sondaggio non è stato compilato da nessuno");
                     res.activate("/error.ftl", request, response);
+                }
+            }else{
+                    List<Integer> ids = pd.getCompilazioneDAO().getCompilazioneListIds(sondaggioId);
+                    int i = 1;
+                    if (ids != null) {
+                        Map<Integer, List> risultati = new HashMap<>();
+                        for (int id : ids) {
+                            List<String> risposte = pd.getCompilazioneDAO().getRisposteByCompilazioneId(id);
+                            risultati.put(id, risposte);
+                        }
+                        for (int id : risultati.keySet()) {
+                            request.setAttribute("key[" + i + "]", id);
+                            request.setAttribute("risposte[" + i + "]", risultati.get(id));
+                            i++;
+                        }
+                        TemplateResult res = new TemplateResult(getServletContext());
+                        res.activate("sondaggi/visualizzaRisultato.ftl", request, response);
+                    } else {
+                        TemplateResult res = new TemplateResult(getServletContext());
+                        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                        request.setAttribute("error", "Il sondaggio non è stato compilato da nessuno");
+                        res.activate("/error.ftl", request, response);
+                    }
                 }
             } else {
                 TemplateResult res = new TemplateResult(getServletContext());
@@ -99,4 +123,7 @@ public class MostraRisultatiSondaggio extends PollWebBaseController {
             res.activate("/error.ftl", request, response);
         }
     }
+
+
+
 }

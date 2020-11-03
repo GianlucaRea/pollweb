@@ -33,5 +33,9 @@ public interface CompilazioneDao {
 
     List<Integer> getUserListIds(int sondaggioId) throws DataException;
 
+    List<String> getRisposteByCompilazioneId(int compilazioneId) throws DataException;
+
+    List<Integer> getCompilazioneListIds(int sondaggioId) throws DataException;
+
     List<String> getRisposteBySondaggioAndUtente(int sondaggioid , int utenteid) throws DataException;
 }
