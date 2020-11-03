@@ -9,6 +9,7 @@ import com.company.pollweb.data.models.Domanda;
 import com.company.pollweb.data.proxy.DomandaProxy;
 import com.company.pollweb.framework.data.DataException;
 
+import javax.xml.crypto.Data;
 import java.sql.ResultSet;
 import java.util.List;
 
@@ -34,4 +35,5 @@ public interface DomandaDao {
 
   int prendiOrdine(int sondaggio_id) throws DataException;
 
+  void UpdateOrdine(int domandaid , int newOrdine) throws DataException;
 }

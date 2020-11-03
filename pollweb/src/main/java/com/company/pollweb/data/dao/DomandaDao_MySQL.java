@@ -17,7 +17,8 @@ import static com.company.pollweb.utility.Serializer.StringToJSON;
 
 public class DomandaDao_MySQL extends DAO implements DomandaDao{
 
-    private PreparedStatement inserimento_domanda , domande_by_sondaggioID ,domanda_by_id , domande_ids_by_sondaggoID , modifica_domanda , elimina_domanda , max_ordine;
+    private PreparedStatement inserimento_domanda , domande_by_sondaggioID ,domanda_by_id , domande_ids_by_sondaggoID;
+    private PreparedStatement modifica_domanda , elimina_domanda , max_ordine , update_ordine;
 
     public DomandaDao_MySQL(DataLayer d) {
         super(d);
@@ -34,6 +35,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             modifica_domanda = connection.prepareStatement("UPDATE Domanda SET sondaggio_id=?,testo=?,nota=?,obbligo=?,tipologia=?,vincoli=?,ordine=? WHERE id=?;");
             elimina_domanda = connection.prepareStatement("DELETE FROM Domanda WHERE id=?;");
             max_ordine = connection.prepareStatement("SELECT max(ordine) AS max_ordine FROM Domanda WHERE sondaggio_id = ?;");
+            update_ordine = connection.prepareStatement("UPDATE Domanda SET ordine=? WHERE id=?;");
         } catch (SQLException ex) {
             throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
         }
@@ -48,6 +50,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             modifica_domanda.close();
             elimina_domanda.close();
             max_ordine.close();
+            update_ordine.close();
         } catch (SQLException ex) {
             Logger.getLogger(SondaggioDao_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -238,6 +241,22 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
             throw new DataException("Impossibile prende il massimo ordine in Domande By SondaggioID",ex);
         }
     }
+
+    @Override
+    public void UpdateOrdine(int domandaid, int newOrdine) throws DataException {
+        try{
+            update_ordine.setInt(1,newOrdine);
+            update_ordine.setInt(2,domandaid);
+            try (ResultSet rs = update_ordine.executeQuery()){
+                if (rs.next()){
+                    return;
+                }
+            }
+        }catch (SQLException ex){
+            throw new DataException("Impossibile prende il massimo ordine in Domande By SondaggioID",ex);
+        }
+    }
+
 
     @Override
     public Domanda getDomandaByID(int domanda_id) throws DataException {
