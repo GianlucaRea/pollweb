@@ -1,5 +1,6 @@
 package com.company.pollweb.data.dao;
 
+import com.company.pollweb.data.implementation.CompilazioneImpl;
 import com.company.pollweb.data.implementation.UtenteImpl;
 import com.company.pollweb.data.models.Compilazione;
 import com.company.pollweb.data.models.Utente;
@@ -16,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,10 +43,10 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
             get_risposte_bySondaggioAndUtente = connection.prepareStatement("SELECT risposta FROM Compilazione JOIN CompilazioneDomanda ON Compilazione.id = CompilazioneDomanda.compilazione_id WHERE sondaggio_id = ? AND utente_id = ?;");
             get_compilazione = connection.prepareStatement("SELECT * FROM Compilazione WHERE sondaggio_id=? AND utente_id=?;");
             getUserListIds = connection.prepareStatement("SELECT utente_id FROM Compilazione WHERE sondaggio_id = ?;");
-            getCompilazioneIds = connection.prepareStatement("SELECT id FROM Compilazione WHERE sondaggio_id = ?;");
-            getRisposteByCompilazioneId = connection.prepareStatement("SELECT risposta FROM CompilazioneDomanda WHERE compilazione_id=?;");
+            getCompilazioneIds = connection.prepareStatement("SELECT id, utente_id FROM Compilazione WHERE sondaggio_id = ?;");
+            getRisposteByCompilazioneId = connection.prepareStatement("SELECT cd.domanda_id, cd.risposta FROM CompilazioneDomanda cd, Domanda d WHERE cd.compilazione_id=? AND cd.domanda_id=d.id ORDER BY d.ordine ASC;");
         } catch (SQLException ex) {
-            throw new DataException("Errore durante l'inizializzazione del data layer internship tutor", ex);
+            throw new DataException("Errore durante l'inizializzazione del data layer", ex);
         }
     }
 
@@ -240,14 +242,14 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
     }
 
     @Override
-    public List<String> getRisposteByCompilazioneId(int compilazioneId) throws DataException {
-        List<String> list = new ArrayList();
+    public Map<Integer, String> getRisposteByCompilazioneId(int compilazioneId) throws DataException {
+        Map<Integer, String> list = new HashMap<>();
         try{
             getRisposteByCompilazioneId.setInt(1,compilazioneId);
 
             try(ResultSet rs = getRisposteByCompilazioneId.executeQuery()){
                 while(rs.next()){
-                    list.add(JSONObject.valueToString(rs.getObject("risposta")));
+                    list.put(rs.getInt("domanda_id"), JSONObject.valueToString(rs.getObject("risposta")));
                 }
                 return list;
             }
@@ -258,17 +260,22 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
 
 
     @Override
-    public List<Integer> getCompilazioneListIds(int sondaggioId) throws DataException {
-        List<Integer> list = new ArrayList();
+    public List<Compilazione> getCompilazioneListIds(int sondaggioId) throws DataException {
+        List<Compilazione> list = new ArrayList<Compilazione>();
         try {
             getCompilazioneIds.setInt(1, sondaggioId);
             try(ResultSet rs = getCompilazioneIds.executeQuery()){
+                Compilazione c;
                 while(rs.next()) {
-                    list.add(rs.getInt("id"));
+                    c = new CompilazioneImpl();
+                    System.out.println(rs.getInt("id"));
+                    c.setId(rs.getInt("id"));
+                    c.setUserId(rs.getInt("utente_id"));
+                    list.add(c);
                 }
             }
         }catch (SQLException ex){
-            throw new DataException("Impossibile caricare la lista di id", ex);
+            throw new DataException("Impossibile caricare la lista delle compilazioni", ex);
         }
         return list;
     }

@@ -1,7 +1,7 @@
 <#import "../globalTemplate.ftl" as globalTemplate>
 
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
     <title>Login - Pollweb</title>
     <meta charset="UTF-8">

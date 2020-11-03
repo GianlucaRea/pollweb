@@ -4,9 +4,9 @@
 <#import "/globalTemplate.ftl" as globalTemplate>
 
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
-    <title>${title}</title>
+    <title>${title} - PollWeb</title>
     <meta charset="${charset}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <@globalTemplate.style />
@@ -49,7 +49,7 @@
                                     <a href="/sondaggi/chiudi?id=${sondaggio.getId()}" class="btn btn-primary">Chiudi</a>
                                 </#if>
                                 <#if sondaggio.getStato() == 2>
-                                    <a href="#" class="btn btn-primary">Visualizza risultati</a>
+                                    <a href="/sondaggi/risultato?id=${sondaggio.getId()}" class="btn btn-primary">Visualizza risultati</a>
                                     <a href="/sondaggi/esportazione?id=${sondaggio.getId()}" class="btn btn-secondary">CSV</a>
                                 </#if>
                             </p>
