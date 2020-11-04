@@ -21,12 +21,12 @@ import java.util.ArrayList;
 
 import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
 
-public class Dashboard extends PollWebBaseController{
+public class Dashboard extends PollWebBaseController {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
             HttpSession s = checkSession(request);
-            if(s != null) {
+            if (s != null) {
                 action_dashboard(request, response, s);
             } else {
                 action_redirect(request, response);
@@ -48,37 +48,43 @@ public class Dashboard extends PollWebBaseController{
             ArrayList<Sondaggio> sondaggi = new ArrayList<Sondaggio>();
             ArrayList<Utente> responsabili = new ArrayList<Utente>();
 
-            if(utente.getRuolo() == 3) { //amministratore
+            if (utente.getRuolo() == 3) { //amministratore
                 sondaggi = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().listaSondaggi();
 
 
                 ((PollwebDataLayer) request.getAttribute("datalayer")).init();
                 responsabili = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().listaResponsabili();
                 request.setAttribute("responsabili", responsabili);
-            } else if(utente.getRuolo() == 2) { //responsabile
+            } else if (utente.getRuolo() == 2) { //responsabile
                 sondaggi = ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().listaSondaggiResponsabile(utente.getId());
 
             } else { //utente o guest, accesso non autorizzato
                 action_redirect(request, response);
-                return ;
+                return;
             }
 
 
             request.setAttribute("sondaggi", sondaggi);
-            if(request.getParameter("success") != null) {
+            if (request.getParameter("success") != null) {
                 String successMessage = "Operazione completata";
-                switch(request.getParameter("success")) {
-                    case "100": successMessage = "Sondaggio pubblicato";
+                switch (request.getParameter("success")) {
+                    case "100":
+                        successMessage = "Sondaggio pubblicato";
                         break;
-                    case "101": successMessage = "Sondaggio chiuso";
+                    case "101":
+                        successMessage = "Sondaggio chiuso";
                         break;
-                    case "102": successMessage = "Download in corso";
+                    case "102":
+                        successMessage = "Download in corso";
+                        break;
+                    case "200":
+                        successMessage = "Responsabile inserito";
                         break;
 
                 }
                 request.setAttribute("success", successMessage);
             }
-            if(request.getParameter("error") != null) {
+            if (request.getParameter("error") != null) {
                 request.setAttribute("error", "Si è verificato un errore");
             }
             res.activate("dashboard.ftl", request, response);
@@ -87,13 +93,7 @@ public class Dashboard extends PollWebBaseController{
         }
     }
 
-    private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
-        try {
-            request.setAttribute("urlrequest", request.getRequestURL());
-            RequestDispatcher rd = request.getRequestDispatcher("/login");
-            rd.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        }
+    private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect("/login");
     }
 }

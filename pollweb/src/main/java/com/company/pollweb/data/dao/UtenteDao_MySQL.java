@@ -161,13 +161,16 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
 
     public Utente getUtentePerCompilazione(String email, String password, int sondaggio_id) throws DataException {
         try {
-            BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
             utenteByCompilazione.setInt(1, sondaggio_id);
             utenteByCompilazione.setString(2, email);
             try (ResultSet rs = utenteByCompilazione.executeQuery()) {
                 if (rs.next()) {
                     Utente u = creaUtente(rs);
-                    boolean i = passwordEncryptor.checkPassword(u.getPassword(),password);
+                    boolean i = false;
+                    if(u != null) {
+                        System.out.println(u.getPassword());
+                        i = new BasicPasswordEncryptor().checkPassword(password, u.getPassword());
+                    }
                     if(i == true){
                         return u;
                     }else{

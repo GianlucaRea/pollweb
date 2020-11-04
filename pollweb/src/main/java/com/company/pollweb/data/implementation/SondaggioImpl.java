@@ -52,7 +52,7 @@ public class SondaggioImpl implements Sondaggio {
     public String getNomeStato() {
         if(this.stato == 0 ) return "Non attivo";
         if(this.stato == 1) return "Attivo";
-        return "Chiuso";
+        return "Concluso";
     }
 
     public int getVisibilita(){return this.visibilita;}

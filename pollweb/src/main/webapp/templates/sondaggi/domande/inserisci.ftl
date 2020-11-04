@@ -59,11 +59,11 @@ and open the template in the editor.
             </div>
         <div class="row">
             <div class="col-md-6">
-                <a href="/sondaggi/riepilogo?id=${sondaggio.getId()}" class="btn btn-secondary">Torna indietro</a>
+                <a href="/sondaggi/riepilogo?id=${sondaggio.getId()}" class="btn btn-secondary"><i class="fas fa-chevron-left fa-fw"></i> Torna indietro</a>
             </div>
             <div class="col-md-6">
                 <div class="float-right">
-                    <button type="submit" class="btn btn-success">Salva domanda <i class="fas fa-plus"></i></button>
+                    <button type="submit" class="btn btn-success btn-lg">Salva domanda <i class="fad fa-save fa-fw"></i></button>
                 </div>
             </div>
         </div>

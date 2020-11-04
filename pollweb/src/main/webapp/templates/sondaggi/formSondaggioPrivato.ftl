@@ -11,10 +11,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <@globalTemplate.style />
 </head>
-<body>
+<body class="bg-light">
 <@globalTemplate.navbar />
 
-<div class="bg-light pt-5 pb-5">
+<div class="pt-5 pb-5">
     <div class="container">
         <#if success??>
             <@globalTemplate.success success />
@@ -31,17 +31,19 @@
                 <div class="col-md-6 offset-md-3">
                     <div class="card">
                         <div class="card-body">
-                            <form id="formSondaggioPrivato" method="get">
+                            <form id="formSondaggioPrivato" method="post">
                                 <input type="hidden" name="id" value="${sondaggioId}">
                                 <div class="form-group">
-                                    <label for="inputEmail"><strong>Indirizzo email</strong></label>
+                                    <label for="inputEmail">Indirizzo email</label>
                                     <input type="email" name="email" id="inputEmail" class="form-control" placeholder="mario.rossi@email.it" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputPassword"><strong>Password</strong></label>
+                                    <label for="inputPassword">Password</label>
                                     <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Accedi al sondaggio</button>
+                                <div class="float-right">
+                                    <button type="submit" class="btn btn-primary btn-lg">Accedi al sondaggio <i class="fad fa-sign-in fa-fw"></i></button>
+                                </div>
                             </form>
                         </div>
                     </div>

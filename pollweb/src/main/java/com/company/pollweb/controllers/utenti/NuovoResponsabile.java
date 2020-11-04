@@ -56,7 +56,7 @@ public class NuovoResponsabile extends PollWebBaseController {
         }
     }
 
-    private void action_post_method(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws DataException, TemplateManagerException {
+    private void action_post_method(HttpServletRequest request, HttpServletResponse response, HttpSession s) throws DataException, TemplateManagerException, IOException {
         Utente utente = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().creaUtente();
 
         if (utente != null) {
@@ -66,9 +66,7 @@ public class NuovoResponsabile extends PollWebBaseController {
             utente.setPassword(new BasicPasswordEncryptor().encryptPassword("password"));
             utente.setRuolo(2);
             ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().salvaUtente(utente);
-            TemplateResult res = new TemplateResult(getServletContext());
-            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            res.activate("/utenti/creato.ftl", request, response);
+            response.sendRedirect("/home?success=200");
         } else {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());

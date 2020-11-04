@@ -187,12 +187,12 @@ public class SondaggioDao_MySQL extends DAO implements SondaggioDao {
     }
 
     public ArrayList<Sondaggio> listaSondaggi() throws SQLException {
-        PreparedStatement getListaSondaggiQuery = connection.prepareStatement("SELECT * FROM Sondaggio");
+        PreparedStatement getListaSondaggiQuery = connection.prepareStatement("SELECT * FROM Sondaggio ORDER BY stato ASC, id DESC");
         return getSondaggi(getListaSondaggiQuery);
     }
 
     public ArrayList<Sondaggio> listaSondaggiResponsabile(int utenteId) throws SQLException {
-        PreparedStatement getListaSondaggiQuery = connection.prepareStatement("SELECT * FROM Sondaggio WHERE utente_id=?");
+        PreparedStatement getListaSondaggiQuery = connection.prepareStatement("SELECT * FROM Sondaggio WHERE utente_id=? ORDER BY stato ASC, id DESC");
         getListaSondaggiQuery.setInt(1, utenteId);
         return getSondaggi(getListaSondaggiQuery);
     }

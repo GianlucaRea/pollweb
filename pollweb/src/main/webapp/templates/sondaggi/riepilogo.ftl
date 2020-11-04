@@ -24,7 +24,7 @@ and open the template in the editor.
         <#if error ??>
             <@globalTemplate.error error />
         </#if>
-        <h1>Riepilogo "${sondaggio.getTitolo()}"</h1>
+        <h1 class="text-primary">Riepilogo "${sondaggio.getTitolo()}"</h1>
         <div class="card">
             <div class="card-body">
                 <ul class="nav nav-tabs" id="tabModificaSondaggio" role="tablist">
@@ -61,24 +61,24 @@ and open the template in the editor.
 
                             <div class="clearfix"></div>
                             <div class="float-right mt-2">
-                                <button type="submit" class="btn btn-success">Salva modifiche <i class="fas fa-save"></i></button>
+                                <button type="submit" class="btn btn-success">Salva modifiche <i class="fad fa-save fa-fw"></i></button>
                             </div>
                         </form>
 
                     </div>
-                    <div class="tab-pane fade mt-2" id="invita" role="tabpanel" aria-labelledby="invita-tab">
+                    <div class="tab-pane fade mt-5" id="invita" role="tabpanel" aria-labelledby="invita-tab">
                         <form action="/sondaggi/invita_utenti?id=${sondaggio.getId()}" method="post"
                               enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="visibilitaSondaggio">Visibilità del sondaggio</label>
                                 <select name="visibilitaSondaggio" id="visibilitaSondaggio" class="form-control"
                                         onchange="changeVisibility()">
-                                    <option value="1" <#if sondaggio.getVisibilita()==1>selected</#if> >Privato</option>
-                                    <option value="2" <#if sondaggio.getVisibilita()==2>selected</#if>>Pubblico</option>
+                                    <option value="1" <#if sondaggio.getVisibilita()==1>selected</#if> >Pubblico</option>
+                                    <option value="2" <#if sondaggio.getVisibilita()==2>selected</#if>>Privato</option>
                                 </select>
                             </div>
                             <div id="invitoSondaggioPrivato"
-                                 <#if sondaggio.getVisibilita()==2>style="display:none"</#if>>
+                                 <#if sondaggio.getVisibilita()==1>style="display:none"</#if>>
 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -110,12 +110,14 @@ and open the template in the editor.
                                 </div>
                             </div>
 
-                            <label for="invitaTramiteCSV">Puoi invitare una lista di utenti tramite CSV</label>
-                            <input type="file" id="invitaTramiteCSV" name="invitatiCSV" class="form-file">
-                            <p class="small">Ogni utente deve essere nella forma "nome;email;password"</p>
+                            <div id="divInvitaTramiteCSV" <#if sondaggio.getVisibilita()==1>style="display:none"</#if>>
+                                <label for="invitaTramiteCSV">Puoi invitare una lista di utenti tramite CSV</label>
+                                <input type="file" id="invitaTramiteCSV" name="invitatiCSV" class="form-file">
+                                <p class="small">Ogni utente deve essere nella forma "nome;email;password"</p>
 
-                            <div class="float-right">
-                                <button type="submit" class="btn btn-success">Salva modifiche <i class="fas fa-save"></i></button>
+                                <div class="float-right">
+                                    <button type="submit" class="btn btn-success">Salva modifiche <i class="fas fa-save"></i></button>
+                                </div>
                             </div>
 
                         </form>
@@ -126,7 +128,7 @@ and open the template in the editor.
             </div>
 
         </div>
-        <div class="card mt-2">
+        <div class="card mt-5">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
@@ -179,8 +181,13 @@ and open the template in the editor.
             </div>
         </div>
 
-        <div class="row mt-2">
-            <div class="col-md-6 offset-md-6">
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <a href="/" class="btn btn-secondary">
+                    Torna alla dashboard
+                </a>
+            </div>
+            <div class="col-md-6">
                 <div class="float-right">
                     <a href="/sondaggi/pubblica?id=${sondaggio.getId()}" class="btn btn-success btn-lg">
                         Attiva sondaggio <i class="fas fa-globe-europe"></i>
@@ -220,11 +227,14 @@ and open the template in the editor.
     function changeVisibility() {
         let $visibilitaSondaggio = $("#visibilitaSondaggio");
         if ($visibilitaSondaggio.val() == 1) {
-            $("#invitoSondaggioPrivato").show();
+            $("#invitoSondaggioPrivato").hide();
+            $("#divInvitaTramiteCSV").hide();
         }
         if ($visibilitaSondaggio.val() == 2) {
-            $("#invitoSondaggioPrivato").hide();
+            $("#invitoSondaggioPrivato").show();
+            $("#divInvitaTramiteCSV").show();
         }
+
     }
 
     function spostaDomanda(numeroDomanda, direzione) {

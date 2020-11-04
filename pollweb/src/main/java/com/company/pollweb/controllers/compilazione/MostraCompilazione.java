@@ -81,10 +81,20 @@ public class MostraCompilazione extends PollWebBaseController {
             if(request.getParameter("email") != null) { //utente abilitato alla compilazione
                 String email = request.getParameter("email");
                 //prendi id dell'utente in base alla compilazione e all'email ed effettua il login
+                System.out.println(request.getParameter("password"));
                 Utente u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtentePerCompilazione(request.getParameter("email"), request.getParameter("password"), sondaggio.getId());
-                if(sondaggioDao.isUtenteAbilitatoAllaCompilazione(sondaggio, u.getId())) {
-                    request.setAttribute("utente_id", u.getId());
-                    return true;
+                if(u!=null) {
+                    if(sondaggioDao.isUtenteAbilitatoAllaCompilazione(sondaggio, u.getId())) {
+                        request.setAttribute("utente_id", u.getId());
+                        return true;
+                    } else {
+                        TemplateResult res = new TemplateResult(getServletContext());
+                        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                        request.setAttribute("sondaggioId", sondaggio.getId());
+                        request.setAttribute("error", "Questo utente non è abilitato alla compilazione del sondaggio");
+                        res.activate("sondaggi/formSondaggioPrivato.ftl", request, response);
+                        return false;
+                    }
                 } else {
                     TemplateResult res = new TemplateResult(getServletContext());
                     request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -93,6 +103,7 @@ public class MostraCompilazione extends PollWebBaseController {
                     res.activate("sondaggi/formSondaggioPrivato.ftl", request, response);
                     return false;
                 }
+
 
             } else { // altrimenti, rimanda al form di inserimento email per verificare che sia stato invitato
                 TemplateResult res = new TemplateResult(getServletContext());

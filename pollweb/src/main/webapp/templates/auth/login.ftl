@@ -1,18 +1,19 @@
-<#import "../globalTemplate.ftl" as globalTemplate>
+<#import "/globalTemplate.ftl" as globalTemplate>
+<#assign title="Login">
 
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <title>Login - Pollweb</title>
+    <title>${title} - Pollweb</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <@globalTemplate.style />
-    <link rel="stylesheet" href="../../css/login.css"/>
+    <link rel="stylesheet" href="/css/login.css"/>
 </head>
 <body>
 <div class="row">
-    <div class="col-md-8 bg-login" id="login-left-side">
-        <img src="../../img/logo_bianco.png" alt="Pollweb logo"/>
+    <div class="d-none d-md-block col-md-8 bg-login" id="login-left-side">
+        <img src="/img/logo_bianco.png" alt="Pollweb logo"/>
         <h1>Benvenuto su PollWeb!</h1>
         <p>PollWeb è la piattaforma che darà vita ai tuoi sondaggi!</p>
         <p>Puoi creare sondaggi personalizzati scegliendo tra 6 tipologie di domande, condivisibili tramite link o
@@ -36,10 +37,10 @@
                            placeholder="la tua password" required>
                 </div>
                 <div class="form-group">
-                    <input type="checkbox" id="showPassword"> <label for="showPassword">Mostra password</label>
+                    <input type="checkbox" id="showPassword"> <label for="showPassword" class="font-weight-normal">Mostra password</label>
                 </div>
                 <div class="float-right">
-                    <input type="submit" value="Login" class="btn btn-primary"/>
+                    <button type="submit" class="btn btn-primary btn-lg">Login <i class="fad fa-sign-in fa-fw"></i></button>
                 </div>
             </form>
         </div>
