@@ -12,10 +12,7 @@ import com.company.pollweb.utility.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -116,6 +113,7 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
     }
 
     public void salvaCompilazione(int compilazioneId, Map<Integer, JSONArray> risposte) throws SQLException {
+        System.out.println("ENTRO");
         String inserisciRispostaSQL = "INSERT INTO CompilazioneDomanda(compilazione_id, domanda_id, risposta) VALUES ";
         for(int i=0; i <risposte.size(); i++) {
             inserisciRispostaSQL = inserisciRispostaSQL + "(?,?,?),";
@@ -129,9 +127,12 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
         AtomicInteger j= new AtomicInteger();
         risposte.forEach((domandaId, risposta) -> {
             try {
+                String r = risposta.toString().substring(2);
+                r = r.substring(0, r.toString().length()-2);
+                System.out.println(r);
                 inserisciRispostaQuery.setInt((3* j.get())+1, compilazioneId);
                 inserisciRispostaQuery.setInt((3* j.get())+2, domandaId);
-                inserisciRispostaQuery.setString((3* j.get())+3, JSONObject.valueToString(risposta.toString()));
+                inserisciRispostaQuery.setObject((3* j.get())+3, JSONObject.stringToValue(risposta.toString()));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -249,7 +250,18 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
 
             try(ResultSet rs = getRisposteByCompilazioneId.executeQuery()){
                 while(rs.next()){
-                    list.put(rs.getInt("domanda_id"), JSONObject.valueToString(rs.getObject("risposta")));
+                    JSONArray risposta = new JSONArray(rs.getString("risposta"));
+
+                    String rispostaVal = "";
+                    if(risposta.length() > 1) {
+                        for(int i = 0; i < risposta.length(); i++) {
+                            rispostaVal = rispostaVal + risposta.get(i).toString() + ", ";
+                        }
+                        rispostaVal = rispostaVal.substring(0, rispostaVal.length() - 2);
+                    } else {
+                        rispostaVal = risposta.get(0).toString();
+                    }
+                    list.put(rs.getInt("domanda_id"), rispostaVal);
                 }
                 return list;
             }

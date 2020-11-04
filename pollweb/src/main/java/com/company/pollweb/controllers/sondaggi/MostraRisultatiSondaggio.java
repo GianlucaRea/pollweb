@@ -85,9 +85,13 @@ public class MostraRisultatiSondaggio extends PollWebBaseController {
                             risultati.add(r);
                         }
                         List<Domanda> domande = pd.getDomandaDAO().getDomandeBySondaggioID(sondaggio.getId());
+                        Map<String, Domanda> domandeAsMap = new HashMap<>(); //in ftl non si può usare un intero come chiave e prelevarlo con get
+                        for(Domanda domanda: domande) {
+                            domandeAsMap.put(Integer.toString(domanda.getId()), domanda);
+                        }
                         TemplateResult res = new TemplateResult(getServletContext());
                         request.setAttribute("ris", risultati);
-                        request.setAttribute("domande", domande);
+                        request.setAttribute("domande", domandeAsMap);
                         res.activate("sondaggi/visualizzaRisultato.ftl", request, response);
                     } else {
                         TemplateResult res = new TemplateResult(getServletContext());

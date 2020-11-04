@@ -58,13 +58,13 @@ public class InserisciDomanda extends PollWebBaseController {
                                 max_length = Integer.parseInt(request.getParameter("LunghezzaMassimaTestoBreve"));
                                 pattern = request.getParameter("PatternTestoBreve");
                                 if(max_length != 0) {
-                                    if(pattern != null) {
+                                    if(pattern != null && pattern.length() > 0) {
                                         Vincoli = Serializer.testobreveToJSONF(max_length,pattern);
                                     }else{
                                         Vincoli = Serializer.testobreveToJSONNP(max_length);
                                     }
                                 }else{
-                                    if(pattern != null) {
+                                    if(pattern != null && pattern.length() > 0) {
                                         Vincoli = Serializer.testobreveToJSONNM(pattern);
                                     }else{
                                         Vincoli = Serializer.ToJSONN();
@@ -142,7 +142,7 @@ public class InserisciDomanda extends PollWebBaseController {
                                 max_chooses = Integer.parseInt(request.getParameter("Numeromassimoscelte"));
                                 if(max_chooses != -10000) {
                                     if(min_chooses != 0) {
-                                        Vincoli = Serializer.sceltaMultiplaToJSONF(chooses,max_chooses,min_chooses);
+                                        Vincoli = Serializer.sceltaMultiplaToJSONF(chooses,min_chooses,max_chooses);
                                     }else{
                                         Vincoli = Serializer.sceltaMultiplaToJSONNm(chooses,max_chooses);
                                     }

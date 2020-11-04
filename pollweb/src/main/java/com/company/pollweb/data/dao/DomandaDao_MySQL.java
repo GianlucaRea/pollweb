@@ -96,6 +96,7 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
                         a.setMax_length(tlJSON.getInt("max_length"));
                     }
                     if(tlJSON.has("pattern")) {
+                        System.out.println(tlJSON.get("pattern"));
                         a.setPattern(tlJSON.getString("pattern"));
                     }
                     break;
@@ -247,13 +248,9 @@ public class DomandaDao_MySQL extends DAO implements DomandaDao{
         try{
             update_ordine.setInt(1,newOrdine);
             update_ordine.setInt(2,domandaid);
-            try (ResultSet rs = update_ordine.executeQuery()){
-                if (rs.next()){
-                    return;
-                }
-            }
+            update_ordine.executeUpdate();
         }catch (SQLException ex){
-            throw new DataException("Impossibile prende il massimo ordine in Domande By SondaggioID",ex);
+            throw new DataException("Impossibile effettuare lo scambio",ex);
         }
     }
 

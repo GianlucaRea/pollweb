@@ -17,14 +17,15 @@ and open the template in the editor.
 <@globalTemplate.navbar />
 <div class="bg-light pt-5 pb-5">
     <div class="container">
-        <h1>Visualizza risultati</h1>
+        <h1 class="text-primary">Visualizza risultati</h1>
 
         <#list ris as r>
             <div class="card">
                 <div class="card-body mb-4">
                     <h5 class="card-title">Compilazione (${r.getEmail()})</h5>
                     <#list r.getRisposte() as key, risposta>
-                        <p><strong>Domanda ${key}</strong>: ${risposta}</p>
+                        <p class="mb-0"><strong><#if key ??>${domande[key?string].getTesto()}<#else>Domanda</#if></strong></p>
+                        <p>${risposta}</p>
                     </#list>
                 </div>
             </div>

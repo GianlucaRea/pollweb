@@ -68,6 +68,10 @@
         <servlet-name>ModificaSondaggio</servlet-name>
         <servlet-class>com.company.pollweb.controllers.sondaggi.InserisciModificaSondaggio</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CambiaOrdineDomanda</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.domande.CambiaOrdineDomanda</servlet-class>
+    </servlet>
 
     <servlet>
         <servlet-name>EsportaCompilazione</servlet-name>
@@ -196,6 +200,10 @@
     <servlet-mapping>
         <servlet-name>CreazioneDomanda</servlet-name>
         <url-pattern>/sondaggi/domande/crea</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CambiaOrdineDomanda</servlet-name>
+        <url-pattern>/sondaggi/domande/modifica_ordine</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -49,8 +49,7 @@ obbligo BOOLEAN default true, /* togliere default a obbligo , ordine tipologia*/
 ordine INT NOT NULL default 0, 
 tipologia VARCHAR(255) NOT NULL, /*testo breve, testo lungo, numero, data, scelta singolo, scelta multipla*/
 vincoli VARCHAR(255),
-FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade,
-UNIQUE(sondaggio_id, ordine)
+FOREIGN KEY (sondaggio_id) REFERENCES Sondaggio(id) on update cascade on delete cascade
 );
 
 CREATE TABLE Compilazione (

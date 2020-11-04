@@ -256,6 +256,10 @@ and open the template in the editor.
             //swap valore ordine input hidden
             $("input[id=domandaOrdine" + idRowAttuale + "]").val(valOrdineRowScambio);
             $("input[id=domandaOrdine" + idRowScambio + "]").val(valOrdineRowAttuale);
+
+            fetch('http://localhost:8080/sondaggi/domande/modifica_ordine?id=${sondaggio.getId()}&domanda_id1=' + idRowAttuale + '&domanda_id2=' + idRowScambio)
+                .then(response => response.json())
+                .then(data => console.log(data));
         }
 
     }
