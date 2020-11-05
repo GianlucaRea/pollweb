@@ -99,12 +99,12 @@ and open the template in the editor.
             case "testo_lungo":
                 vincoliSelect.html('<div class="domanda" id="vincoloDomanda">' +
                     '<div class="form-group">' +
-                    '<label for="LunghezzaMassimaTestoLungo">Lunghezza Massima Testo Lungo</label>' +
-                    '<input id="LunghezzaMassimaTestoLungo" type="number" name="LunghezzaMassimaTestoLungo" class="form-control" placeholder="Lunghezza Massima Testo Lungo">' +
-                    '</div>' +
-                    '<div class="form-group">' +
                     '<label for="LunghezzaMinimaTestoLungo">Lunghezza Minima Testo Lungo</label>' +
                     '<input id="LunghezzaMinimaTestoLungo" type="number" name="LunghezzaMinimaTestoLungo" class="form-control" placeholder="Lunghezza Minima Testo Lungo">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label for="LunghezzaMassimaTestoLungo">Lunghezza Massima Testo Lungo</label>' +
+                    '<input id="LunghezzaMassimaTestoLungo" type="number" name="LunghezzaMassimaTestoLungo" class="form-control" placeholder="Lunghezza Massima Testo Lungo">' +
                     '</div>' +
                     '<div class="form-group">' +
                     '<label for="PatternTestoLungo">Pattern Testo Lungo</label>' +
@@ -127,13 +127,7 @@ and open the template in the editor.
                 );
                 break;
             case "data":
-                vincoliSelect.html('<div class="domanda mt-3 mb-3" id="vincoloDomanda">' +
-                    '<div class="form-group">' +
-                    '<input id="dataSuccessivaOdierna" type="checkbox" name="dataSuccessivaOdierna">' +
-                    '<label for="dataSuccessivaOdierna">Accetta solamente date successive a quella odierna</label>' +
-                    '</div>' +
-                    '</div>'
-                );
+                vincoliSelect.html('');
                 break;
             case "scelta_singola":
                 text = "Inserisci le varie opzioni separate dalla virgola";

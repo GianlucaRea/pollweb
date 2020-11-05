@@ -58,7 +58,7 @@
                                         <#if sondaggio.getStato() == 1>
                                             <a href="/sondaggi/chiudi?id=${sondaggio.getId()}"
                                                class="btn btn-primary"><i class="fad fa-do-not-enter fa-fw"></i> Chiudi
-                                                il sondaggio</a>
+                                                il sondaggio</a> <br><a href="/sondaggi/compilazione?id=${sondaggio.getId()}">Link per la compilazione</a>
                                         </#if>
                                         <#if sondaggio.getStato() == 2>
                                             <a href="/sondaggi/risultato?id=${sondaggio.getId()}"

@@ -92,6 +92,8 @@ public class MostraRisultatiSondaggio extends PollWebBaseController {
                         TemplateResult res = new TemplateResult(getServletContext());
                         request.setAttribute("ris", risultati);
                         request.setAttribute("domande", domandeAsMap);
+                        request.setAttribute("sondaggio", sondaggio);
+
                         res.activate("sondaggi/visualizzaRisultato.ftl", request, response);
                     } else {
                         TemplateResult res = new TemplateResult(getServletContext());

@@ -1,5 +1,5 @@
 <#import "../globalTemplate.ftl" as globalTemplate>
-
+<#assign title="Riepilogo sondaggio">
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -8,7 +8,7 @@ and open the template in the editor.
 -->
 <html lang="it">
 <head>
-    <title>Riepilogo sondaggio</title>
+    <title>${title} - Pollweb</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <@globalTemplate.style />

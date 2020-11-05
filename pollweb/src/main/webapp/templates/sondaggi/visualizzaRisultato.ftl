@@ -8,16 +8,16 @@ and open the template in the editor.
 -->
 <html lang="it">
 <head>
-    <title>Compila sondaggio - Pollweb</title>
+    <title>Visualizza risultati - Pollweb</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <@globalTemplate.style />
 </head>
-<body>
+<body class="bg-light">
 <@globalTemplate.navbar />
-<div class="bg-light pt-5 pb-5">
+<div class="pt-5 pb-5">
     <div class="container">
-        <h1 class="text-primary">Visualizza risultati</h1>
+        <h1 class="text-primary">Visualizza risultati del sondaggio ${sondaggio.getTitolo()}</h1>
 
         <#list ris as r>
             <div class="card">

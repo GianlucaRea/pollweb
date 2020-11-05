@@ -77,9 +77,9 @@ public class InserisciDomanda extends PollWebBaseController {
                                 min_length = Integer.parseInt(request.getParameter("LunghezzaMinimaTestoLungo"));
                                 pattern = request.getParameter("PatternTestoLungo");
                                 if(max_length != 0) {
-                                    if(pattern != null) {
+                                    if(pattern != null && pattern.length() > 0) {
                                         if(min_length != 0) {
-                                            Vincoli = Serializer.testolungoToJSONF(max_length, min_length ,pattern);
+                                            Vincoli = Serializer.testolungoToJSONF(min_length, max_length ,pattern);
                                         }else{
                                             Vincoli = Serializer.testolungoToJSONNm(max_length,pattern);
                                         }
@@ -127,9 +127,11 @@ public class InserisciDomanda extends PollWebBaseController {
                                 d.setVincoli(Vincoli);
                                 break;
                             case "data":
-                                data = Integer.parseInt(request.getParameter("dataSuccessivaOdierna"));
-                                Vincoli = Serializer.dataToJSON(data);
-                                d.setVincoli(Vincoli);
+                                if(request.getParameter("dataSuccessivaOdierna") != null && request.getParameter("dataSuccessivaOdierna").length() > 0) {
+                                    data = Integer.parseInt(request.getParameter("dataSuccessivaOdierna"));
+                                    Vincoli = Serializer.dataToJSON(data);
+                                    d.setVincoli(Vincoli);
+                                }
                                 break;
                             case "scelta_singola":
                                 chooses = request.getParameter("sceltasingola");

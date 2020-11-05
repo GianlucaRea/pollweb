@@ -22,7 +22,13 @@ public class Serializer {
     }
 
     public static JSONObject StringToJSON(String JSON){
-        JSONObject obj = new JSONObject(JSON);
+        JSONObject obj;
+        System.out.println(JSON);
+        if(JSON.startsWith("{")) {
+            obj = new JSONObject(JSON);
+        } else {
+            obj = new JSONObject("{}");
+        }
         return obj;
     }
 
@@ -46,7 +52,7 @@ public class Serializer {
         JSONObject obj = new JSONObject(JSON);
         return obj;
     }
-    public static JSONObject testolungoToJSONF(int max_number, int min_number, String pattern){
+    public static JSONObject testolungoToJSONF(int min_number, int max_number, String pattern){
         String JSON = "{\"min_length\": "+min_number+",\"max_length\": "+max_number+",\"pattern\": "+pattern+"}";
         JSONObject obj = new JSONObject(JSON);
         return obj;
