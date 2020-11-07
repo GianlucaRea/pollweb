@@ -136,6 +136,7 @@ public class Login extends PollWebBaseController {
                         if(request.getAttribute("referrer") != null){
                             response.sendRedirect("/login?referrer=" + URLEncoder.encode(((String)request.getAttribute("referrer")), "UTF-8"));
                         }else{
+                            request.setAttribute("error", "Credenziali errate");
                             response.sendRedirect("/login");
                         }
                     }

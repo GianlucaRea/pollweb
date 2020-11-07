@@ -22,7 +22,16 @@
         <#if error ??>
             <@globalTemplate.error error />
         </#if>
-        <h1 class="text-primary">La tua dashboard</h1>
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="text-primary">La tua dashboard</h1>
+            </div>
+            <div class="col-md-4">
+                <div class="float-right">
+                    <a href="/utenti/password/modifica" class="btn btn-primary">Modifica la tua password <i class="fad fa-key"></i></a>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
                 <div class="row">

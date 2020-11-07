@@ -9,6 +9,7 @@ import com.company.pollweb.framework.result.FailureResult;
 import com.company.pollweb.framework.result.SplitSlashesFmkExt;
 import com.company.pollweb.framework.result.TemplateManagerException;
 import com.company.pollweb.framework.result.TemplateResult;
+import com.company.pollweb.utility.Mailer;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
 public class PubblicaSondaggio extends PollWebBaseController {
@@ -69,6 +71,11 @@ public class PubblicaSondaggio extends PollWebBaseController {
             }
 
             if (sondaggio.getUtenteId() == utente.getId() || utente.getId() == 1) {
+                String url = "http://localhost:8080/sondaggi/compilazione?id=" + sondaggio.getId();
+                List<Utente> invitati = ((PollwebDataLayer) request.getAttribute("datalayer")).getCompilazioneDAO().getUserList(sondaggio.getId());
+                for(Utente invitato: invitati) {
+                    Mailer.invitaUtenti(invitato.getEmail(), invitato.getPassword(), url);
+                }
                 ((PollwebDataLayer) request.getAttribute("datalayer")).init();
                 ((PollwebDataLayer) request.getAttribute("datalayer")).getSondaggioDAO().pubblicaSondaggio(sondaggio.getId());
                 response.sendRedirect("/home?success=100");

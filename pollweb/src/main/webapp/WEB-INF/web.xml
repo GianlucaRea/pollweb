@@ -72,6 +72,10 @@
         <servlet-name>CambiaOrdineDomanda</servlet-name>
         <servlet-class>com.company.pollweb.controllers.domande.CambiaOrdineDomanda</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateResponsabilePassword</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.utenti.UpdateResponsabilePassword</servlet-class>
+    </servlet>
 
     <servlet>
         <servlet-name>EsportaCompilazione</servlet-name>
@@ -204,6 +208,10 @@
     <servlet-mapping>
         <servlet-name>CambiaOrdineDomanda</servlet-name>
         <url-pattern>/sondaggi/domande/modifica_ordine</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateResponsabilePassword</servlet-name>
+        <url-pattern>/utenti/password/modifica</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

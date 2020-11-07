@@ -167,6 +167,7 @@ public class CompilazioneDao_MySQL extends DAO implements CompilazioneDao {
                      Utente u = new UtenteImpl();
                      u.setNome(rs.getString("nome"));
                      u.setEmail(rs.getString("email"));
+                     u.setPassword(rs.getString("password"));
                      list.add(u);
                  }
              }

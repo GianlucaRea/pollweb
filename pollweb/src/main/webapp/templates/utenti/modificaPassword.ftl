@@ -24,11 +24,8 @@
         </#if>
         <h1>${title}</h1>
         <div class="pt-3">
-            <#if error ??>
-                <div class="alert alert-danger">${error}</div>
-            </#if>
             <div class="alert alert-error d-none" id="alertValidaPassword">Le nuova password e quella di verifica non corrispondono</div>
-            <form action="FORM_ACTION" method="post" name="modificaPasswordForm" onsubmit="return validaPassword();">
+            <form action="/utenti/password/modifica" method="post" name="modificaPasswordForm" onsubmit="return validaPassword();">
 
                 <div class="form-group">
                     <label for="vecchiaPassword">Vecchia password</label>

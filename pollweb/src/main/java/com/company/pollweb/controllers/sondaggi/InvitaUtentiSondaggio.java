@@ -49,7 +49,7 @@ public class InvitaUtentiSondaggio extends PollWebBaseController {
             u = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().creaUtente();
             u.setEmail(request.getParameter("nuovoInvitato["+i+"][email]"));
             u.setNome(request.getParameter("nuovoInvitato["+i+"][nome]"));
-            u.setPassword(new BasicPasswordEncryptor().encryptPassword(request.getParameter("nuovoInvitato["+i+"][password]")));
+            u.setPassword(request.getParameter("nuovoInvitato["+i+"][password]"));
             u.setCognome("");
             u.setRuolo(1);
             ((PollwebDataLayer) request.getAttribute("datalayer")).init();
@@ -70,7 +70,7 @@ public class InvitaUtentiSondaggio extends PollWebBaseController {
 
                 u.setNome(datiUtente[0]);
                 u.setEmail(datiUtente[1]);
-                u.setPassword(new BasicPasswordEncryptor().encryptPassword(datiUtente[2]));
+                u.setPassword(datiUtente[2]);
                 u.setCognome("");
                 u.setRuolo(1);
 

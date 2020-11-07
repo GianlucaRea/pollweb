@@ -169,7 +169,7 @@ public class UtenteDao_MySQL extends DAO implements UtenteDao {
                     boolean i = false;
                     if(u != null) {
                         System.out.println(u.getPassword());
-                        i = new BasicPasswordEncryptor().checkPassword(password, u.getPassword());
+                        i = password.equals(u.getPassword());
                     }
                     if(i == true){
                         return u;

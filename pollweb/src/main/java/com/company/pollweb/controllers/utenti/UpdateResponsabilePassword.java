@@ -7,7 +7,9 @@ import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.result.SplitSlashesFmkExt;
 import com.company.pollweb.framework.result.TemplateManagerException;
 import com.company.pollweb.framework.result.TemplateResult;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 
+import javax.persistence.Basic;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +25,11 @@ public class UpdateResponsabilePassword extends PollWebBaseController {
 
         HttpSession s = checkSession(request);
         if (s!= null) {
-            action_update_password(request, response, s);
+            if("POST".equals(request.getMethod())) {
+                action_update_password(request, response, s);
+            } else {
+                action_form_update_password(request, response);
+            }
         } else {
             action_redirect(request, response);
         }
@@ -33,10 +39,18 @@ public class UpdateResponsabilePassword extends PollWebBaseController {
         try {
             Utente utente = ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
             if(utente != null){
-                utente.setPassword(request.getParameter("newPassword"));
-                utente.setId(utente.getId());
-                ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().updatePassword(utente);
-                action_dashboard(request, response);
+                if(new BasicPasswordEncryptor().checkPassword(request.getParameter("vecchiaPassword"), utente.getPassword())) {
+                    utente.setPassword(new BasicPasswordEncryptor().encryptPassword(request.getParameter("nuovaPassword")));
+                    utente.setId(utente.getId());
+                    ((PollwebDataLayer) request.getAttribute("datalayer")).getUtenteDAO().updatePassword(utente);
+                    action_dashboard(request, response);
+                } else {
+                    TemplateResult res = new TemplateResult(getServletContext());
+                    request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                    request.setAttribute("error", "La password inserita non coincide");
+                    res.activate("/error.ftl", request, response);
+                }
+
             }else{
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -55,6 +69,16 @@ public class UpdateResponsabilePassword extends PollWebBaseController {
         try {
             response.sendRedirect("/home");
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void action_form_update_password(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+        try {
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            res.activate("/utenti/modificaPassword.ftl", request, response);
+        } catch (TemplateManagerException e) {
             e.printStackTrace();
         }
     }
