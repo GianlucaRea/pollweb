@@ -41,7 +41,6 @@ public class InserisciDomanda extends PollWebBaseController {
                     Domanda d = pd.getDomandaDAO().creazioneDomanda();
                     int sondaggioId = Integer.parseInt(request.getParameter("id"));
                     if (d != null) {
-                        System.out.println("ENTRO");
                         d.setSondaggio_id(sondaggioId);
                         d.setTesto(request.getParameter("testo"));
                         d.setNota(request.getParameter("nota"));

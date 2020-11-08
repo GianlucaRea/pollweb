@@ -23,7 +23,6 @@ public class ChiudiSondaggio extends PollWebBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DataException {
         try {
             HttpSession s = checkSession(request);
-
             if (request.getParameter("id") == null) {
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -31,7 +30,6 @@ public class ChiudiSondaggio extends PollWebBaseController {
                 res.activate("/error.ftl", request, response);
                 return;
             }
-
             if (s != null) {
                 action_chiudi_sondaggio(request, response, s);
             } else {
