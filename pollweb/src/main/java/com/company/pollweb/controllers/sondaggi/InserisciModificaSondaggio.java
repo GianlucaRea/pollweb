@@ -58,8 +58,6 @@ public class InserisciModificaSondaggio extends PollWebBaseController {
             if (request.getParameterMap() != null) {
 
                 int sondaggioId = Integer.parseInt(request.getParameter("id"));
-                System.out.println(sondaggioId);
-                System.out.println(request.getParameter("testoiniziale"));
                 PollwebDataLayer pd = ((PollwebDataLayer) request.getAttribute("datalayer"));
                 Sondaggio p = pd.getSondaggioDAO().getSondaggio(sondaggioId);
                 Utente user = pd.getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
