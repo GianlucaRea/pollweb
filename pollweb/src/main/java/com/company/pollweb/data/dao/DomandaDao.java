@@ -36,6 +36,4 @@ public interface DomandaDao {
   int prendiOrdine(int sondaggio_id) throws DataException;
 
   void UpdateOrdine(int domandaid , int newOrdine) throws DataException;
-
-  int getSID(int domanda_id) throws DataException;
 }
