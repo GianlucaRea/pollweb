@@ -68,8 +68,20 @@ public class RiepilogoSondaggio extends PollWebBaseController {
                     request.setAttribute("invitati",invitati);
                 }
 
-                if(request.getParameter("success") != null) {
-                    request.setAttribute("success", "Operazione completata");
+                if (request.getParameter("success") != null) {
+                    String successMessage = "Operazione completata";
+                    switch (request.getParameter("success")) {
+                        case "300":
+                            successMessage = "Domanda eliminata";
+                            break;
+                        case "301":
+                            successMessage = "Domanda modificata";
+                            break;
+                        case "302":
+                            successMessage = "Domanda inserita";
+                            break;
+                    }
+                    request.setAttribute("success", successMessage);
                 }
                 if(request.getParameter("error") != null) {
                     request.setAttribute("error", "Si è verificato un errore");
@@ -92,7 +104,7 @@ public class RiepilogoSondaggio extends PollWebBaseController {
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         try {
             request.setAttribute("urlrequest", request.getRequestURL());
-            RequestDispatcher rd = request.getRequestDispatcher("/login");
+            RequestDispatcher rd = request.getRequestDispatcher("/login?error=200");
             rd.forward(request, response);
         } catch (ServletException e) {
             e.printStackTrace();

@@ -67,7 +67,7 @@ public class UpdateResponsabilePassword extends PollWebBaseController {
 
     private void action_dashboard(HttpServletRequest request, HttpServletResponse response) {
         try {
-            response.sendRedirect("/home");
+            response.sendRedirect("/home?success=201");
         } catch (IOException e) {
             e.printStackTrace();
         }

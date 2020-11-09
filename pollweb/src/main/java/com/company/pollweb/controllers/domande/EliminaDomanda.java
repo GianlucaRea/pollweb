@@ -56,11 +56,11 @@ public class EliminaDomanda extends PollWebBaseController {
     }
 
     private void action_write(HttpServletRequest request, HttpServletResponse response, int sondaggioId) throws IOException {
-        response.sendRedirect("/sondaggi/riepilogo?id=" + sondaggioId);
+        response.sendRedirect("/sondaggi/riepilogo?success=300&id=" + sondaggioId);
     }
 
 
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
-        response.sendRedirect("/login");
+        response.sendRedirect("/login?error=200");
     }
 }

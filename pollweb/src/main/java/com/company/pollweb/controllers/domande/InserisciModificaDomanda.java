@@ -190,7 +190,7 @@ public class InserisciModificaDomanda extends PollWebBaseController {
     }
 
     private void action_write(HttpServletRequest request, HttpServletResponse response, int sondaggioId) throws IOException {
-            response.sendRedirect("/sondaggi/riepilogo?id=" + sondaggioId);
+            response.sendRedirect("/sondaggi/riepilogo?success=301&id=" + sondaggioId);
     }
 
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {

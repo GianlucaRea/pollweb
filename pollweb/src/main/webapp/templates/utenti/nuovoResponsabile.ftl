@@ -48,6 +48,7 @@
                             <input type="email" name="email" id="emailInput" placeholder="Es. mario.rossi@email.it"
                                    class="form-control"/>
                         </div>
+                        <p class="small">La password di default è "password"</p>
 
                         <p class="small">* attributo obbligatorio</p>
 

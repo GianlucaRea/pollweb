@@ -75,10 +75,13 @@ public class Dashboard extends PollWebBaseController {
                         successMessage = "Sondaggio chiuso";
                         break;
                     case "102":
-                        successMessage = "Download in corso";
+                        successMessage = "Download in corso del CSV";
                         break;
                     case "200":
                         successMessage = "Responsabile inserito";
+                        break;
+                    case "201":
+                        successMessage = "Password modificata";
                         break;
 
                 }

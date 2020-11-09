@@ -86,6 +86,6 @@ public class CambiaOrdineDomanda extends PollWebBaseController {
 
 
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
-        response.sendRedirect("/login");
+        response.sendRedirect("/login?error=200");
     }
 }

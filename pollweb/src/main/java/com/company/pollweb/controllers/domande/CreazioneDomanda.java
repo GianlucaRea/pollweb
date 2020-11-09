@@ -63,7 +63,7 @@ public class CreazioneDomanda extends PollWebBaseController {
     }
 
     private void action_redirect(HttpServletRequest request, HttpServletResponse response) throws  IOException {
-        response.sendRedirect("/login");
+        response.sendRedirect("/login?error=200");
     }
 
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
