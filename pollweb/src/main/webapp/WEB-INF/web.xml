@@ -76,6 +76,14 @@
         <servlet-name>UpdateResponsabilePassword</servlet-name>
         <servlet-class>com.company.pollweb.controllers.utenti.UpdateResponsabilePassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MostraModificaDomanda</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.domande.MostraModificaDomanda</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InserisciModificaDomanda</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.domande.InserisciModificaDomanda</servlet-class>
+    </servlet>
 
     <servlet>
         <servlet-name>EsportaCompilazione</servlet-name>
@@ -212,6 +220,14 @@
     <servlet-mapping>
         <servlet-name>UpdateResponsabilePassword</servlet-name>
         <url-pattern>/utenti/password/modifica</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MostraModificaDomanda</servlet-name>
+        <url-pattern>/sondaggi/domande/modifica</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserisciModificaDomanda</servlet-name>
+        <url-pattern>/sondaggi/domande/inserisci_modifica</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

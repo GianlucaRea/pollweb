@@ -161,7 +161,7 @@ and open the template in the editor.
                             <td>${domanda.getTipologia()}</td>
                             <td>${domanda.getNomeObbligo()}</td>
                             <td>
-                                <a href="/sondaggi/domande/modifica?id=${domanda.getId()}"
+                                <a href="/sondaggi/domande/modifica?domanda_id=${domanda.getId()}"
                                    class="btn btn-primary btn-sm">Modifica</a>
                                 <a href="/sondaggi/domande/elimina?id=${sondaggio.getId()}&domanda_id=${domanda.getId()}"
                                    class="btn btn-primary btn-sm">Rimuovi</a>

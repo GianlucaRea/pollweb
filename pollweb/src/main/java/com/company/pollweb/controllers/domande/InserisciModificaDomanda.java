@@ -3,7 +3,6 @@ package com.company.pollweb.controllers.domande;
 import com.company.pollweb.controllers.PollWebBaseController;
 import com.company.pollweb.data.dao.PollwebDataLayer;
 import com.company.pollweb.data.models.Domanda;
-
 import com.company.pollweb.data.models.Utente;
 import com.company.pollweb.framework.data.DataException;
 import com.company.pollweb.framework.result.SplitSlashesFmkExt;
@@ -21,7 +20,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import static com.company.pollweb.framework.security.SecurityLayer.checkSession;
-
 
 
 public class InserisciModificaDomanda extends PollWebBaseController {
@@ -48,7 +46,7 @@ public class InserisciModificaDomanda extends PollWebBaseController {
         try {
             if (request.getParameterMap() != null) {
                 PollwebDataLayer pd = ((PollwebDataLayer) request.getAttribute("datalayer"));
-                int domandaId = Integer.parseInt(request.getParameter("domanda_id"));
+                int domandaId = Integer.parseInt(request.getParameter("id_domanda"));
                 int sondaggioId = pd.getDomandaDAO().getSID(domandaId);
                 Domanda d = pd.getDomandaDAO().getDomandaByID(domandaId);
                 Utente u = pd.getUtenteDAO().getUtente((int) s.getAttribute("user_id"));
