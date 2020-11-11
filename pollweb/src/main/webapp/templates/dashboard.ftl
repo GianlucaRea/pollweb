@@ -28,7 +28,9 @@
             </div>
             <div class="col-md-4">
                 <div class="float-right">
-                    <a href="/utenti/password/modifica" class="btn btn-primary">Modifica la tua password <i class="fad fa-key"></i></a>
+                    <a href="/utenti/password/modifica" class="btn btn-primary">Modifica la tua password <i class="fad fa-key fa-fw"></i></a>
+                    <a href="/logout" class="btn btn-primary">Esci <i class="fad fa-sign-out-alt fa-fw"></i></a>
+
                 </div>
             </div>
         </div>
@@ -84,39 +86,41 @@
                 </div>
             </div>
         </div>
-        <div class="card mt-3">
-            <div class="card-body">
-                <div class="row mb-5">
-                    <div class="col-md-8">
-                        <h2>Lista responsabili</h2>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="float-right">
-                            <a href="/utenti/nuovo_responsabile" class="btn btn-primary">Nuovo responsabile <i
-                                        class="fas fa-plus fa-fw"></i></a>
+        <#if responsabili != null>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <div class="row mb-5">
+                        <div class="col-md-8">
+                            <h2>Lista responsabili</h2>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="float-right">
+                                <a href="/utenti/nuovo_responsabile" class="btn btn-primary">Nuovo responsabile <i
+                                            class="fas fa-plus fa-fw"></i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <table class="display hover mt-5" id="datatable">
-                    <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Cognome</th>
-                        <th>Email</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <#list responsabili as responsabile>
+                    <table class="display hover mt-5" id="datatable">
+                        <thead>
                         <tr>
-                            <td>${responsabile.getNome()}</td>
-                            <td>${responsabile.getCognome()}</td>
-                            <td>${responsabile.getEmail()}</td>
+                            <th>Nome</th>
+                            <th>Cognome</th>
+                            <th>Email</th>
                         </tr>
-                    </#list>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        <#list responsabili as responsabile>
+                            <tr>
+                                <td>${responsabile.getNome()}</td>
+                                <td>${responsabile.getCognome()}</td>
+                                <td>${responsabile.getEmail()}</td>
+                            </tr>
+                        </#list>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        </#if>
 
     </div>
 </div>
