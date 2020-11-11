@@ -133,9 +133,17 @@
         <servlet-name>Dashboard</servlet-name>
         <servlet-class>com.company.pollweb.controllers.Dashboard</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>com.company.pollweb.controllers.utenti.Logout</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Registrazione</servlet-name>
         <url-pattern>/registrazione</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
